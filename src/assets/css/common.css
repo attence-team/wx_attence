@@ -1,0 +1,77 @@
+.body-box{
+    position: relative;
+    height: 100vh;
+}
+.body-box .mint-button--primary{
+    position: absolute;
+    top: 2px;
+    left: 7px;
+    height: 24px;
+}
+.carousel-box{
+    height: 24vh;
+}
+
+.menu-nav{
+    padding: 0 0 0 0.2rem;
+    background-color: #fff;
+    margin-bottom: 0.25rem;
+}
+.menu-nav .title{
+    position: relative;
+    line-height: 0.6rem;
+}
+.menu-nav .title .more{
+    float: right;
+    font-size: 0.8em;
+    margin-right: 0.2rem;
+    opacity: .8;
+}
+.menu-nav .title i{
+    display: inline-block;
+    width: 0.08rem;
+    height: 0.36rem;
+    background-color: #7FC532;
+    margin-right: 0.05rem;
+    vertical-align: -0.08rem;
+}
+.menu-nav .title:after{
+    content: "";
+    position: absolute;
+    left: 0;  right: 0;
+    bottom: 0;
+    border-bottom: 1px solid #b2b2b2;
+    transform: scaleY(.5);
+    -webkit-transform: scaleY(.5);
+    -webkit-transform-origin: 0 0;
+}
+.menu-list{
+    padding: 0 0.2rem 0 0;
+}
+.menu-list .item{
+    position: relative;
+    width: 25%;
+    float: left;
+    padding: 0.1rem 0;
+}
+.menu-list .item img{
+    display: block;
+    height: 10vh;
+    margin: 0 auto;
+}
+.menu-list .item span:last-child{
+    display: block;
+    text-align: center;
+    line-height: 0.4rem;
+    font-size: 12px;
+}
+.menu-list .item .mint-badge{
+    position: absolute;
+    top: 0.14rem;
+    right: 0.22rem;
+}
+@media screen and (max-width: 320px) {
+    .menu-list .item span{
+        font-size: 10px;
+    }
+}
