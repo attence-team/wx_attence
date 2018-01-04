@@ -46,7 +46,6 @@ textarea{
 body {
   -webkit-touch-callout:none;/* 禁止长按页面，iOS系统弹出默认菜单 */
   -webkit-text-size-adjust: none;
-  background-color: #F0F0F0;
 }
 /*
   retina屏幕下border：1px 问题
@@ -113,21 +112,6 @@ html{
     opacity: 0;
 }
 **/
-.mint-header{
-   height: 60px;
-   background-color: rgba(45,43,50,0.9);
-   background:-webkit-gradient(linear, 0 0, 0 bottom, from(rgba(45,43,50,0.9)), to(rgba(45,43,50,0.8)));
-   color:#fff;
-   font-size: 0.30rem;
-}
-.mint-header-title{
-   line-height: 30px;
-}
-.mintui-back{
-   position: relative;
-   top: -0.03rem;
-}
-
 /* iphone5 */
 @media (device-height:568px) and (-webkit-min-device-pixel-ratio:2){ }
 /*魅族*/
@@ -145,4 +129,14 @@ html{
 /* 竖屏 */
 @media all and (orientation :portrait) {
 }
-
+/* reset mint-ui */
+.mint-badge{
+  border: solid 1px #26a2ff;
+  color: #26a2ff;
+  background-color: #fff !important;
+  box-shadow: 0 0 1px #26a2ff;
+}
+.mint-badge.is-size-small {
+  padding: 1px 4px;
+  border-radius: 10px;
+}
