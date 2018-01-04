@@ -1,0 +1,122 @@
+.body-box {
+    background-color: #f2f2f2;
+}
+/*tab切换 */
+.tab-box {
+    height: 60px;
+    line-height: 60px;
+    overflow: hidden;
+    text-align: center;
+    padding: 0 0.5rem;
+    background-color: #fff;
+    display: flex;
+    vertical-align: middle;
+}
+.tab-box .tap-wrap {
+    flex: 1;
+}
+.tab-box .tap-btn {
+    color: #333;
+    height: 100%;
+    font-size: 16px;
+    box-sizing: border-box;
+    border-bottom: 2px solid #fff;
+}
+.selected .tap-btn {
+    color: #3497f5;
+    border-color: #3497f5;
+}
+.tab-box i {
+    height: 100%;
+    margin: 0 0.4rem;
+}
+.tab-box i::after {
+    content: '';
+    height: 100%;
+    display: inline-block;
+    vertical-align: middle;
+}
+.tab-box i::before {
+    content: '';
+    width: 1px;
+    height: 16px;
+    background: #aaa;
+    display: inline-block;
+    vertical-align: middle;
+}
+/*批量审批按钮 */
+.approval {
+    background-color: #fff;
+}
+.batch-approval {
+    height: 1rem;
+    line-height: 1rem;
+    text-align: right;
+    margin-top: 15px;
+}
+.batch-approval .batch-approval-text {
+    color: #666;
+    font-size: 16px;
+    margin-right: 0.2rem;
+    display: inline-block;
+    vertical-align: middle;
+}
+.batch-approval .mint-switch {
+    height: 32px;
+    display: inline-block;
+    vertical-align: middle;
+}
+/*列表区域 */
+.approval-list {
+    border-top: 1px solid #ddd;
+}
+.approval-list .approval-list-cell {
+    padding: 0.4rem 0 0 0.3rem;
+    overflow: hidden;
+}
+.approval-list-cell .approval-name {
+    float: left;
+    color: #fff;
+    width: 1.4rem;
+    height: 1.4rem;
+    font-size: 21px;
+    line-height: 1.4rem;
+    text-align: center;
+    border-radius: 100%;
+    margin-top: 10px;
+    background-color: #6eb4f6;
+}
+.approval-list .approval-list-cell .approval-info {
+    margin-left: 1.7rem;
+    padding-right: 0.3rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid #ddd;
+}
+.approval-list .approval-list-cell:last-child .approval-info{
+    border-bottom: 0;
+}
+.approval-info p {
+    margin-bottom: 10px;
+}
+.approval-info .approval-title-date {
+    margin-bottom: 15px;
+}
+.approval-info .approval-title {
+    color: #333;
+    font-size: 21px;
+}
+.approval-info .approval-date {
+    color: #666;
+    float: right;
+    font-size: 17px;
+    line-height: 27px;
+}
+.approval-info .approval-start-date,.approval-info .approval-end-date{
+    color: #999;
+    font-size: 17px;
+}
+.approval-info .approval-state {
+    color: #ff8922;
+    font-size: 18px;
+    margin-bottom:0px;
+}

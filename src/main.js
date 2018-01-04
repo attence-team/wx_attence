@@ -6,6 +6,7 @@ import common from '@/assets/js/common';
 import MintUI from 'mint-ui';
 import 'mint-ui/lib/style.css';
 import '@/assets/css/index.css';
+import '@/assets/css/wjStyle.css';
 
 Vue.use(MintUI);
 Vue.config.productionTip = false;

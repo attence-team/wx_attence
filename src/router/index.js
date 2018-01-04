@@ -13,6 +13,7 @@ import YearLeave from 'pages/kq/yearLeave';
 import Exception from 'pages/kq/exception';
 import Calendar from 'pages/kq/calendar';
 import Approval from 'pages/kq/approval';
+import ApprovalDetails from 'pages/kq/approvalDetails';
 import LeaveQuery from 'pages/kq/leaveQuery';
 import CardRecord from 'pages/kq/cardRecord';
 import Bill from 'pages/kq/bill';
@@ -104,6 +105,12 @@ export default new Router({
                   path: 'approval',
                   components: {
                       body: Approval
+                  }
+              },
+              {
+                  path: 'approvalDetails',
+                  components: {
+                      body: ApprovalDetails
                   }
               },
               {
