@@ -2,7 +2,6 @@ import Vue from 'vue';
 import Router from 'vue-router';
 Vue.use(Router);
 import Main from 'components/main/main';
-import Login from 'pages/login/login';
 import Home from 'pages/home/home';
 //我的工作
 import Pending from 'pages/mywork/pending';
@@ -33,13 +32,8 @@ Vue.prototype.goBack = function () {
 export default new Router({
   routes: [
       {
-
           path:'/',
-          redirect:'/login'
-      },
-      {
-          path: '/login',
-          component:Login
+          redirect:'/home'
       },
       {
           path: '/home',
