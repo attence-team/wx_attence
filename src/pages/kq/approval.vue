@@ -2,7 +2,7 @@
     <div class="body-box">
         <div class="tab-box">
             <div class="tap-wrap" :class="{selected:tabSelected==0}" @click="tabBtn(0)">
-                <div class="tap-btn">带我审批的（{{nnapprovedNum}}）</div>
+                <div class="tap-btn">待我审批的（{{nnapprovedNum}}）</div>
             </div>
             <i></i>
             <div class="tap-wrap" :class="{selected:tabSelected==1}" @click="tabBtn(1)">

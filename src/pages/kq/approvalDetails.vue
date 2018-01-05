@@ -72,14 +72,18 @@ export default {
     border-top: 0;
     background-color: #fff;
 }
-.approval-details-box .approval-name {
-    margin-top: 0;
+.approval-details-box .approval-list-cell {
+    padding: 0.2rem 0;
+    display: flex;
+    align-items: center;
 }
 .approval-details-box .approval-info {
-    margin-top: 10px;
+    margin: 0;
+    padding: 0;
+    margin-left: 0.3rem;
 }
-.approval-details-box .approval-list-cell {
-    padding: 0.4rem 0 0 0;
+.approval-details-box .approval-name {
+    margin-top: 0;
 }
 .approval-details {
     border-top: 1px solid #ddd;
@@ -87,7 +91,7 @@ export default {
 }
 .approval-details p {
     color: #999;
-    font-size: 18px;
+    font-size: 16px;
     margin-bottom: 0.4rem;
 }
 .approval-details p span {
@@ -102,8 +106,10 @@ export default {
     background-color: #fff;
 }
 .approval-details-list .approval-details-list-cell {
-    height: 80px;
-    line-height: 80px;
+    height: 1.6rem;
+    line-height: 1.6rem;
+    display: flex;
+    align-items: center;
 }
 .approval-details-list-cell span {
     display: inline-block;
@@ -111,12 +117,10 @@ export default {
 }
 .approval-details-list-cell .approval-name {
     color: #fff;
-    float: left;
     width: 1.2rem;
     height: 1.2rem;
-    font-size: 21px;
+    font-size: 16px;
     line-height: 1.2rem;
-    margin-top: 0.2rem;
     text-align: center;
     border-radius: 100%;
     background-color: #6eb4f6;
@@ -125,7 +129,9 @@ export default {
     background-color: #fea558;
 }
 .approval-details-list-cell .approval-title-date {
-    margin-left: 1.5rem;
+    flex: 1;
+    font-size: 0;
+    margin-left: 0.3rem;
     border-bottom: 1px solid #ddd;
 }
 .approval-details-list-cell:last-child .approval-title-date {
@@ -133,12 +139,12 @@ export default {
 }
 .approval-details-list-cell .approval-title {
     color: #333;
-    font-size: 21px;
+    font-size: 16px;
 }
 .approval-details-list-cell .approval-date {
     color: #666;
     float: right;
-    font-size: 17px;
+    font-size: 15px;
 }
 .approval-btn-box {
     padding: 30px 0;
@@ -152,7 +158,7 @@ export default {
     width: 2.2rem;
     margin: 0 0.6rem;
     border-radius: 5px;
-    font-size: 19px;
+    font-size: 16px;
     display: inline-block;
 }
 .agree {
