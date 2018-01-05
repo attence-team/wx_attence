@@ -28,7 +28,7 @@
               </div>
            </div>
            <div class="menu-nav">
-              <div class="title"><i class="kq-icon"></i>考勤管理 <router-link class="more" to="/home/kq">更多</router-link></div>
+              <div class="title"><i class="kq-icon"></i>考勤管理 <router-link class="more" to="/home/kq">更多功能</router-link></div>
               <div class="menu-list clearfix">
                  <div class="item">
                     <router-link to="/kq/leave">
