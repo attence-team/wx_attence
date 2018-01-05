@@ -57,7 +57,7 @@ body {
   content: "";
   position: absolute;
   left: 0;  right: 0;
-  border-bottom: 1px solid #b2b2b2;
+  border-bottom: 1px solid #dddddd;
   transform: scaleY(.5);
   -webkit-transform: scaleY(.5);
   -webkit-transform-origin: 0 0;
@@ -139,4 +139,14 @@ html{
 .mint-badge.is-size-small {
   padding: 1px 4px;
   border-radius: 10px;
+}
+.text-over{
+  text-overflow:ellipsis;
+  overflow:hidden;
+  white-space:nowrap;
+}
+.touch-scroll{
+  overflow:hidden;
+  overflow-y:auto;
+  -webkit-overflow-scrolling: touch;
 }
