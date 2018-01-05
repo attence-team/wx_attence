@@ -1,117 +1,40 @@
 <template>
     <div class="table-list">
         <div class="table-row table-title bd-bottom-1">
-            <span>日期</span>
-            <span>星期</span>
-            <span>刷卡时间</span>
+            <span v-for="title in columnNames.titles">{{title}}</span>
         </div>
-        <div class="table-row bd-bottom-1">
+        <div class="table-row bd-bottom-1" v-for="obj in tableList">
             <i class="point"></i>
-            <span>2017-08-09</span>
-            <span>星期三</span>
-            <span>11:40:30</span>
-        </div>
-        <div class="table-row bd-bottom-1">
-            <i class="point"></i>
-            <span>2017-08-09</span>
-            <span>星期三</span>
-            <span>11:40:30</span>
-        </div>
-        <div class="table-row bd-bottom-1">
-            <i class="point"></i>
-            <span>2017-08-09</span>
-            <span>星期三</span>
-            <span>11:40:30</span>
-        </div>
-        <div class="table-row bd-bottom-1">
-            <i class="point"></i>
-            <span>2017-08-09</span>
-            <span>星期三</span>
-            <span>11:40:30</span>
-        </div>
-        <div class="table-row bd-bottom-1">
-            <i class="point"></i>
-            <span>2017-08-09</span>
-            <span>星期三</span>
-            <span>11:40:30</span>
-        </div>
-        <div class="table-row bd-bottom-1">
-            <i class="point"></i>
-            <span>2017-08-09</span>
-            <span>星期三</span>
-            <span>11:40:30</span>
-        </div>
-        <div class="table-row bd-bottom-1">
-            <i class="point"></i>
-            <span>2017-08-09</span>
-            <span>星期三</span>
-            <span>11:40:30</span>
-        </div>
-        <div class="table-row bd-bottom-1">
-            <i class="point"></i>
-            <span>2017-08-09</span>
-            <span>星期三</span>
-            <span>11:40:30</span>
-        </div>
-        <div class="table-row bd-bottom-1">
-            <i class="point"></i>
-            <span>2017-08-09</span>
-            <span>星期三</span>
-            <span>11:40:30</span>
-        </div>
-        <div class="table-row bd-bottom-1">
-            <i class="point"></i>
-            <span>2017-08-09</span>
-            <span>星期三</span>
-            <span>11:40:30</span>
-        </div>
-        <div class="table-row bd-bottom-1">
-            <i class="point"></i>
-            <span>2017-08-09</span>
-            <span>星期三</span>
-            <span>11:40:30</span>
-        </div>
-        <div class="table-row bd-bottom-1">
-            <i class="point"></i>
-            <span>2017-08-09</span>
-            <span>星期三</span>
-            <span>11:40:30</span>
-        </div>
-        <div class="table-row bd-bottom-1">
-            <i class="point"></i>
-            <span>2017-08-09</span>
-            <span>星期三</span>
-            <span>11:40:30</span>
-        </div>
-        <div class="table-row bd-bottom-1">
-            <i class="point"></i>
-            <span>2017-08-09</span>
-            <span>星期三</span>
-            <span>11:40:30</span>
-        </div>
-        <div class="table-row bd-bottom-1">
-            <i class="point"></i>
-            <span>2017-08-09</span>
-            <span>星期三</span>
-            <span>11:40:30</span>
-        </div>
-        <div class="table-row bd-bottom-1">
-            <i class="point"></i>
-            <span>2017-08-09</span>
-            <span>星期三</span>
-            <span>11:40:30</span>
-        </div>
-        <div class="table-row bd-bottom-1">
-            <i class="point"></i>
-            <span>2017-08-09</span>
-            <span>星期三</span>
-            <span>11:40:30</span>
+            <span v-for="column in columnNames.columnValues">{{obj[column]}}</span>
         </div>
     </div>
 </template>
 <script>
     export default {
-        name: 'table-cell'
+        name: 'table-cell',
+        data(){
+            return {
+                tableList:[]
+            }
+        },
+        props: {
+            dataList: {
+                type: Array,
+                default: []
+            },
+            columnNames:{
+                type: Object,
+                default: {
+                    titles:['列1','列2','列3'],
+                    columnValues:['value1','value2','value3'],
+                }
+            }
+        },
+        watch:{
+            dataList:function (c,o) {
+                this.tableList = c;
+            }
+        }
     }
 </script>
 <style lang="css" scoped>
