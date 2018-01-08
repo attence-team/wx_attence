@@ -39,6 +39,7 @@
             selectTime(startTime,endTime){
                 this.sdate = startTime;
                 this.edate = endTime;
+                this.queryList();
             },
             queryList(){
                 let params = {

@@ -9,7 +9,7 @@
                <img class="img-item" src="../../assets/img/carousel-1.png">
              </mt-swipe-item>
           </mt-swipe>
-          <div class="welcome">江楠，欢迎您！</div>
+          <div class="welcome">{{userInfo.name}}，欢迎您！</div>
        </div>
        <div class="menu-box">
            <div class="menu-nav">
@@ -90,7 +90,8 @@ export default {
         return {
            msg:'',
            menuList:[],
-           list:[]
+           list:[],
+           userInfo:{}
         }
     },
     mounted(){
@@ -107,6 +108,7 @@ export default {
         initUserData(){
             HomeHttp.queryUserInfo({"iv-user":'02236654'}).then((res)=>{
                 setUserInfo(res.data);
+                this.userInfo = getUserInfo();
             })
         },
         queryList(){
