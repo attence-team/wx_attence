@@ -101,3 +101,10 @@
         font-size: 10px;
     }
 }
+.menu-tree .menu-list .mint-cell:first-child .mint-cell-wrapper {
+    background-image: -webkit-linear-gradient(top, #d9d9d9, #d9d9d9 50%, transparent 50%);
+    background-image:none;
+}
+.menu-tree .menu-list .mint-cell:last-child{
+    background-image:none;
+}
