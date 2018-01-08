@@ -4,8 +4,8 @@
         <TimeTool @selectTime="selectTime"></TimeTool>
         <div class="exp-box table-box touch-scroll">
             <div class="info">
-                <div class="fl text-over clearfix">部门：<span>***部</span></div>
-                <div class="fr text-over">请假人姓名：<span>***部</span></div>
+                <div class="fl text-over clearfix">部门：<span>{{userInfo.dept_name}}</span></div>
+                <div class="fr text-over">姓名：<span>{{userInfo.name}}</span></div>
             </div>
             <TableCell :dataList="tableList" :columnNames="columnValue"></TableCell>
         </div>
@@ -23,41 +23,33 @@
                 tableList:[],
                 columnValue:{
                     titles:['日期','星期','刷卡时间'],
-                    columnValues:['time','md','dt'],
-                }
+                    columnValues:['year_month','week','bursh_time'],
+                },
+                userInfo:{},
+                sdate:'',
+                edate:''
             }
         },
         mounted(){
             setTitle('原始刷卡记录');
-            this.tableList = [
-                {time:'2017-08-09',md:'星期三',dt:'10:10:06'},
-                {time:'2017-08-09',md:'星期三',dt:'10:10:06'},
-                {time:'2017-08-09',md:'星期三',dt:'10:10:06'},
-                {time:'2017-08-09',md:'星期三',dt:'10:10:06'},
-                {time:'2017-08-09',md:'星期三',dt:'10:10:06'},
-                {time:'2017-08-09',md:'星期三',dt:'10:10:06'},
-                {time:'2017-08-09',md:'星期三',dt:'10:10:06'},
-                {time:'2017-08-09',md:'星期三',dt:'10:10:06'},
-                {time:'2017-08-09',md:'星期三',dt:'10:10:06'},
-                {time:'2017-08-09',md:'星期三',dt:'10:10:06'},
-                {time:'2017-08-09',md:'星期三',dt:'10:10:06'},
-                {time:'2017-08-09',md:'星期三',dt:'10:10:06'},
-                {time:'2017-08-09',md:'星期三',dt:'10:10:06'},
-                {time:'2017-08-09',md:'星期三',dt:'10:10:06'},
-                {time:'2017-08-09',md:'星期三',dt:'10:10:06'},
-                {time:'2016-08-09',md:'星期三',dt:'11:10'}
-            ];
+            this.userInfo = getUserInfo();
             this.queryList();
         },
         methods:{
             selectTime(startTime,endTime){
-                console.log(startTime);
-                console.log(endTime);
+                this.sdate = startTime;
+                this.edate = endTime;
             },
             queryList(){
-                let params = {"staff_num":2366};
+                let params = {
+                    staff_num: this.userInfo.staff_num,
+                    sdate:this.sdate,
+                    edate:this.edate,
+                    currPage:'1',
+                    pageLength:'30'
+                };
                 KqHttp.queryCardRecaordList(params).then((res)=>{
-                    console.log(res)
+                    this.tableList = res.data.pageData;
                 });
             }
         }

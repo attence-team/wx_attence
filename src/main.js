@@ -8,6 +8,7 @@ import MintUI from 'mint-ui';
 import 'mint-ui/lib/style.css';
 import '@/assets/css/index.css';
 import '@/assets/css/wjStyle.css';
+import 'babel-polyfill'
 
 Vue.use(MintUI);
 Vue.config.productionTip = false;

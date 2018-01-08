@@ -7,6 +7,7 @@
             <i class="point"></i>
             <span v-for="column in columnNames.columnValues">{{obj[column]}}</span>
         </div>
+        <div class="noneData">暂无数据</div>
     </div>
 </template>
 <script>

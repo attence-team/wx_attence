@@ -13,7 +13,13 @@ window.onload = function(){
 };
 global.setTitle = function (str) {
     document.getElementById('titleId').innerText = str;
-}
+};
+global.setUserInfo = function (user) {
+    sessionStorage.setItem('KEY_USER',JSON.stringify(user));
+};
+global.getUserInfo = function () {
+    return JSON.parse(sessionStorage.getItem('KEY_USER'));
+};
 Date.prototype.Format2String = function (fmt) {
     if(!this) return null;
     var o = {
@@ -64,5 +70,6 @@ String.prototype.getMonthDay = function () {
     curDate.setDate(0);
     return curDate.getDate();
 };
+
 
 

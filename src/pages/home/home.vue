@@ -81,6 +81,7 @@
     </div>
 </template>
 <script>
+import {HomeHttp} from '@/api/homeHttp';
 import { Swipe, SwipeItem } from 'mint-ui';
 export default {
     name:'homeInfo',
@@ -92,8 +93,10 @@ export default {
            list:[]
         }
     },
-    created(){
+    mounted(){
+        setTitle('工作台');
         this.queryList();
+        this.initUserData();
     },
     methods:{
         changeTwo(){
@@ -101,10 +104,13 @@ export default {
                path:'/home/anotherPage2'
            });
         },
+        initUserData(){
+            HomeHttp.queryUserInfo({"iv-user":'02236654'}).then((res)=>{
+                setUserInfo(res.data);
+            })
+        },
         queryList(){
-//            this.$http.Get('ZXF1aEK62a6c81919359967c3fba0fe8cbb83c9e9046f38?uri=mob/query/list',(res)=>{
-//                this.list = res.data.list;
-//            });
+
         }
     }
 }
