@@ -81,4 +81,9 @@
         padding: 0 .2rem;
         margin-top: .1rem;
     }
+    @media screen and (max-width: 320px) {
+        .table-row-ext span{
+            font-size: .3rem;
+        }
+    }
 </style>

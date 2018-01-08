@@ -1,59 +1,74 @@
 <template>
     <div class="leave">
         <div class="pert1 pert">
-            <table class="table-info">
-                <tr>
-                    <th class="th1">申请部门：</th>
-                    <td>XXXX部</td>
-                    <th class="th2">请假人姓名：</th>
-                    <td>张三</td>
-                </tr>
-                <tr>
-                    <th class="th1">申请时间：</th>
-                    <td>2018-01-05</td>
-                    <th class="th1">单据状态：</th>
-                    <td>未提交</td>
-                </tr>
-            </table>
+            <div class="table-info">
+                <div class="group">
+                    <div class="hf-l hf">
+                        <label class="th">申请部门：</label>
+                        <span class="td">XXXX部</span>
+                    </div>
+                    <div class="hf-r hf">
+                        <label class="th">请假人姓名：</label>
+                        <span class="td">张三</span>
+                    </div>
+                </div>
+                <div class="group">
+                    <div class="hf-l hf">
+                        <label class="th">申请时间：</label>
+                        <span class="td">2018-01-05</span>
+                    </div>
+                    <div class="hf-r hf">
+                        <label class="th">单据状态：</label>
+                        <span class="td">未提交fffff</span>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="pert2 pert">
-            <table class="table-info">
-                <tr>
-                    <th>请假类型：</th>
-                    <td>
-                        <select class="select" @focus="setboder($event)">
+            <div class="table-info">
+                <div class="group bd-bottom-1">
+                    <label class="th">请假类型</label>
+                    <span class="td td1">
+                        <select class="select">
                             <option v-for="item in typeList" value="item.value">{{item.name}}</option>
                         </select>
-                    </td>
-                </tr>
-                <tr>
-                    <th>请假起日期：</th>
-                    <td>
-                        <!--<input type="date" class="date">-->
+                    </span>
+                </div>
+                <div class="group bd-bottom-1">
+                    <label class="th">请假起日期</label>
+                    <span class="td">
                         <Date></Date>
-                        <span class="ampm">上午</span>
-                    </td>
-                </tr>
-                <tr>
-                    <th>请假预计止日期：</th>
-                    <td>
+                        <AmPm></AmPm>
+                    </span>
+                </div>
+                <div class="group bd-bottom-1">
+                    <label class="th">请假预计止日期</label>
+                    <span class="td">
                         <Date></Date>
-                        <span class="ampm">下午</span>
-                    </td>
-                </tr>
-                <tr>
-                    <th>免打卡次数：</th>
-                    <td><input type="number" class="width-min"  placeholder="请输入"><span>次</span></td>
-                </tr>
-                <tr>
-                    <th>请假天数：</th>
-                    <td><input type="number" class="width-min" placeholder="请输入 "><span>天</span></td>
-                </tr>
-                <tr>
-                    <th>事由、备注：</th>
-                    <td><input class="text-resuly" placeholder="请输入请假事由（必填）"></td>
-                </tr>
-            </table>
+                        <AmPm></AmPm>
+                    </span>
+                </div>
+                <div class="group bd-bottom-1">
+                    <label class="th">免打卡次数</label>
+                    <span class="td">
+                        <input type="number" class="width-min"  placeholder="请输入">
+                        <span>次</span>
+                    </span>
+                </div>
+                <div class="group bd-bottom-1">
+                    <label class="th">请假天数</label>
+                    <span class="td">
+                        <input type="number" class="width-min" placeholder="请输入">
+                        <span>天</span>
+                    </span>
+                </div>
+                <div class="group bd-bottom-1">
+                    <label class="th">事由、备注</label>
+                    <span class="td">
+                        <input class="text-resuly" value="请输入请假事由（必填）" v-on:focus="setValue($event)"  v-on:blur="clearValue($event)" >
+                    </span>
+                </div>
+            </div>
         </div>
         <div class="pert3 pert group">
             <label class="group-th">审批流程</label>
@@ -66,6 +81,7 @@
 </template>
 <script>
     import Date from "@/components/query/date";
+    import AmPm from "@/components/query/AmPm";
     export default {
         name: 'leave',
         data(){
@@ -77,20 +93,27 @@
                     {value:3, name:'请假类型3'},
                     {value:4, name:'请假类型4'},
                     {value:5, name:'请假类型5'}
-                ]
+                ],
+                ampm:{
+                    value: 'am',
+                    text: '上午'
+                }
             }
         },
         created(){
 
         },
         methods:{
-            setboder(event){
+            setValue(event){
                 let taregt = event.target;
-                taregt.style.border = 'solid 1px rgba(52, 151, 245, 1)';
-                taregt.style.borderRadius = '10px';
+                taregt.setAttribute('value', '');
+            },
+            clearValue(event){
+                let taregt = event.target;
+                taregt.setAttribute('value', '请输入请假事由（必填）');
             }
         },
-        components:{Date}
+        components:{Date,AmPm}
     }
 </script>
 
@@ -101,95 +124,124 @@
     .pert{
         padding: .3rem .32rem;
     }
+    .pert2{
+        padding: .3rem 0 .3rem .32rem;
+    }
     .pert1, .pert2, .pert3 {
-        border-bottom: .25rem solid rgba(242, 242, 242, 1);
+        border-bottom: .25rem solid #F2F2F2;
     }
     .table-info{
         width: 100%;
     }
-    .table-info th,.table-info td{
-        font-size: 14px;
+    .table-info .th,
+    .table-info .td{
+        font-size: .30rem;
         line-height: 30px;
         text-align: left;
     }
-    .table-info th{
+    .table-info .th{
         color: #333;
+        font-weight: 600;
     }
-    .table-info td{
+    .table-info .td{
         color: #999;
     }
-    .pert1 .table-info .th1{
-        width: 1.5rem !important;
+    .table-info .group{
+        position: relative;
+        text-align: left;
+        overflow: hidden;
     }
-    .pert1 .table-info .th2{
-        width: 1.8rem;
+    .table-info .hf{
+        width: 50%;
+        float: left;
     }
-
-    .pert2 .table-info tr{
-        border-bottom: 1px solid #dddddd;
+    .table-info .hf-l{
     }
-    .pert2 .table-info th{
-        font-size: 16px;
+    .table-info .hf-r{
+    }
+    .pert2 .table-info .group{
+        overflow: hidden;
+        padding-right:.32rem;
+    }
+    .pert2 .table-info .th{
+        font-size: .31rem;
         line-height: .8rem;
         text-align: left;
-        width:2.68rem;
+        float: left;
     }
-    .pert2 .table-info td{
-        font-size: 14px;
+    .pert2 .table-info .td{
+        font-size: .30rem;
         line-height: .8rem;
         text-align: right;
+        float: right;
     }
-    .pert2 .table-info td select{
+    .pert2 .table-info .group:nth-child(1) .th{
+        width: 1.5rem;
+    }
+    .pert2 .table-info .group:nth-child(1) .td{
+        width: calc(100% - 1.5rem)
+    }
+    .pert2 .table-info .group:nth-child(4) .th{
+        width: 1.7rem;
+    }
+    .pert2 .table-info .group:nth-child(4) .td{
+        width: calc(100% - 1.7rem)
+    }
+    .pert2 .table-info .group:nth-child(5) .th{
+        width: 1.7rem;
+    }
+    .pert2 .table-info .group:nth-child(5) .td{
+        width: calc(100% - 1.7rem)
+    }
+    .pert2 .table-info .group:nth-child(6) .th{
+        width: 1.7rem;
+    }
+    .pert2 .table-info .group:nth-child(6) .td{
+        width: calc(100% - 1.7rem);
+        text-align: right;
+    }
+    .pert2 .table-info .td select{
         width: 100%;
-        border: solid 1px rgba(52, 151, 245, 1);
-        border-radius: 10px;
-        height: 4.5vh;
-        line-height: 4.5vh;
+        border: solid 1px #3497F5;
+        border-radius: 6px;
+        height: .6rem;
+        line-height: .6rem;
     }
-    .pert2 .table-info td select:hover,.pert2 .table-info td select:active,.pert2 .table-info td select:focus{
-        border: none;
-        //border-radius: 10px;
+    .pert2 .table-info .td select:focus {
+        border: solid 1px #3497F5;
+        border-radius: 6px;
     }
-    select:focus {
-        border: solid 1px rgba(52, 151, 245, 1);
-        border-radius: 10px;
-    }
-    .pert2 .table-info td input.text-resuly{
-        padding-left:.15rem;
+    .pert2 .table-info .td input.text-resuly{
+        padding: 0 .15rem;
         width: 100%;
         border: none;
-        border-radius: 10px;
         height: 4.5vh;
         line-height: 4.5vh;
         color: #f20d0d;
+        text-align: right;
     }
-    .pert2 .table-info td input.text-resuly:focus{
-
+    .pert2 .table-info .td input.text-resuly:focus{
         color: #333;
     }
-    .pert2 .table-info td input.width-min{
-        width: 1rem;
+    .pert2 .table-info .td input.width-min{
         text-align: right;
         padding:0 .1rem;
         border:none;
     }
-    .pert2 .table-info td input.date{
+    .pert2 .table-info .td input.date{
         width: 2.1rem;
         text-align: right;
         padding:0 .1rem;
     }
-    .pert2 .table-info td input.text-resuly:focus{
+    .pert2 .table-info .td input.text-resuly:focus{
         border: none;
         border-radius: 10px;
         height: 4.5vh;
         line-height: 4.5vh;
         color: #999;;
     }
-    .group{
-
-    }
     .group .group-th{
-        font-size: 16px;
+        font-size: .31rem;
         line-height: .8rem;
         text-align: left;
         width:2.33rem;
@@ -212,13 +264,13 @@
         color: #fff;
         border-radius: 50%;
         display: inline-block;
-        
+        margin-left: .15rem;
     }
     .pert4 button{
         width: 100%;
         height: .8rem;
         background-color: rgba(52, 151, 245, 1);
-        border-radius: 10px;
+        border-radius: 6px;
         border: 1px solid rgba(52, 151, 245, 1);
         cursor: pointer;
         color: #fff;
@@ -226,5 +278,21 @@
     }
     .ampm{
         display: inline-block;
+    }
+
+    @media screen and (max-width: 320px) {
+        .table-info .th,
+        .table-info .td{
+            font-size: .29rem;
+        }
+        .pert2 .table-info .th{
+            font-size: .30rem;
+        }
+        .pert2 .table-info .td{
+            font-size: .29rem;
+        }
+        .group .group-th {
+            font-size: .30rem;
+        }
     }
 </style>
