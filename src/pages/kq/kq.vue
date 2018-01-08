@@ -24,7 +24,7 @@
               </div>
            </div>
            <div class="menu-nav">
-              <div class="title"><i class="leave-icon"></i>发起申请</div>
+              <div class="title bd-bottom-1"><i class="leave-icon"></i>发起申请</div>
               <div class="menu-list clearfix">
                  <mt-cell title="请假" @click.native="goRouter('/kq/leave')" is-link>
                     <img slot="icon" src="../../assets/img/3_icon.png" width="24" height="24">
@@ -38,7 +38,7 @@
               </div>
            </div>
            <div class="menu-nav">
-              <div class="title"><i class="query-icon"></i>相关查询</div>
+              <div class="title bd-bottom-1"><i class="query-icon"></i>相关查询</div>
               <div class="menu-list clearfix">
                  <mt-cell title="原始刷卡记录" @click.native="goRouter('/kq/cardRecord')" is-link>
                     <img slot="icon" src="../../assets/img/13_icon.png" width="24" height="24">
