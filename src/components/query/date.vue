@@ -2,7 +2,7 @@
     <div class="time-text">
         <input type="date" v-model="input">
         {{input}}
-        <i class="iconfont icon-fanhui right-arrow"></i>
+        <i class="iconfont icon-ext"></i>
     </div>
 </template>
 <script>
@@ -38,7 +38,7 @@
         display: inline-block;
         text-align: center;
         color: #333;
-        width: 2.2rem;
+        width: 2.3rem;
         height: .8rem;
     }
     .time-text input{
@@ -57,4 +57,36 @@
         display: block;
         height: .8rem;
     }
+
+    .icon-ext{
+        width: .4rem;
+        height: .4rem;
+        position: absolute;
+        top: .15rem;
+        right: 0;
+        background: url("../../assets/img/icon-date.png") no-repeat 0 0;
+        background-size: cover;
+    }
+    /*.iconfont {
+        font-family: "iconfont" !important;
+        font-size: 16px;
+        width: 16px;
+        font-style: normal;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+    .icon-date{
+        width: 0;
+        height: 0;
+        border-width: 13px 8px 13px 8px;
+        border-style: solid;
+        border-color: #999 #fff #fff #fff;
+        position: absolute;
+        top: .23rem;
+        right: 0;
+    }
+    .icon-date:hover{
+        border-color: #666 #fff #fff #fff;
+    }*/
+
 </style>

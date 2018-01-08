@@ -119,10 +119,10 @@
         color: #999;
     }
     .pert1 .table-info .th1{
-        width: 1.40rem !important;
+        width: 1.5rem !important;
     }
     .pert1 .table-info .th2{
-        width: 1.70rem;
+        width: 1.8rem;
     }
 
     .pert2 .table-info tr{
@@ -132,7 +132,7 @@
         font-size: 16px;
         line-height: .8rem;
         text-align: left;
-        width:2.33rem;
+        width:2.68rem;
     }
     .pert2 .table-info td{
         font-size: 14px;
