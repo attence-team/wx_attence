@@ -24,49 +24,46 @@
                     <div class="color-red">未刷卡0次</div>
                 </div>
             </div>
-            <TableCell :dataList="tableList" :columnNames="columnValue"></TableCell>
+            <TableList :dataList="tableList" :columnNames="columnValue" @optfn="optfn"></TableList>
         </div>
     </div>
 </template>
 <script>
     import TimeTool from "@/components/query/timetool";
-    import TableCell from "@/components/query/tablecell";
+    import TableList from "@/components/query/tablelist";
     export default {
         name: 'exception',
-        components:{TimeTool,TableCell},
+        components:{TimeTool,TableList},
         data(){
             return {
                 tableList:[],
                 columnValue:{
-                    titles:['日期','星期','刷卡时间'],
-                    columnValues:['time','md','dt'],
+                    titles:['异常日期','异常类型','处理状态','处理方式'],
+                    columnValues:['time','type','status']
                 }
             }
         },
         mounted(){
             this.tableList = [
-                {time:'2017-08-09',md:'星期三',dt:'10:10:06'},
-                {time:'2017-08-09',md:'星期三',dt:'10:10:06'},
-                {time:'2017-08-09',md:'星期三',dt:'10:10:06'},
-                {time:'2017-08-09',md:'星期三',dt:'10:10:06'},
-                {time:'2017-08-09',md:'星期三',dt:'10:10:06'},
-                {time:'2017-08-09',md:'星期三',dt:'10:10:06'},
-                {time:'2017-08-09',md:'星期三',dt:'10:10:06'},
-                {time:'2017-08-09',md:'星期三',dt:'10:10:06'},
-                {time:'2017-08-09',md:'星期三',dt:'10:10:06'},
-                {time:'2017-08-09',md:'星期三',dt:'10:10:06'},
-                {time:'2017-08-09',md:'星期三',dt:'10:10:06'},
-                {time:'2017-08-09',md:'星期三',dt:'10:10:06'},
-                {time:'2017-08-09',md:'星期三',dt:'10:10:06'},
-                {time:'2017-08-09',md:'星期三',dt:'10:10:06'},
-                {time:'2017-08-09',md:'星期三',dt:'10:10:06'},
-                {time:'2016-08-09',md:'星期三',dt:'11:10'}
+                {time:'2017-08-09<br>星期五',type:'<i class="color-red2">8：00<br>未刷卡</i>',status:'--'},
+                {time:'2017-08-09<br>星期五',type:'<i class="color-red2">8：00<br>未刷卡</i>',status:'--'},
+                {time:'2017-08-09<br>星期五',type:'<i class="color-red2">8：00<br>未刷卡</i>',status:'--'},
+                {time:'2017-08-09<br>星期五',type:'<i class="color-red2">8：00<br>未刷卡</i>',status:'--'},
+                {time:'2017-08-09<br>星期五',type:'<i class="color-red2">8：00<br>未刷卡</i>',status:'--'},
+                {time:'2017-08-09<br>星期五',type:'<i class="color-red2">8：00<br>未刷卡</i>',status:'--'},
+                {time:'2017-08-09<br>星期五',type:'<i class="color-red2">8：00<br>未刷卡</i>',status:'--'},
+                {time:'2017-08-09<br>星期五',type:'<i class="color-red2">8：00<br>未刷卡</i>',status:'--'},
+                {time:'2017-08-09<br>星期五',type:'<i class="color-red2">8：00<br>未刷卡</i>',status:'--'},
+                {time:'2017-08-09<br>星期五',type:'<i class="color-red2">8：00<br>未刷卡</i>',status:'--'}
             ];
         },
         methods:{
             selectTime(startTime,endTime){
                 console.log(startTime);
                 console.log(endTime);
+            },
+            optfn(obj){
+                console.log(obj)
             }
         }
     }
@@ -189,9 +186,16 @@
         color: #fff;
     }
     .color-red{
-
         background-color: #ff8922;
         color: #fff;
     }
+    .color-red2{
+        color: #ff6054;
+    }
 
+</style>
+<style>
+    .color-red2{
+        color: #ff6054;
+    }
 </style>
