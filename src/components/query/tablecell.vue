@@ -3,10 +3,11 @@
         <div class="table-row table-title bd-bottom-1">
             <span v-for="title in columnNames.titles">{{title}}</span>
         </div>
-        <div class="table-row bd-bottom-1" v-for="obj in tableList">
+        <div v-if="tableList.length>0" class="table-row bd-bottom-1" v-for="obj in tableList">
             <i class="point"></i>
             <span v-for="column in columnNames.columnValues">{{obj[column]}}</span>
         </div>
+        <div v-if="tableList.length<=0" class="noneData">暂无数据</div>
     </div>
 </template>
 <script>

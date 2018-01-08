@@ -9,7 +9,7 @@
                <img class="img-item" src="../../assets/img/carousel-1.png">
              </mt-swipe-item>
           </mt-swipe>
-          <div class="welcome">江楠，欢迎您！</div>
+          <div class="welcome">{{userInfo.name}}，欢迎您！</div>
        </div>
        <div class="menu-box">
            <div class="menu-nav">
@@ -81,8 +81,8 @@
     </div>
 </template>
 <script>
+import {HomeHttp} from '@/api/homeHttp';
 import { Swipe, SwipeItem } from 'mint-ui';
-import {hello} from '@/assets/js/hello';
 export default {
     name:'homeInfo',
     components: {Swipe, SwipeItem},
@@ -90,12 +90,14 @@ export default {
         return {
            msg:'',
            menuList:[],
-           list:[]
+           list:[],
+           userInfo:{}
         }
     },
-    created(){
-        this.msg = hello('九次方');
+    mounted(){
+        setTitle('工作台');
         this.queryList();
+        this.initUserData();
     },
     methods:{
         changeTwo(){
@@ -103,10 +105,14 @@ export default {
                path:'/home/anotherPage2'
            });
         },
+        initUserData(){
+            HomeHttp.queryUserInfo({"iv-user":'02236654'}).then((res)=>{
+                setUserInfo(res.data);
+                this.userInfo = getUserInfo();
+            })
+        },
         queryList(){
-            this.$http.Get('ZXF1aEK62a6c81919359967c3fba0fe8cbb83c9e9046f38?uri=mob/query/list',(res)=>{
-                this.list = res.data.list;
-            });
+
         }
     }
 }

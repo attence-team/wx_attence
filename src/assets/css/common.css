@@ -108,3 +108,8 @@
 .menu-tree .menu-list .mint-cell:last-child{
     background-image:none;
 }
+.noneData{
+    line-height: 0.8rem;
+    text-align: center;
+    color: #888;
+}
