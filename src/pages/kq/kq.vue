@@ -91,4 +91,7 @@ export default {
         padding: 0 0 0 0.4rem;
         overflow: hidden;
     }
+    .mint-cell:last-child {
+        background-image: none;
+    }
 </style>

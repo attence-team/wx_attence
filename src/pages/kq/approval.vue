@@ -13,11 +13,11 @@
             <div class="batch-approval">
                 <span class="batch-approval-text">批量审批</span><mt-switch v-model="batchSwitch"></mt-switch>
             </div>
-            <ul class="approval-list">
+            <ul class="approval-list bd-top-1">
                 <li class="approval-list-cell">
                     <router-link to="approvalDetails">
                     <div class="approval-name">江楠</div>
-                    <div class="approval-info">
+                    <div class="approval-info bd-bottom-1">
                         <p class="approval-title-date">
                             <span class="approval-title">江楠的外出</span><span class="approval-date">2017-11-12</span>
                         </p>

@@ -12,7 +12,7 @@
                     </div>
                 </li>
             </ul>
-            <div class="approval-details">
+            <div class="approval-details bd-top-1">
                 <p>所在部门：<span>信息技术部</span></p>
                 <p>请假类型：<span>外出</span></p>
                 <p>开始时间：<span>2017-11-10 10:00</span></p>
@@ -26,7 +26,7 @@
             <ul class="approval-details-list">
                 <li class="approval-details-list-cell">
                     <div class="approval-name">江楠</div>
-                    <div class="approval-title-date">
+                    <div class="approval-title-date bd-bottom-1">
                         <span class="approval-title">发起申请</span>
                         <span class="approval-date">2017-11-12</span>
                     </div>
@@ -65,6 +65,7 @@ export default {
 <style lang="css" scoped>
 .approval-list {
     border: 0;
+    margin: 0;
     background-color: #fff;
 }
 .approval-details-box,.approval-details-list-box {
@@ -73,7 +74,7 @@ export default {
     background-color: #fff;
 }
 .approval-details-box .approval-list-cell {
-    padding: 0.2rem 0;
+    padding: 0.25rem 0;
     display: flex;
     align-items: center;
 }
@@ -86,13 +87,15 @@ export default {
     margin-top: 0;
 }
 .approval-details {
-    border-top: 1px solid #ddd;
-    padding: 0.8rem 0 0.8rem 1.7rem
+    padding: 0.5rem 0 0.5rem 1.7rem
 }
 .approval-details p {
     color: #999;
     font-size: 16px;
-    margin-bottom: 0.4rem;
+    margin-bottom: 0.3rem;
+}
+.approval-details p:last-child {
+    margin-bottom: 0;
 }
 .approval-details p span {
     color: #333;
@@ -102,7 +105,7 @@ export default {
     margin-bottom: 0;
 }
 .approval-details-list {
-    margin: 15px 0;
+    margin: 0.25rem 0;
     background-color: #fff;
 }
 .approval-details-list .approval-details-list-cell {
@@ -132,7 +135,6 @@ export default {
     flex: 1;
     font-size: 0;
     margin-left: 0.3rem;
-    border-bottom: 1px solid #ddd;
 }
 .approval-details-list-cell:last-child .approval-title-date {
     border-bottom: 0;
