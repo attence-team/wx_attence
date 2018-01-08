@@ -82,7 +82,6 @@
 </template>
 <script>
 import { Swipe, SwipeItem } from 'mint-ui';
-import {hello} from '@/assets/js/hello';
 export default {
     name:'homeInfo',
     components: {Swipe, SwipeItem},
@@ -94,7 +93,6 @@ export default {
         }
     },
     created(){
-        this.msg = hello('九次方');
         this.queryList();
     },
     methods:{
@@ -104,9 +102,9 @@ export default {
            });
         },
         queryList(){
-            this.$http.Get('ZXF1aEK62a6c81919359967c3fba0fe8cbb83c9e9046f38?uri=mob/query/list',(res)=>{
-                this.list = res.data.list;
-            });
+//            this.$http.Get('ZXF1aEK62a6c81919359967c3fba0fe8cbb83c9e9046f38?uri=mob/query/list',(res)=>{
+//                this.list = res.data.list;
+//            });
         }
     }
 }
