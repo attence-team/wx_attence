@@ -165,13 +165,13 @@
     }
     .pert2 .table-info .th{
         font-size: .31rem;
-        line-height: .8rem;
+        line-height: 1rem;
         text-align: left;
         float: left;
     }
     .pert2 .table-info .td{
         font-size: .30rem;
-        line-height: .8rem;
+        line-height: 1rem;
         text-align: right;
         float: right;
     }
