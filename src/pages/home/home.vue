@@ -21,7 +21,8 @@
                     </router-link>
                  </div>
                  <div class="item">
-                    <router-link to="/work/done">
+                    <!--<router-link to="/work/done">-->
+                    <router-link to="/kq/approval">
                       <img src="../../assets/img/2_icon.png"><span>已办工作</span>
                     </router-link>
                  </div>
@@ -36,7 +37,8 @@
                     </router-link>
                  </div>
                  <div class="item">
-                    <router-link to="/kq/yearLeave">
+                    <!--<router-link to="/kq/yearLeave">-->
+                    <router-link to="/kq/approval">
                       <img src="../../assets/img/4_icon.png"><span>年假申请</span>
                     </router-link>
                  </div>

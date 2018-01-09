@@ -36,6 +36,10 @@ Date.prototype.Format2String = function (fmt) {
         if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     return fmt;
 };
+/**
+ * 获取日期月份有多少天
+ * @returns {number}
+ */
 Date.prototype.getMonthDay = function () {
     let curDate = this;
     let curMonth = curDate.getMonth();
