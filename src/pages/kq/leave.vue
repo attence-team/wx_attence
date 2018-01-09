@@ -111,7 +111,8 @@
             setDisplay(event){
                 this.show = 'unplaceholder';
                 this.resuly = 'resuly-show';
-                
+                //console.log(111)
+                document.getElementById("resuly").focus();
             },
             setValue(event){
                 this.show = 'unplaceholder';
