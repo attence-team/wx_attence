@@ -38,7 +38,7 @@
     .time-text{
         position: relative;
         display: inline-block;
-        text-align: left;
+        text-align: right;
         color: #999;
         width: 1.78rem;
         height: .8rem;
