@@ -9,7 +9,7 @@
                  <img class="img-item" src="../../assets/img/carousel-1.png">
               </mt-swipe-item>
           </mt-swipe>
-          <div class="welcome">江楠，欢迎您！</div>
+          <div class="welcome">{{userInfo.name}}，你好！</div>
        </div>
        <div class="menu-box menu-tree">
            <div class="menu-nav">
@@ -63,8 +63,13 @@ export default {
                 {title:'1',imgUrl:'http://www.jq22.com/demo/jQuerySlider201712071158/img/a5.png'},
                 {title:'2',imgUrl:'http://www.jq22.com/demo/jQuerySlider201712071158/img/a4.png'},
                 {title:'3',imgUrl:'http://www.jq22.com/demo/jQuerySlider201712071158/img/a2.png'}
-            ]
+            ],
+            userInfo:{}
         }
+    },
+    mounted(){
+        setTitle('考勤管理');
+        this.userInfo = getUserInfo();
     },
     methods:{
         goRouter(url){

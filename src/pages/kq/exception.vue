@@ -76,15 +76,6 @@
         //margin: 0 auto;
         padding: .4rem 0 .5rem;
     }
-    /*.info div{
-        width: 50%;
-    }
-    .info div span{
-        color: #999;
-    }
-    .info div:last-child{
-        text-align: right;
-    }*/
     .exp-box{
         height: calc(100% - 0.8rem - 2*0.15rem - 0.25rem);
     }
@@ -122,8 +113,8 @@
         display: block;
         position: absolute;
         bottom: 0;
-        width: 6px;
-        height: 6px;
+        width: 5px;
+        height: 5px;
         border-radius:50%;
         background-color: #aaa;
         z-index: 9;
@@ -146,13 +137,13 @@
         position: absolute;
         top:0;
         left:50%;
-        width:20px;
-        margin-left: -10px;
+        width:.24rem;
+        margin-left: -.12rem;
     }
     .sanjiao{
         width:0;
         height:0;
-        border-width:10px;
+        border-width:.12rem;
         border-style:solid;
         border-color: #ff6054 #fff #fff #fff;
         z-index: 99;
@@ -162,9 +153,9 @@
         height:100%;
         background-color: #ddd;
         position: absolute;
-        top:0;
-        left:50%;
-        border-top:10px solid #ff6054;
+        top: 0;
+        left: .12rem;
+        border-top:.12rem solid #ff6054;
     }
     .col{
         display: flex;
