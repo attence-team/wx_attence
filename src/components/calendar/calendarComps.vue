@@ -15,7 +15,7 @@
             <!--<li>26</li><li>27</li><li>28</li><li>29</li><li>30</li><li>1</li><li>2</li>-->
         <!--</ul>-->
         <ul>
-            <li :class="time.type" v-for="time in dateList">
+            <li :class="time.type" @click="clickDay(idx)" v-for="(time,idx) in dateList">
                 <span>{{time.value}}</span>
             </li>
         </ul>
@@ -60,7 +60,7 @@
         },
         mounted(){
             this.initCalendar();
-            this.setDateSelect(new Date().Format2String('yyyy-MM-dd'),'now-date');
+            this.setDateSelect(new Date().Format2String('yyyy-MM-dd'),'active');
             this.setDateSelect('2018-01-08','warn');
             this.setDateSelect('2018-01-06','warn');
             this.setDateSelect('2018-01-05','warn');
@@ -69,9 +69,13 @@
             this.setDateSelect('2018-01-02','normal');
             this.setDateSelect('2018-01-01','normal');
             this.setDateSelect('2017-12-31','diabled normal');
-           //this.clickDate();
         },
         methods:{
+            clickDay(idx){
+                if(this.dateList[idx].time){
+                    this.$emit('clickDate',this.dateList[idx].time);
+                }
+            },
             initCalendar(){
                 this.dateList = [
                     {value:'日'}, {value:'一'}, {value:'二'}, {value:'三'}, {value:'四'}, {value:'五'}, {value:'六'}
@@ -89,7 +93,9 @@
                             value: (upMonthDay - (week - i))
                         };
                     }else if(monthCount<=monthDay){
+                        let time = monthCount<10?('0'+monthCount):(''+monthCount);
                         day = {
+                            time:this.time.Format2String('yyyy-MM-')+time,
                             value: monthCount++
                         };
                     }else{
@@ -115,10 +121,6 @@
                 }
                 return -1;
             }
-        },
-        clickDate(){
-            let date = new Date().Format2String('yyyy-MM-dd');
-            this.$emit('clickDate',date);
         }
     }
 </script>
@@ -159,7 +161,7 @@
     {
         color: #999999;
     }
-    .now-date span{
+    .active span{
         display: block;
         margin: 0 auto;
         width: 0.88rem;
