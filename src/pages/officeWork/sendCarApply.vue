@@ -1,5 +1,5 @@
 <template>
-    <div class="body-box">
+    <div class="body-box approvedInput">
         <div class="approved-head">
             <div class="approved-head-row">
                 <div class="approved-head-warp">申请部门：<span class="approved-head-info">xxxx部</span></div>
@@ -66,7 +66,8 @@
                 <div class="approved-body-warp">
                     用车时段：
                     <span class="approved-body-info">
-                        <input type="date" id="sendCarDate" name="sendCarDate" value="">
+                        <label for="sendCarDate" id="sendCarDateLable">{{sendCarDate}}</label>
+                        <input type="date" id="sendCarDate" name="sendCarDate"  v-model="sendCarDate">
                     </span>
                     <div class="selectWrap">
                         <select id="sendCarHour" class="" name="">
@@ -85,6 +86,54 @@
                     <span class="cue">*必填</span>
                 </div>
             </div>
+            <div class="approved-body-row bd-bottom-1">
+                <div class="approved-body-warp aboard-place-box">
+                    <span class="aboard-place-text">上车地点：</span>
+                    <div class="aboard-place-wrap">
+                        <div class="checkbox-box">
+                            <span class="checkbox-name">市区</span>
+                            <div class="checkbox-label">
+                                <label for="shiqu1"><input type="checkbox" id="shiqu1" name="shiqu" value="公司大堂"><i class="checkbox-btn"></i><span class="checkbox-text">公司大堂</span></label>
+                                <label for="shiqu2"><input type="checkbox" id="shiqu2" name="shiqu" value="富健新村"><i class="checkbox-btn"></i><span class="checkbox-text">富健新村</span></label>
+                                <label for="shiqu3"><input type="checkbox" id="shiqu3" name="shiqu" value="富健花园"><i class="checkbox-btn"></i><span class="checkbox-text">富健花园</span></label>
+                                <label for="shiqu4"><input type="checkbox" id="shiqu4" name="shiqu" value="利来山庄"><i class="checkbox-btn"></i><span class="checkbox-text">利来山庄</span></label>
+                                <label for="shiqu5"><input type="checkbox" id="shiqu5" name="shiqu" value="公司大门"><i class="checkbox-btn"></i><span class="checkbox-text">公司大门</span></label>
+                                <label for="shiqu6"><input type="checkbox" id="shiqu6" name="shiqu" value="火车站"><i class="checkbox-btn"></i><span class="checkbox-text">火车站</span></label>
+                            </div>
+                        </div>
+                        <div class="checkbox-box">
+                            <span class="checkbox-name">市外</span>
+                            <div class="checkbox-label">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="approved-body-row bd-bottom-1 passenger-name">
+                <div class="approved-body-warp aboard-place-box">
+                    <span class="aboard-place-text">乘车人姓名：</span>
+                    <div class="aboard-place-wrap">
+                        <div class="checkbox-box">
+                            <div class="checkbox-label">
+                                职工<input type="text" name="" value="张三">
+                            </div>
+                        </div>
+                        <div class="checkbox-box">
+                            <div class="checkbox-label">
+                                来宾<input type="text" name="" value="张三">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="approved-body-row bd-bottom-1 remarks">
+                <div class="approved-body-warp">备注：
+                    <span class="approved-body-info">
+                        <input type="text" id="remarks" name="remarks" value="">
+                    </span>
+                </div>
+            </div>
             <div class="approved-body-row bd-bottom-1 approvalProcess">
                 <div class="approved-body-warp">审批流程：
                     <span class="approved-body-info">
@@ -92,9 +141,9 @@
                         <i></i>
                         <span class="approver">雄辉</span>
                     </span>
-                    <span class="cue">*必填</span>
                 </div>
             </div>
+            <div class="submit">提交</div>
         </div>
     </div>
 </template>
@@ -103,6 +152,7 @@
         name: 'sendCarApply',
         data(){
             return {
+                sendCarDate:"2017-08-09",
                 sendCarHour:['00','01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22','23'],
                 sendCarMinute:['00','01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31','32','33','34','35','36','37','38','39','40','41','42','43','44','45','46','47','48','49','50','51','52','53','54','55','56','57','58','59']
             }
@@ -135,8 +185,12 @@
     .sendCarType #rideNum {
         width: 0.5rem;
     }
+    .sendCarDate #sendCarDateLable {
+        color: #999;
+    }
     .sendCarDate #sendCarDate {
-        width: 65px;
+        width: 0;
+        height: 0;
     }
     #cause {
         width: 2.5rem;
@@ -145,51 +199,26 @@
         margin: 0 0.2rem;
     }
 
-    .approved-body {
-        margin-top: 0.25rem;
-        padding: 0 0.25rem;
-        background-color: #fff;
+
+    .aboard-place-box {
+        display: flex;
     }
-    .approved-body .approved-body-row {
-        padding: 10px 0;
+    .aboard-place-wrap {
+        flex: 1;
+    }
+    .checkbox-box {
+        display: flex;
+    }
+    .passenger-name .aboard-place-text{
         line-height: 30px;
-        overflow: hidden;
     }
-    .approved-body .bd-bottom-1:last-child:before {
-        border-bottom:0;
+    .passenger-name input[type="text"] {
+        margin-left: 10px;
     }
-    .approved-body .cue {
-        float: right;
-        color: #ff6054;
+    .checkbox-box .checkbox-label {
+        flex: 1;
     }
-    .approvalProcess .approver{
-        width: 35px;
-        height: 35px;
-        line-height: 35px;
-        color: #fff;
-        font-size: 12px;
-        text-align: center;
-        display: inline-block;
-        border-radius: 100%;
-        background-color: #fea556;
-    }
-    .approvalProcess i {
-        width: 35px;
-        height: 35px;
-        line-height: 35px;
-        display: inline-block;
-        vertical-align: middle;
-        background-size: 70%;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-image: url('../../assets/img/icon-arrow.png');
-    }
-    .body-box {
-        font-size: 14px;
-    }
-    @media screen and (max-width: 320px) {
-        .body-box {
-            font-size: 12px;
-        }
+    .remarks input[type="text"] {
+        width: 80%;
     }
 </style>

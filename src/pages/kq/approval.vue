@@ -45,10 +45,8 @@
     </div>
 </template>
 <script>
-import { Switch } from 'mint-ui';
 export default {
     name: 'approval',
-    components: { Switch },
     data(){
         return {
             nnapprovedNum:5,

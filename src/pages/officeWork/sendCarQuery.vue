@@ -10,7 +10,7 @@
                 <div class="application-type nnsubmitted">未提交</div>
             </div>
             <ul class="application-list">
-                <router-link to="sendCarDetails">
+                <router-link to="sendCarApply">
                 <li class="application-list-cell">
                     <div class="icon"></div>
                     <div class="application-list-info bd-bottom-1">
@@ -22,7 +22,7 @@
                     </div>
                 </li>
                 </router-link>
-                <router-link to="sendCarDetails">
+                <router-link to="sendCarApply">
                 <li class="application-list-cell">
                     <div class="icon"></div>
                     <div class="application-list-info bd-bottom-1">
@@ -34,7 +34,7 @@
                     </div>
                 </li>
                 </router-link>
-                <router-link to="sendCarDetails">
+                <router-link to="sendCarApply">
                 <li class="application-list-cell">
                     <div class="icon"></div>
                     <div class="application-list-info bd-bottom-1">
@@ -46,7 +46,7 @@
                     </div>
                 </li>
                 </router-link>
-                <router-link to="sendCarDetails">
+                <router-link to="sendCarApply">
                 <li class="application-list-cell">
                     <div class="icon"></div>
                     <div class="application-list-info bd-bottom-1">

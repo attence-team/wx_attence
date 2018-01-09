@@ -11,7 +11,7 @@
                 <div class="application-type retreated">已退回</div>
             </div>
             <ul class="application-list">
-                <router-link to="workLunchDetails">
+                <router-link to="workLunchApply">
                 <li class="application-list-cell">
                     <div class="icon"></div>
                     <div class="application-list-info bd-bottom-1">
@@ -23,7 +23,7 @@
                     </div>
                 </li>
                 </router-link>
-                    <router-link to="workLunchDetails">
+                    <router-link to="workLunchApply">
                 <li class="application-list-cell">
                     <div class="icon"></div>
                     <div class="application-list-info bd-bottom-1">
@@ -35,7 +35,7 @@
                     </div>
                 </li>
                 </router-link>
-                    <router-link to="workLunchDetails">
+                    <router-link to="workLunchApply">
                 <li class="application-list-cell">
                     <div class="icon"></div>
                     <div class="application-list-info bd-bottom-1">
@@ -47,7 +47,7 @@
                     </div>
                 </li>
                 </router-link>
-                    <router-link to="workLunchDetails">
+                    <router-link to="workLunchApply">
                 <li class="application-list-cell">
                     <div class="icon"></div>
                     <div class="application-list-info bd-bottom-1">

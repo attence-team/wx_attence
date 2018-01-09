@@ -1,5 +1,7 @@
 .body-box {
     background-color: #f2f2f2;
+    -webkit-user-select: none; /*webkit浏览器*/
+    user-select: none;
 }
 /*tab切换 */
 .tab-box {
@@ -129,34 +131,12 @@
     font-size: 16px;
     margin-bottom:0px;
 }
-
-/* 申请页面 */
-.approved-head {
-    padding: 0.3rem 0.25rem;
-    background-color: #fff;
-}
-.approved-head .approved-head-row {
-    color: #333;
-    width: 100%;
-    margin-bottom: 0.25rem;
-    overflow: hidden;
-}
-.approved-head .approved-head-row:last-child {
-    margin-bottom: 0;
-}
-.approved-head .approved-head-warp {
-    width: 50%;
-    float: left;
-}
-.approved-head .approved-head-info {
-    color: #999;
-}
 /* 自定义select,input样式 */
 input,select {
     color: #999;
     border: 0;
-    height: 0.6rem;
-    line-height: 0.6rem;
+    height: 30px;
+    line-height: 30px;
     outline:none;
     background-color: #fff;
     box-sizing: border-box;
@@ -221,7 +201,53 @@ input,select {
     background-image: url('../../assets/img/icon-add.png');
 }
 /* 自定义select样式 end*/
-
+/* 自定义复选框 */
+.checkbox-box label {
+    cursor: pointer;
+    display: inline-block;
+    margin-bottom: 10px;
+    margin-left: 5px;
+}
+.checkbox-box .checkbox-name {
+}
+.checkbox-box .checkbox-btn{
+    width: 0.25rem;
+    height: 0.25rem;
+    display: inline-block;
+    vertical-align: middle;
+    border: 1px solid #999;
+    border-radius: 5px;
+    position: relative;
+    overflow: hidden;
+}
+.checkbox-box input[type="checkbox"] {
+    height: 0;
+    width: 0;
+}
+.checkbox-box input[type="checkbox"]:checked + .checkbox-btn {
+    border-color: #3497f5;
+    background-color: #3497f5;
+}
+.checkbox-box input[type="checkbox"]:checked + .checkbox-btn::before {
+    content: "";
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    display: inline-block;
+    background-size: 70%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url('../../assets/img/icon-checkbox.png');
+}
+.checkbox-box .checkbox-text {
+    color: #999;
+    line-height: 0.3rem;
+    vertical-align: middle;
+    margin-left: 5px;
+}
+/* 自定义复选框 end */
 /* 申请列表 */
 .mint-cell-wrapper {
     padding: 0;
@@ -333,3 +359,85 @@ input,select {
     }
 }
 /* 申请列表end */
+
+/* 申请填报 */
+.approvedInput {
+    font-size: 14px;
+}
+@media screen and (max-width: 320px) {
+    .approvedInput {
+        font-size: 12px;
+    }
+}
+.approved-head {
+    padding: 0.3rem 0.25rem;
+    background-color: #fff;
+}
+.approved-head .approved-head-row {
+    color: #333;
+    width: 100%;
+    margin-bottom: 0.25rem;
+    overflow: hidden;
+}
+.approved-head .approved-head-row:last-child {
+    margin-bottom: 0;
+}
+.approved-head .approved-head-warp {
+    width: 50%;
+    float: left;
+}
+.approved-head .approved-head-info {
+    color: #999;
+}
+.approved-body {
+    margin-top: 0.25rem;
+    padding: 0 0.25rem;
+    padding-bottom: 20px;
+    background-color: #fff;
+}
+.approved-body .approved-body-row {
+    padding: 10px 0;
+    overflow: hidden;
+}
+.approved-body .bd-bottom-1:last-child:before {
+    border-bottom:0;
+}
+.approved-body .cue {
+    float: right;
+    line-height: 30px;
+    color: #ff6054;
+}
+.approvalProcess .approver{
+    width: 35px;
+    height: 35px;
+    line-height: 35px;
+    color: #fff;
+    font-size: 12px;
+    text-align: center;
+    display: inline-block;
+    border-radius: 100%;
+    background-color: #fea556;
+}
+.approvalProcess i {
+    width: 35px;
+    height: 35px;
+    line-height: 35px;
+    display: inline-block;
+    vertical-align: middle;
+    background-size: 70%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url('../../assets/img/icon-arrow.png');
+}
+.approved-body .submit {
+    color: #fff;
+    height: 45px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+    line-height: 45px;
+    border-radius: 5px;
+    text-align: center;
+    background-color: #3497f5;
+}
+/* 申请填报 end*/
