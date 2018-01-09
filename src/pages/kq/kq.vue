@@ -29,9 +29,9 @@
                  <mt-cell title="请假" @click.native="goRouter('/kq/leave')" is-link>
                     <img slot="icon" src="../../assets/img/3_icon.png" width="18" height="18">
                  </mt-cell>
-                 <mt-cell title="年休假" @click.native="goRouter('/kq/yearLeave')" is-link>
-                    <img slot="icon" src="../../assets/img/4_icon.png" width="18" height="18">
-                 </mt-cell>
+                 <!--<mt-cell title="年休假" @click.native="goRouter('/kq/yearLeave')" is-link>-->
+                    <!--<img slot="icon" src="../../assets/img/4_icon.png" width="18" height="18">-->
+                 <!--</mt-cell>-->
                  <mt-cell title="申请记录" @click.native="goRouter('/kq/leaveQuery')" is-link>
                     <img slot="icon" src="../../assets/img/12_icon.png" width="18" height="18">
                  </mt-cell>
