@@ -246,7 +246,7 @@
     }
     .table-info .th{
         color: #333;
-        font-weight: 600;
+        /*font-weight: 600;*/
     }
     .table-info .td{
         color: #999;
@@ -362,6 +362,7 @@
         border:none;
         height: 1rem;
         line-height: 1rem;
+        color: #999;
     }
     .group .group-th{
         font-size: .31rem;
@@ -369,7 +370,7 @@
         text-align: left;
         width:2.33rem;
         color: #333;
-        font-weight: 700;
+        /*font-weight: 700;*/
     }
     .group .group-td{
         font-size: 14px;
