@@ -5,21 +5,21 @@
                 <div class="group">
                     <div class="hf-l hf">
                         <label class="th">申请部门：</label>
-                        <span class="td">XXXX部</span>
+                        <span class="td">{{info.dept_name}}</span>
                     </div>
                     <div class="hf-r hf">
                         <label class="th">请假人姓名：</label>
-                        <span class="td">张三</span>
+                        <span class="td">{{info.name}}</span>
                     </div>
                 </div>
                 <div class="group">
                     <div class="hf-l hf">
                         <label class="th">申请时间：</label>
-                        <span class="td">2018-01-05</span>
+                        <span class="td">{{info.sqdate}}</span>
                     </div>
                     <div class="hf-r hf">
                         <label class="th">单据状态：</label>
-                        <span class="td">未提交fffff</span>
+                        <span class="td">{{info.status}}</span>
                     </div>
                 </div>
             </div>
@@ -29,39 +29,39 @@
                 <div class="group bd-bottom-1">
                     <label class="th">请假类型</label>
                     <span class="td td1">
-                        <select class="select">
-                            <option v-for="item in typeList" value="item.value">{{item.name}}</option>
+                        <select class="select" v-model="selected" v-on:click="change">
+                            <option v-for="item in typeList" v-bind:value="item.num">{{item.name}}</option>
                         </select>
                     </span>
                 </div>
                 <div class="group bd-bottom-1">
                     <label class="th">请假起日期</label>
                     <span class="td">
-                        <Date></Date>
-                        <AmPm></AmPm>
+                        <DateComps @setDate="setStartDate"></DateComps>
+                        <!--<AmPm></AmPm>-->
                     </span>
                 </div>
                 <div class="group bd-bottom-1">
                     <label class="th">请假预计止日期</label>
                     <span class="td">
-                        <Date></Date>
-                        <AmPm></AmPm>
+                        <DateComps @setDate="setEndDate"></DateComps>
+                        <!--<AmPm></AmPm>-->
                     </span>
                 </div>
                 <div class="group bd-bottom-1">
                     <label class="th">免打卡次数</label>
                     <span class="td">
-                        <input type="number" class="width-min"  placeholder="请输入">
+                        <input type="number" class="width-min"  placeholder="请输入" v-model="times">
                         <span>次</span>
                     </span>
                 </div>
-                <div class="group bd-bottom-1">
+                <!--<div class="group bd-bottom-1">
                     <label class="th">请假天数</label>
                     <span class="td">
-                        <input type="number" class="width-min" placeholder="请输入">
+                        <input disabled type="number" class="width-min" v-bind:value="leaveDays">
                         <span>天</span>
                     </span>
-                </div>
+                </div>-->
                 <div class="group bd-bottom-1">
                     <label class="th">事由、备注</label>
                     <span class="td" v-on:click="setDisplay($event)">
@@ -76,32 +76,42 @@
             <span class="group-td"><span class="circle">雄辉</span></span>
         </div>
         <div class="pert4 pert">
-            <button>提交</button>
+            <button v-on:click="saveLeave">提交</button>
         </div>
     </div>
 </template>
 <script>
-    import Date from "@/components/query/date";
-    import AmPm from "@/components/query/AmPm";
+    import {KqHttp} from '@/api/kqHttp';
+    import DateComps from "@/components/query/date";
+    import { Toast, Indicator } from 'mint-ui';
+    /*import AmPm from "@/components/query/AmPm";*/
     export default {
         name: 'leave',
         data(){
             return {
-                typeList:[
-                    {value:0, name:'请假类型0'},
-                    {value:1, name:'请假类型1'},
-                    {value:2, name:'请假类型2'},
-                    {value:3, name:'请假类型3'},
-                    {value:4, name:'请假类型4'},
-                    {value:5, name:'请假类型5'}
-                ],
-                ampm:{
+                typeList:[],
+                /*ampm:{
                     value: 'am',
                     text: '上午'
+                },*/
+                //头部信息
+                info:{
+                    dept_name: getUserInfo().dept_name,
+                    name: getUserInfo().name,
+                    sqdate: new Date().Format2String('yyyy-MM-dd'),
+                    status: '未提交'
                 },
+
                 show: 'placeholder',
                 resuly: 'resuly-unshow',
-                text: '',
+                //保存参数
+
+                text: '',//原因、理由
+                selected:'',//请假类型
+                startDate: new Date().Format2String('yyyyMMdd'),//请假开始时间
+                endDate: new Date().Format2String('yyyyMMdd'),//请假预计结束时间
+                leaveDays:'',//请假天数
+                times: 2//免打卡次数
             }
         },
         created(){
@@ -126,9 +136,89 @@
                     this.show = 'unplaceholder';
                     this.resuly = 'resuly-show';
                 }
+            },
+            change(){
+                console.log(this.selected)
+            },
+            setStartDate(date){
+                //console.log(date);
+                this.startDate = date;
+            },
+            setEndDate(date){
+                //console.log(date);
+                this.endDate = date;
+            },
+            getLeaveType(){
+                let _this = this;
+                let params = {staff_num: getUserInfo().staff_num};
+                KqHttp.queryLeaveType(params).then((res)=>{
+                    if(res.code == '1'){
+                        _this.typeList = [];
+                        let data = res.data;
+                        data.forEach(function (value, index) {
+                            _this.typeList.push({
+                                num: value.leave_num,
+                                name: value.leave_cause
+                            })
+                        });
+                        _this.selected = data[0].leave_num;
+                    }
+                });
+            },
+            saveLeave(){
+                let _this = this;
+                let params = {
+                    leave_num: _this.selected,
+                    staff_num: getUserInfo().staff_num,
+                    start_date: _this.startDate,
+                    intending_date: _this.endDate,
+                    times: _this.times,
+                    reason: _this.text
+                    //sys_idkey:''
+                };
+                if(!params.leave_num){
+                    Toast({
+                        message: '请选择请假类型',
+                        duration: 1500
+                    });
+                    return
+                }
+                if(!params.times){
+                    Toast({
+                        message: '请输入免打卡次数',
+                        duration: 1500
+                    });
+                    return
+                }
+                if(!params.reason){
+                    Toast({
+                        message: '请输入请假事由',
+                        duration: 1500
+                    });
+                    return
+                }
+                Indicator.open({
+                    text: '提交中...',
+                    spinnerType: 'fading-circle'
+                });
+                KqHttp.saveLeave(params).then((res)=>{
+                    if(res.code == '1'){
+                        Indicator.close();
+                        Toast({
+                            message: '提交成功',
+                            duration: 1500,
+                            iconClass: 'icon icon-success'
+                        });
+                    }
+                }).catch(res => {
+                    console.log(res);
+                })
             }
         },
-        components:{Date,AmPm}
+        mounted(){
+            this.getLeaveType();
+        },
+        components:{DateComps/*,AmPm*/}
     }
 </script>
 

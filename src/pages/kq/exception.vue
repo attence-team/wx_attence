@@ -4,9 +4,7 @@
         <TimeTool @selectTime="selectTime"></TimeTool>
         <div class="exp-box table-box touch-scroll">
             <div class="info">
-                <!--<div class="fl text-over clearfix">部门：<span>***部</span></div>
-                <div class="fr text-over">请假人姓名：<span>***部</span></div>-->
-                <div class="box1">异常14次（未填单14次）</div>
+                <div class="box1">异常{{exceptionCount.all_count}}次（未刷卡{{exceptionCount.no_punch}}次）</div>
                 <div class="line">
                     <div class="juxing">
                         <div class="point-grey point-lb"></div>
@@ -19,9 +17,9 @@
                     </div>
                 </div>
                 <div class="col">
-                    <div class="color-grey color-l">迟到2次</div>
-                    <div class="color-grey color-c">早退3次</div>
-                    <div class="color-red color-r">未刷卡0次</div>
+                    <div class="color-grey color-l">迟到{{exceptionCount.late}}次</div>
+                    <div class="color-grey color-c">早退{{exceptionCount.early}}次</div>
+                    <div class="color-red color-r">未刷卡{{exceptionCount.no_punch}}次</div>
                 </div>
             </div>
             <TableList :dataList="tableList" :columnNames="columnValue" @optfn="optfn"></TableList>
@@ -29,6 +27,7 @@
     </div>
 </template>
 <script>
+    import {KqHttp} from '@/api/kqHttp';
     import TimeTool from "@/components/query/timetool";
     import TableList from "@/components/query/tablelist";
     export default {
@@ -40,30 +39,78 @@
                 columnValue:{
                     titles:['异常日期','异常类型','处理状态','处理方式'],
                     columnValues:['time','type','status']
+                },
+                startTime:'',
+                endTime:'',
+                exceptionCount:{
+                    all_count:"0",
+                    early:"0",
+                    late:"0",
+                    no_punch:"0"
                 }
             }
         },
         mounted(){
             this.tableList = [
-                {time:'2017-08-09<br>星期五',type:'<i class="color-red2">8：00<br>未刷卡</i>',status:'--'},
-                {time:'2017-08-09<br>星期五',type:'<i class="color-red2">8：00<br>未刷卡</i>',status:'--'},
-                {time:'2017-08-09<br>星期五',type:'<i class="color-red2">8：00<br>未刷卡</i>',status:'--'},
-                {time:'2017-08-09<br>星期五',type:'<i class="color-red2">8：00<br>未刷卡</i>',status:'--'},
-                {time:'2017-08-09<br>星期五',type:'<i class="color-red2">8：00<br>未刷卡</i>',status:'--'},
-                {time:'2017-08-09<br>星期五',type:'<i class="color-red2">8：00<br>未刷卡</i>',status:'--'},
-                {time:'2017-08-09<br>星期五',type:'<i class="color-red2">8：00<br>未刷卡</i>',status:'--'},
-                {time:'2017-08-09<br>星期五',type:'<i class="color-red2">8：00<br>未刷卡</i>',status:'--'},
-                {time:'2017-08-09<br>星期五',type:'<i class="color-red2">8：00<br>未刷卡</i>',status:'--'},
-                {time:'2017-08-09<br>星期五',type:'<i class="color-red2">8：00<br>未刷卡</i>',status:'--'}
+                /*{time:'2017-08-09<br>星期五',type:'<i class="color-red2">8：00<br>未刷卡</i>',status:'--'}*/
             ];
+            this.getAbnormalLeave();
+            this.getAbnormalLeaveCount();
         },
         methods:{
             selectTime(startTime,endTime){
                 console.log(startTime);
                 console.log(endTime);
+                this.startTime = startTime;
+                this.endTime = endTime;
+
+                this.getAbnormalLeave();
+                this.getAbnormalLeaveCount();
             },
             optfn(obj){
                 console.log(obj)
+            },
+            getAbnormalLeave(){
+                let _this = this;
+                let params = {
+                    staff_num: getUserInfo().staff_num,
+                    sdate: new Date(_this.startTime).Format2String('yyyyMMdd'),
+                    edate: new Date(_this.endTime).Format2String('yyyyMMdd'),
+                    currPage: '1',
+                    pageLength: '1000'
+                };
+                KqHttp.queryAbnormalLeave(params).then((res)=>{
+                    if(res.code == '1' && res.data.rowCount > 0){
+                        let data = res.data.pageData;
+                        _this.tableList = [];
+                        data.forEach(function(value){
+                            _this.tableList.push({
+                                time:value.year_month + '<br>' + value.week,
+                                type:'<i class="color-red2">'+ value.bursh_name +'</i>', //+'<br>'+未刷卡+'</i>',
+                                status:'--'
+                            })
+                        })
+                    }
+                });
+            },
+            getAbnormalLeaveCount(){
+                let _this = this;
+                let params = {
+                    staff_num: getUserInfo().staff_num,
+                    sdate: new Date(_this.startTime).Format2String('yyyyMMdd'),
+                    edate: new Date(_this.endTime).Format2String('yyyyMMdd'),
+                };
+                KqHttp.queryAbnormalLeaveCount(params).then((res)=>{
+                    if(res.code == '1'){
+                        _this.exceptionCount = {
+                            all_count: res.data.all_count,
+                            early: res.data.early,
+                            late: res.data.late,
+                            no_punch: res.data.no_punch
+                        }
+                    }
+                    console.log(res);
+                });
             }
         }
     }

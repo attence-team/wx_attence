@@ -1,6 +1,6 @@
 <template>
     <div class="time-text">
-        <input type="date" v-model="input">
+        <input type="date" v-model="input" @change="setDate">
         {{input}}
         <i class="iconfont icon-ext"></i>
     </div>
@@ -18,8 +18,7 @@
         },
         watch:{
             input(curVal,oldVal){
-                this.time = curVal;
-
+                //this.time = curVal;
             }
         },
         mounted(){
@@ -28,6 +27,9 @@
         methods:{
             curMonth(){
                 this.input = new Date().Format2String('yyyy-MM-dd');
+            },
+            setDate(){
+                this.$emit('setDate',new Date(this.input).Format2String('yyyyMMdd'));
             }
         }
     }
