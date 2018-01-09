@@ -16,7 +16,7 @@
             </div>
         </div>
         <div class="calendar-box">
-
+            <CalendarComps :curTime="curTime" @clickDate="clickDate"></CalendarComps>
         </div>
         <div class="day-box">
             <div class="title">2017-10-19具体事宜</div>
@@ -30,12 +30,15 @@
     </div>
 </template>
 <script>
+    import CalendarComps from "@/components/calendar/calendarComps";
     export default {
         name: 'calendar',
+        components:{ CalendarComps },
         data(){
             return {
                 input: new Date().Format2String('yyyy-MM-dd'),
-                time: new Date().Format2String('yyyy-MM-dd')
+                time: new Date().Format2String('yyyy-MM-dd'),
+                curTime: new Date().Format2String('yyyy-MM-dd'),
             }
         },
         filters: {
@@ -53,11 +56,16 @@
         },
         mounted(){
             setTitle('考勤日历');
-
+            this.changeTime(new Date().Format2String('yyyy-MM-dd'));
         },
         methods:{
             changeTime(stime,etime){
-
+                console.log('开始时间：'+stime);
+                console.log('结束时间：'+etime);
+                this.curTime = stime;
+            },
+            clickDate(selectTime){
+                console.log('点击了时间：'+selectTime)
             },
             curMonth(){
                 this.input = new Date().Format2String('yyyy-MM-dd');
@@ -72,7 +80,7 @@
             },
             selectTime(){
                 let month = this.input.Format2String('yyyy-MM');
-                this.changeTime('selectTime',month+'-01',month+'-'+this.input.getMonthDay());
+                this.changeTime(month+'-01',month+'-'+this.input.getMonthDay());
             }
         }
     }
@@ -81,9 +89,6 @@
     .calendar-box{
         height: 43vh;
         background-color: #fff;
-        background-image: url("../../assets/img/calendar.jpg");
-        background-size: cover;
-        background-position: 100% 100%;
     }
     .day-box{
         background-color: #fff;
