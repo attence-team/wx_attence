@@ -29,7 +29,7 @@
                 <div class="group bd-bottom-1">
                     <label class="th">请假类型</label>
                     <span class="td td1">
-                        <select class="select" v-model="selected" v-on:click="change">
+                        <select class="select" v-model="selected" v-on:click="change" dir="rtl">
                             <option v-for="item in typeList" v-bind:value="item.num">{{item.name}}</option>
                         </select>
                     </span>
@@ -52,7 +52,7 @@
                     <label class="th">免打卡次数</label>
                     <span class="td">
                         <input type="number" class="width-min"  placeholder="请输入" v-model="times">
-                        <span>次</span>
+                        <span style="padding-right: .15rem;">次</span>
                     </span>
                 </div>
                 <!--<div class="group bd-bottom-1">
@@ -299,10 +299,10 @@
     .pert2 .table-info .group:nth-child(5) .td{
         width: calc(100% - 1.7rem)
     }
-    .pert2 .table-info .group:nth-child(6) .th{
+    .pert2 .table-info .group:last-child .th{
         width: 1.7rem;
     }
-    .pert2 .table-info .group:nth-child(6) .td{
+    .pert2 .table-info .group:last-child .td{
         width: calc(100% - 1.7rem);
         text-align: right;
     }
@@ -312,6 +312,7 @@
         border-radius: 4px;
         height: .6rem;
         line-height: .6rem;
+        text-align: right;
     }
     .pert2 .table-info .td select:focus {
         border: solid 1px #3497F5;
@@ -338,7 +339,7 @@
     }
     .placeholder{
         color: #ff6054;
-        padding: 0 .15rem;
+        /*padding: 0 .15rem;*/
         width: 100%;
         border: none;
         text-align: right;
@@ -346,7 +347,7 @@
         line-height: .9rem;
         position: absolute;
         top:0;
-        right:0;
+        right: .32rem;
 
     }
     .pert2 .table-info .td input.text-resuly:focus{
@@ -358,7 +359,7 @@
     }
     .pert2 .table-info .td input.width-min{
         text-align: right;
-        padding:0 .1rem;
+        padding:0 0 0 .1rem;
         border:none;
         height: 1rem;
         line-height: 1rem;
@@ -402,6 +403,14 @@
     }
     .ampm{
         display: inline-block;
+    }
+    select{
+        padding: 0 2%;
+        text-align:right;
+    }
+
+    option{
+        text-align:right;
     }
 
     @media screen and (max-width: 320px) {
