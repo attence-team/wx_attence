@@ -19,9 +19,9 @@
                     </div>
                 </div>
                 <div class="col">
-                    <div class="color-grey">迟到2次</div>
-                    <div class="color-grey">早退3次</div>
-                    <div class="color-red">未刷卡0次</div>
+                    <div class="color-grey color-l">迟到2次</div>
+                    <div class="color-grey color-c">早退3次</div>
+                    <div class="color-red color-r">未刷卡0次</div>
                 </div>
             </div>
             <TableList :dataList="tableList" :columnNames="columnValue" @optfn="optfn"></TableList>
@@ -88,26 +88,26 @@
         height: .8rem;
         background-color: #FF6054;
         line-height: .8rem;
-        font-size: .35rem;
+        font-size: .3rem;
         color: #ffffff;
-        margin: 0 15%;
+        margin: 0 auto;
         text-align:center;
         border-radius:5px;
+        width: calc(100% - 2.5rem);
     }
     .line{
-        //height: 1.5rem;
         padding-top: .5rem;
         position: relative;
-
     }
     .line .juxing{
-        margin: 0 12%;
+        margin: 0 auto;
         border: 1px solid #ddd;
         border-bottom: none;
         height: .7rem;
         line-height: .7rem;
         position: relative;
         padding: 0 3px;
+        width: calc(100% - 2.1rem);
     }
     .point-grey{
         display: block;
@@ -137,13 +137,13 @@
         position: absolute;
         top:0;
         left:50%;
-        width:.24rem;
-        margin-left: -.12rem;
+        width:12px;
+        margin-left: -6px;
     }
     .sanjiao{
         width:0;
         height:0;
-        border-width:.12rem;
+        border-width: 8px 6px 8px 6px;
         border-style:solid;
         border-color: #ff6054 #fff #fff #fff;
         z-index: 99;
@@ -152,14 +152,14 @@
         width:1px;
         height:100%;
         background-color: #ddd;
-        position: absolute;
-        top: 0;
-        left: .12rem;
-        border-top:.12rem solid #ff6054;
+        /* position: absolute; */
+        /* top: 0; */
+        /* left: 6px; */
+        margin: -8px auto 0;
+        /* display: inline-block; */
     }
     .col{
         display: flex;
-        //margin: 0 11%;
         text-align: center;
         justify-content: space-between;
     }
@@ -169,7 +169,7 @@
         font-size: .3rem;
         height: .7rem;
         text-align: center;
-        padding: 0 .5rem;
+        width:2.1rem;
         z-index: 9;
     }
     .color-grey{

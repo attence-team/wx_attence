@@ -64,8 +64,9 @@
                 </div>
                 <div class="group bd-bottom-1">
                     <label class="th">事由、备注</label>
-                    <span class="td">
-                        <input class="text-resuly" value="请输入请假事由（必填）" v-on:focus="setValue($event)"  v-on:blur="clearValue($event)" >
+                    <span class="td" v-on:click="setDisplay($event)">
+                        <input id="resuly" v-model="text" class="text-resuly" :class="resuly" v-on:focus="setValue($event)" v-on:blur="clearValue($event)">
+                        <span :class="show">请输入请假事由（必填）</span>
                     </span>
                 </div>
             </div>
@@ -97,20 +98,33 @@
                 ampm:{
                     value: 'am',
                     text: '上午'
-                }
+                },
+                show: 'placeholder',
+                resuly: 'resuly-unshow',
+                text: '',
             }
         },
         created(){
 
         },
         methods:{
+            setDisplay(event){
+                this.show = 'unplaceholder';
+                this.resuly = 'resuly-show';
+                document.getElementById("resuly").focus();
+            },
             setValue(event){
-                let taregt = event.target;
-                taregt.setAttribute('value', '');
+                this.show = 'unplaceholder';
+                this.resuly = 'text-resuly1';
             },
             clearValue(event){
-                let taregt = event.target;
-                taregt.setAttribute('value', '请输入请假事由（必填）');
+                if(this.text == ''){
+                    this.show = 'placeholder';
+                    this.resuly = 'resuly-unshow';
+                }else{
+                    this.show = 'unplaceholder';
+                    this.resuly = 'resuly-show';
+                }
             }
         },
         components:{Date,AmPm}
@@ -172,6 +186,7 @@
     .pert2 .table-info .td{
         font-size: .30rem;
         line-height: 1rem;
+        height: 1rem;
         text-align: right;
         float: right;
     }
@@ -215,23 +230,32 @@
         padding: 0 .15rem;
         width: 100%;
         border: none;
-        height: 4.5vh;
-        line-height: 4.5vh;
+        color: #999;
+        text-align: right;
+        height: 1rem;
+        line-height: 1rem;
+    }
+    .pert2 .table-info .td input.resuly-unshow{
+        display: none;
+    }
+    .pert2 .table-info .td input.resuly-show{
+        display: inline;
+    }
+    .unplaceholder{
+        display: none;
+    }
+    .placeholder{
         color: #ff6054;
+        padding: 0 .15rem;
+        width: 100%;
+        border: none;
         text-align: right;
-    }
-    .pert2 .table-info .td input.text-resuly:focus{
-        color: #333;
-    }
-    .pert2 .table-info .td input.width-min{
-        text-align: right;
-        padding:0 .1rem;
-        border:none;
-    }
-    .pert2 .table-info .td input.date{
-        width: 2.1rem;
-        text-align: right;
-        padding:0 .1rem;
+        height: .9rem;
+        line-height: .9rem;
+        position: absolute;
+        top:0;
+        right:0;
+
     }
     .pert2 .table-info .td input.text-resuly:focus{
         border: none;
@@ -239,6 +263,13 @@
         height: 4.5vh;
         line-height: 4.5vh;
         color: #999;;
+    }
+    .pert2 .table-info .td input.width-min{
+        text-align: right;
+        padding:0 .1rem;
+        border:none;
+        height: 1rem;
+        line-height: 1rem;
     }
     .group .group-th{
         font-size: .31rem;
@@ -260,7 +291,7 @@
         height: .8rem;
         line-height: .8rem;
         text-align: center;
-        background-color: rgba(254, 165, 88, 1);
+        background-color: #FEA558;
         color: #fff;
         border-radius: 50%;
         display: inline-block;
@@ -269,9 +300,9 @@
     .pert4 button{
         width: 100%;
         height: .8rem;
-        background-color: rgba(52, 151, 245, 1);
+        background-color: #3497F5;
         border-radius: 4px;
-        border: 1px solid rgba(52, 151, 245, 1);
+        border: 1px solid #3497F5;
         cursor: pointer;
         color: #fff;
         font-size:18px;
