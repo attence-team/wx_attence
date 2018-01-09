@@ -57,11 +57,11 @@
 }
 .menu-nav .title i{
     display: inline-block;
-    width: 0.32rem;
-    height: 0.32rem;
+    width: 0.4rem;
+    height: 0.4rem;
     background-size: cover;
     margin-right: 0.12rem;
-    vertical-align: -0.06rem;
+    vertical-align: -0.1rem;
 }
 .menu-list{
     padding: 0 0.2rem 0 0;
