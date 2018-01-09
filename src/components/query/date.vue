@@ -39,7 +39,7 @@
         position: relative;
         display: inline-block;
         text-align: left;
-        color: #333;
+        color: #999;
         width: 1.78rem;
         height: .8rem;
     }
