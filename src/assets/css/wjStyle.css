@@ -101,7 +101,7 @@
     padding: 0.3rem 0;
     margin-left: 1.7rem;
 }
-.approval-list .approval-list-cell:last-child .approval-info{
+.approval-list .approval-list-cell a:last-child .approval-info{
     border-bottom: 0;
 }
 .approval-info p {
@@ -129,3 +129,207 @@
     font-size: 16px;
     margin-bottom:0px;
 }
+
+/* 申请页面 */
+.approved-head {
+    padding: 0.3rem 0.25rem;
+    background-color: #fff;
+}
+.approved-head .approved-head-row {
+    color: #333;
+    width: 100%;
+    margin-bottom: 0.25rem;
+    overflow: hidden;
+}
+.approved-head .approved-head-row:last-child {
+    margin-bottom: 0;
+}
+.approved-head .approved-head-warp {
+    width: 50%;
+    float: left;
+}
+.approved-head .approved-head-info {
+    color: #999;
+}
+/* 自定义select,input样式 */
+input,select {
+    color: #999;
+    border: 0;
+    height: 0.6rem;
+    line-height: 0.6rem;
+    outline:none;
+    background-color: #fff;
+    box-sizing: border-box;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+.selectWrap {
+    position: relative;
+    line-height: normal;
+    display: inline-block;
+    border-radius: 5px;
+    border: 1px solid #3497f5;
+}
+
+.selectWrap select {
+    width: 100%;
+    padding: 0 0.5rem 0 0.1rem;
+    border-radius: 5px;
+}
+.selectBtn {
+    width: 0.4rem;
+    border-radius: 0 5px 5px 0;
+    position: absolute;
+    top: -1px;
+    bottom: -1px;
+    right: -1px;
+    overflow: hidden;
+    background-color: #3497f5;
+}
+.selectBtn::before,.selectBtn::after {
+    content: "";
+    width: 100%;
+    height: 50%;
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 50%;
+    background-image: url('../../assets/img/icon-select.png');
+    position: absolute;
+}
+.selectBtn::before {
+    top: 0;
+    right: 0;
+    transform: rotate(180deg);
+}
+.selectBtn::after {
+    bottom: 0;
+    right: 0;
+}
+.addBtn {
+    width: 0.35rem;
+    height: 0.35rem;
+    line-height: 0.35rem;
+    display: inline-block;
+    vertical-align: middle;
+    border-radius: 100%;
+    background-color: #9ccfff;
+    background-size: 50%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url('../../assets/img/icon-add.png');
+}
+/* 自定义select样式 end*/
+
+/* 申请列表 */
+.mint-cell-wrapper {
+    padding: 0;
+}
+.application-list-box{
+    padding: 0 0.3rem;
+    background-color: #fff;
+}
+.application-type-box {
+    display: flex;
+    padding: 0.4rem 0;
+}
+.application-type-box .application-type {
+    flex:1;
+    color: #fff;
+    font-size: 14px;
+    padding: 0.2rem 0;
+    border-radius: 5px;
+    text-align: center;
+    margin-left: 0.3rem;
+    background-color: #aaa;
+}
+.application-type-box .nnsubmitted {
+    background-color: #ff8922;
+}
+.application-type-box .approved {
+    background-color: #11bf84;
+}
+.application-type-box .retreated {
+    background-color: #f3725f;
+}
+.application-type-box .approvaling {
+    background-color: #5ac0de;
+}
+.application-type-box .application-type:first-child {
+    margin-left: 0;
+}
+
+.application-list-box .application-list{
+}
+.application-list .application-list-cell {
+    display: flex;
+    align-items: center;
+}
+.application-list .icon {
+    width: 0.7rem;
+    height: 0.7rem;
+    border-radius: 5px;
+    background-color: #bbb;
+    background-image: url('../../assets/img/workLunch-icon.png');
+    background-repeat: no-repeat;
+    background-size: 65%;
+    background-position: center;
+}
+.application-list .application-list-info {
+    flex: 1;
+    font-size: 14px;
+    padding: 0.35rem 0;
+    margin-left: 0.3rem;
+}
+.application-list .application-title-date {
+    margin-bottom: 0.3rem;
+}
+.application-list .application-title {
+    color: #000;
+    font-size: 16px;
+}
+.application-list .application-date {
+    color: #666;
+    float: right;
+    line-height: 21px;
+}
+.application-list .eat-type {
+    color: #999;
+}
+.application-list .application-title span {
+    color: #aaa;
+}
+.application-list .application-title .nnsubmitted {
+    color: #ff8922;
+}
+.application-list .application-title .approved {
+    color: #11bf84;
+}
+.application-list .application-title .retreated {
+    color: #f3725f;
+}
+.application-list .application-title .approvaling {
+    color: #5ac0de;
+}
+
+.application-list a:last-child .application-list-cell .bd-bottom-1::before {
+    border-bottom:0;
+}
+
+@media screen and (max-width: 320px) {
+    .application-type-box .application-type {
+        font-size: 12px
+    }
+    .application-list .application-list-info {
+        font-size: 12px;
+    }
+    .application-list .application-title {
+        color: #000;
+        font-size: 14px;
+    }
+    .application-list .application-date {
+        line-height: 19px;
+    }
+}
+/* 申请列表end */
