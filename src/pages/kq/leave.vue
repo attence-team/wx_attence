@@ -52,7 +52,7 @@
                     <label class="th">免打卡次数</label>
                     <span class="td">
                         <input type="number" class="width-min"  placeholder="请输入" v-model="times">
-                        <span style="padding-right: .15rem;">次</span>
+                        <span style="padding-right: .1rem;">次</span>
                     </span>
                 </div>
                 <!--<div class="group bd-bottom-1">
@@ -347,7 +347,7 @@
         line-height: .9rem;
         position: absolute;
         top:0;
-        right: .32rem;
+        right: .25rem;
 
     }
     .pert2 .table-info .td input.text-resuly:focus{
