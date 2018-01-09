@@ -23,6 +23,9 @@ import WorkLunchApply from 'pages/officeWork/workLunchApply';
 import SendCarQuery from 'pages/officeWork/sendCarQuery';
 import WorkLunchQuery from 'pages/officeWork/workLunchQuery';
 
+import SendCarDetails from 'pages/officeWork/sendCarDetails';
+import WorkLunchDetails from 'pages/officeWork/workLunchDetails';
+
 Router.prototype.goBack = function () {
     this.isBack = true;
     window.history.go(-1);
@@ -159,6 +162,19 @@ export default new Router({
                   path: 'workLunchQuery',
                   components: {
                       body: WorkLunchQuery
+                  }
+              }
+              ,
+              {
+                  path: 'SendCarDetails',
+                  components: {
+                      body: SendCarDetails
+                  }
+              },
+              {
+                  path: 'workLunchDetails',
+                  components: {
+                      body: WorkLunchDetails
                   }
               }
           ]

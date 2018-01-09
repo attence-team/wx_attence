@@ -10,12 +10,14 @@
                 <div class="approved-head-warp">单据状态：<span class="approved-head-info">未提交</span></div>
             </div>
         </div>
-        <div class="approved-body"></div>
+        <div class="approved-body">
+            派车单据详情
+        </div>
     </div>
 </template>
 <script>
     export default {
-        name: 'workLunchApply',
+        name: 'sendCarDetails',
         data(){
             return {
 

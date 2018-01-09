@@ -13,7 +13,7 @@
         <div class="approved-body">
             <div class="approved-body-row bd-bottom-1 sendCarType">
                 <div class="approved-body-warp">
-                    派车类型：
+                    派车类型
                     <div class="selectWrap">
                         <select id="sendCarType" class="" name="">
                             <option value="">市区内派车</option>
@@ -32,8 +32,17 @@
             <div class="approved-body-row bd-bottom-1">
                 <div class="approved-body-warp">用车事由：
                     <span class="approved-body-info">
-                        <input type="text" name="" value="接公司领导">
+                        <input type="text" id="cause" name="cause" value="接公司领导">
                     </span>
+                    <span class="cue">请输入用车事由*必填</span>
+                </div>
+            </div>
+            <div class="approved-body-row bd-bottom-1">
+                <div class="approved-body-warp">行程路线：
+                    <span class="approved-body-info">
+                        <input type="text" name="" class="route" value=""> - <input type="text" name="" class="route" value="">
+                    </span>
+                    <i class="addBtn"></i>
                     <span class="cue">*必填</span>
                 </div>
             </div>
@@ -45,120 +54,142 @@
                     <span class="cue">*必填</span>
                 </div>
             </div>
+            <div class="approved-body-row bd-bottom-1">
+                <div class="approved-body-warp">联系电话：
+                    <span class="approved-body-info">
+                        <input type="tel" name="" value="18888888888">
+                    </span>
+                    <span class="cue">*必填</span>
+                </div>
+            </div>
+            <div class="approved-body-row bd-bottom-1 sendCarDate">
+                <div class="approved-body-warp">
+                    用车时段：
+                    <span class="approved-body-info">
+                        <input type="date" id="sendCarDate" name="sendCarDate" value="">
+                    </span>
+                    <div class="selectWrap">
+                        <select id="sendCarHour" class="" name="">
+                            <option v-for="hour in sendCarHour" :value="hour">{{hour}}</option>
+                        </select>
+                        <div class="selectBtn"></div>
+                    </div>
+                    时
+                    <div class="selectWrap">
+                        <select id="sendCarMinute" class="" name="">
+                            <option v-for="minute in sendCarMinute" :value="minute">{{minute}}</option>
+                        </select>
+                        <div class="selectBtn"></div>
+                    </div>
+                    分
+                    <span class="cue">*必填</span>
+                </div>
+            </div>
+            <div class="approved-body-row bd-bottom-1 approvalProcess">
+                <div class="approved-body-warp">审批流程：
+                    <span class="approved-body-info">
+                        <span class="approver">李四</span>
+                        <i></i>
+                        <span class="approver">雄辉</span>
+                    </span>
+                    <span class="cue">*必填</span>
+                </div>
+            </div>
         </div>
     </div>
 </template>
 <script>
     export default {
-        name: 'sendCarApply'
+        name: 'sendCarApply',
+        data(){
+            return {
+                sendCarHour:['00','01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22','23'],
+                sendCarMinute:['00','01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31','32','33','34','35','36','37','38','39','40','41','42','43','44','45','46','47','48','49','50','51','52','53','54','55','56','57','58','59']
+            }
+        },
+        mounted(){
+
+        },
+        methods:{
+            selectTime(startTime,endTime){
+                console.log(startTime);
+                console.log(endTime);
+            }
+        }
     }
 </script>
 <style lang="css" scoped>
-    /* 自定义select,input样式 */
-    input,select {
-        color: #999;
-        border: 0;
-        height: 0.6rem;
-        line-height: 0.6rem;
-        outline:none;
-        background-color: #fff;
-        box-sizing: border-box;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
-    }
-    input {
-        border:0;
-        font-size: 16px;
-    }
-    .selectWrap {
-        position: relative;
-        line-height: normal;
-        display: inline-block;
+
+    .route {
+        width: 1.2rem;
         border-radius: 5px;
+        padding: 0 0.1rem;
         border: 1px solid #3497f5;
     }
-    .selectWrap select {
-        width: 100%;
-        padding: 0 0.6rem 0 0.2rem;
-        border-radius: 5px;
-    }
-    .selectBtn {
-        width: 0.4rem;
-        border-radius: 0 5px 5px 0;
-        position: absolute;
-        top: -1px;
-        bottom: -1px;
-        right: -1px;
-        overflow: hidden;
-        background-color: #3497f5;
-    }
-    .selectBtn::before,.selectBtn::after {
-        content: "";
-        width: 100%;
-        height: 50%;
-        display: inline-block;
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: 50%;
-        background-image: url('../../assets/img/select-icon.png');
-        position: absolute;
-    }
-    .selectBtn::before {
-        top: 0;
-        right: 0;
-        transform: rotate(180deg);
-    }
-    .selectBtn::after {
-        bottom: 0;
-        right: 0;
-    }
-    /* 自定义select样式 end*/
     .sendCarType .selectWrap {
         width: 2.2rem;
     }
+    .sendCarDate .selectWrap {
+        /* width: 1.1rem; */
+    }
     .sendCarType #rideNum {
-
+        width: 0.5rem;
     }
-    .body-box {
-        font-size: 14px;
+    .sendCarDate #sendCarDate {
+        width: 65px;
     }
-    .approved-head {
-        padding: 0.3rem;
-        background-color: #fff;
+    #cause {
+        width: 2.5rem;
     }
-    .approved-head .approved-head-row {
-        color: #333;
-        width: 100%;
-        margin-bottom: 0.25rem;
-        overflow: hidden;
-    }
-    .approved-head .approved-head-row:last-child {
-        margin-bottom: 0;
-    }
-    .approved-head .approved-head-warp {
-        width: 50%;
-        float: left;
-    }
-    .approved-head .approved-head-info {
-        color: #999;
+    .sendCarType .selectWrap {
+        margin: 0 0.2rem;
     }
 
     .approved-body {
         margin-top: 0.25rem;
-        padding: 0 0.3rem;
+        padding: 0 0.25rem;
         background-color: #fff;
     }
     .approved-body .approved-body-row {
-        height: 1rem;
-        line-height: 1rem;
+        padding: 10px 0;
+        line-height: 30px;
         overflow: hidden;
     }
-    .approved-body .bd-bottom-1:before {
+    .approved-body .bd-bottom-1:last-child:before {
         border-bottom:0;
     }
     .approved-body .cue {
         float: right;
         color: #ff6054;
+    }
+    .approvalProcess .approver{
+        width: 35px;
+        height: 35px;
+        line-height: 35px;
+        color: #fff;
+        font-size: 12px;
+        text-align: center;
+        display: inline-block;
+        border-radius: 100%;
+        background-color: #fea556;
+    }
+    .approvalProcess i {
+        width: 35px;
+        height: 35px;
+        line-height: 35px;
+        display: inline-block;
+        vertical-align: middle;
+        background-size: 70%;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-image: url('../../assets/img/icon-arrow.png');
+    }
+    .body-box {
+        font-size: 14px;
+    }
+    @media screen and (max-width: 320px) {
+        .body-box {
+            font-size: 12px;
+        }
     }
 </style>
