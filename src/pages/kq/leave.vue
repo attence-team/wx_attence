@@ -203,13 +203,13 @@
     .pert2 .table-info .td select{
         width: 100%;
         border: solid 1px #3497F5;
-        border-radius: 6px;
+        border-radius: 4px;
         height: .6rem;
         line-height: .6rem;
     }
     .pert2 .table-info .td select:focus {
         border: solid 1px #3497F5;
-        border-radius: 6px;
+        border-radius: 4px;
     }
     .pert2 .table-info .td input.text-resuly{
         padding: 0 .15rem;
@@ -217,7 +217,7 @@
         border: none;
         height: 4.5vh;
         line-height: 4.5vh;
-        color: #f20d0d;
+        color: #ff6054;
         text-align: right;
     }
     .pert2 .table-info .td input.text-resuly:focus{
@@ -270,7 +270,7 @@
         width: 100%;
         height: .8rem;
         background-color: rgba(52, 151, 245, 1);
-        border-radius: 6px;
+        border-radius: 4px;
         border: 1px solid rgba(52, 151, 245, 1);
         cursor: pointer;
         color: #fff;
