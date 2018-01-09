@@ -111,7 +111,7 @@
             setDisplay(event){
                 this.show = 'unplaceholder';
                 this.resuly = 'resuly-show';
-                document.getElementById("resuly").focus();
+                
             },
             setValue(event){
                 this.show = 'unplaceholder';
@@ -236,10 +236,11 @@
         line-height: 1rem;
     }
     .pert2 .table-info .td input.resuly-unshow{
-        display: none;
+        z-index: 9;
+        opacity: 0;
     }
     .pert2 .table-info .td input.resuly-show{
-        display: inline;
+        opacity: 1;
     }
     .unplaceholder{
         display: none;
