@@ -87,7 +87,7 @@
 </script>
 <style lang="css" scoped>
     .calendar-box{
-        height: 43vh;
+        /*height: 43vh;*/
         background-color: #fff;
     }
     .day-box{
