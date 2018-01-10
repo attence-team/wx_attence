@@ -22,7 +22,8 @@
             return {
                 startTime: new Date().Format2String('yyyy-MM-dd'),
                 time: new Date().Format2String('yyyy-MM-dd'),
-                endTime: new Date().Format2String('yyyy-MM-dd')
+                endTime: new Date().Format2String('yyyy-MM-dd'),
+                timeout:0
             }
         },
         filters: {
@@ -62,7 +63,12 @@
             selectTime(){
                 let stime = this.startTime.Format2String('yyyy-MM-dd');
                 let etime = this.endTime.Format2String('yyyy-MM-dd');
-                this.$emit('selectTime',stime,etime);
+                if(this.timeout) return;
+                this.timeout = setTimeout(()=>{
+                    clearTimeout(this.timeout);
+                    this.timeout = 0;
+                    this.$emit('selectTime',stime,etime);
+                },100);
             }
         }
     }

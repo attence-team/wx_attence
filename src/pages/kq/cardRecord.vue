@@ -27,8 +27,7 @@
                 },
                 userInfo:{},
                 sdate:'',
-                edate:'',
-                timeout:0
+                edate:''
             }
         },
         activated(){
@@ -50,14 +49,9 @@
                     currPage:'1',
                     pageLength:'30'
                 };
-                if(this.timeout) return;
-                this.timeout = setTimeout(()=>{
-                    clearTimeout(this.timeout);
-                    this.timeout = 0;
-                    KqHttp.queryCardRecaordList(params).then((res)=>{
-                        this.tableList = res.data.pageData;
-                    });
-                },100);
+                KqHttp.queryCardRecaordList(params).then((res)=>{
+                    this.tableList = res.data.pageData;
+                });
             }
         }
     }
