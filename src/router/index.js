@@ -26,6 +26,9 @@ import WorkLunchQuery from 'pages/officeWork/workLunchQuery';
 import SendCarDetails from 'pages/officeWork/sendCarDetails';
 import WorkLunchDetails from 'pages/officeWork/workLunchDetails';
 
+import DayCount from 'pages/prodSalesStock/dayCount';
+
+
 Router.prototype.goBack = function () {
     this.isBack = true;
     window.history.go(-1);
@@ -54,6 +57,12 @@ export default new Router({
                   path: 'kq',
                   components: {
                       body: Kq_home
+                  }
+              },
+              {
+                  path: 'counts',
+                  components: {
+                      body: DayCount
                   }
               }
           ]
