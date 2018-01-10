@@ -2,7 +2,7 @@
     <!--原始刷卡记录-->
     <div class="body-box cardRecord">
         <TimeTool @selectTime="selectTime"></TimeTool>
-        <div class="exp-box table-box touch-scroll">
+        <div class="exp-box table-box scroll">
             <div class="info">
                 <div class="fl text-over clearfix">部门：<span>{{userInfo.dept_name}}</span></div>
                 <div class="fr text-over">姓名：<span>{{userInfo.name}}</span></div>
@@ -33,6 +33,35 @@
         activated(){
             setTitle('原始刷卡记录');
             this.userInfo = getUserInfo();
+            //this.queryList();
+//            this.tableList = [
+//                {year_month:'66666666',week:'星期一',bursh_time:'10:10:10'},
+//                {year_month:'20181010',week:'星期一',bursh_time:'10:10:10'},
+//                {year_month:'20181010',week:'星期一',bursh_time:'10:10:10'},
+//                {year_month:'20181010',week:'星期一',bursh_time:'10:10:10'},
+//                {year_month:'20181010',week:'星期一',bursh_time:'10:10:10'},
+//                {year_month:'20181010',week:'星期一',bursh_time:'10:10:10'},
+//                {year_month:'20181010',week:'星期一',bursh_time:'10:10:10'},
+//                {year_month:'20181010',week:'星期一',bursh_time:'10:10:10'},
+//                {year_month:'0000000',week:'星期一',bursh_time:'10:10:10'},
+//                {year_month:'20181010',week:'星期一',bursh_time:'10:10:10'},
+//                {year_month:'20181010',week:'星期一',bursh_time:'10:10:10'},
+//                {year_month:'20181010',week:'星期一',bursh_time:'10:10:10'},
+//                {year_month:'111111111',week:'星期一',bursh_time:'10:10:10'},
+//                {year_month:'20181010',week:'星期一',bursh_time:'10:10:10'},
+//                {year_month:'20181010',week:'星期一',bursh_time:'10:10:10'},
+//                {year_month:'20181010',week:'星期一',bursh_time:'10:10:10'},
+//                {year_month:'20181010',week:'星期一',bursh_time:'10:10:10'},
+//                {year_month:'20181010',week:'星期一',bursh_time:'10:10:10'},
+//                {year_month:'20181010',week:'星期一',bursh_time:'10:10:10'},
+//                {year_month:'20181010',week:'星期一',bursh_time:'10:10:10'},
+//                {year_month:'20181010',week:'星期一',bursh_time:'10:10:10'},
+//                {year_month:'20181010',week:'星期一',bursh_time:'10:10:10'},
+//                {year_month:'20181010',week:'星期一',bursh_time:'10:10:10'},
+//                {year_month:'20181010',week:'星期一',bursh_time:'10:10:10'},
+//                {year_month:'20181010',week:'星期一',bursh_time:'10:10:10'},
+//                {year_month:'20181010',week:'星期一',bursh_time:'10:10:10'}
+//            ];
         },
         methods:{
             selectTime(startTime,endTime){
@@ -80,7 +109,7 @@
     }
     .table-box{
         background-color: #fff;
-        padding: 0 .25rem;
+        padding: 0.1rem;
         min-height: calc(100% - 1rem);
     }
 </style>
