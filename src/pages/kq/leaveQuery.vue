@@ -12,21 +12,21 @@
             <button class="mint-button mint-button--primary mint-button--normal query">
                 <label class="mint-button-text">查询</label>
             </button>
-            <TableCell :dataList="tableList" :columnNames="columnValue"></TableCell>
+            <TableCellAuto :dataList="tableList" :columnNames="columnValue"></TableCellAuto>
         </div>
     </div>
 </template>
 <script>
-    import TableCell from "@/components/query/tablecell";
+    import TableCellAuto from "@/components/query/tablecellauto";
     export default {
         name: 'cardRecord',
-        components:{TableCell},
+        components:{TableCellAuto},
         data(){
             return {
                 tableList:[],
                 columnValue:{
-                    titles:['姓名','月工作日','实际出勤日'],
-                    columnValues:['v1','v2','v3'],
+                    titles:['','姓名','实际出勤日','年休假','出差','月工作日','外出办事','补休','学习假','哺乳时间'],
+                    columnValues:['v1','v2','v3','v4','v5','v6','v7','v8','v9'],
                 },
                 userInfo:{},
                 sdate:'',
@@ -41,22 +41,18 @@
         methods:{
             queryList(){
                 this.tableList = [
-                    {v1:'张三', v2:'22', v3:'22'},
-                    {v1:'张三', v2:'22', v3:'22'},
-                    {v1:'张三', v2:'22', v3:'22'},
-                    {v1:'张三', v2:'22', v3:'22'},
-                    {v1:'张三', v2:'22', v3:'22'},
-                    {v1:'张三', v2:'22', v3:'22'},
-                    {v1:'张三', v2:'22', v3:'22'},
-                    {v1:'张三', v2:'22', v3:'22'},
-                    {v1:'张三', v2:'22', v3:'22'},
-                    {v1:'张三', v2:'22', v3:'22'},
-                    {v1:'张三', v2:'22', v3:'22'},
-                    {v1:'张三', v2:'22', v3:'22'},
-                    {v1:'张三', v2:'22', v3:'22'},
-                    {v1:'张三', v2:'22', v3:'22'},
-                    {v1:'张三', v2:'22', v3:'22'},
-                    {v1:'张三', v2:'22', v3:'22'}
+                    {v1:'张三', v2:'22', v3:'2', v4:'3', v5:'4', v6:'0', v7:'1', v8:'3', v9:'6'},
+                    {v1:'张三', v2:'22', v3:'2', v4:'3', v5:'4', v6:'0', v7:'1', v8:'3', v9:'6'},
+                    {v1:'张三', v2:'22', v3:'2', v4:'3', v5:'4', v6:'0', v7:'1', v8:'3', v9:'6'},
+                    {v1:'张三', v2:'22', v3:'2', v4:'3', v5:'4', v6:'0', v7:'1', v8:'3', v9:'6'},
+                    {v1:'张三', v2:'22', v3:'2', v4:'3', v5:'4', v6:'0', v7:'1', v8:'3', v9:'6'},
+                    {v1:'张三', v2:'22', v3:'2', v4:'3', v5:'4', v6:'0', v7:'1', v8:'3', v9:'6'},
+                    {v1:'张三', v2:'22', v3:'2', v4:'3', v5:'4', v6:'0', v7:'1', v8:'3', v9:'6'},
+                    {v1:'张三', v2:'22', v3:'2', v4:'3', v5:'4', v6:'0', v7:'1', v8:'3', v9:'6'},
+                    {v1:'张三', v2:'22', v3:'2', v4:'3', v5:'4', v6:'0', v7:'1', v8:'3', v9:'6'},
+                    {v1:'张三', v2:'22', v3:'2', v4:'3', v5:'4', v6:'0', v7:'1', v8:'3', v9:'6'},
+                    {v1:'张三', v2:'22', v3:'2', v4:'3', v5:'4', v6:'0', v7:'1', v8:'3', v9:'6'},
+                    {v1:'张三', v2:'22', v3:'2', v4:'3', v5:'4', v6:'0', v7:'1', v8:'3', v9:'6'},
                 ];
             }
         }
