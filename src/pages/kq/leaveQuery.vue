@@ -33,7 +33,7 @@
                 edate:''
             }
         },
-        mounted(){
+        activated(){
             setTitle('申请记录');
             this.userInfo = getUserInfo();
             this.queryList();

@@ -30,15 +30,15 @@
                 edate:''
             }
         },
-        mounted(){
+        activated(){
             setTitle('原始刷卡记录');
             this.userInfo = getUserInfo();
             this.queryList();
         },
         methods:{
             selectTime(startTime,endTime){
-                this.sdate = startTime;
-                this.edate = endTime;
+                this.sdate = startTime.Format2String('yyyyMMdd');
+                this.edate = endTime.Format2String('yyyyMMdd');
                 this.queryList();
             },
             queryList(){

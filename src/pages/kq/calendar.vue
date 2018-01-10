@@ -54,7 +54,7 @@
                 this.selectTime();
             }
         },
-        mounted(){
+        activated(){
             setTitle('考勤日历');
             this.changeTime(new Date().Format2String('yyyy-MM-dd'));
         },
