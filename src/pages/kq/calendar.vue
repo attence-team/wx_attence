@@ -1,20 +1,7 @@
 <template>
     <!--<div>考勤日历</div>-->
     <div class="body-box">
-        <div class="tool">
-            <div class="time-box">
-                <span>{{input.substring(0,4)}}年</span>
-                <span>
-                    <div class="rect-icon fl" @click="minuMonth"><i class="iconfont icon-fanhui"></i></div>
-                    <div class="time-text fl" @click="selectTime">
-                        <input type="date" v-model="input">
-                        {{time|filterMonth}}
-                    </div>
-                    <div class="rect-icon fl" @click="plusMonth"><i class="iconfont icon-fanhui right-arrow"></i></div>
-                </span>
-                <span @click="curMonth">月出勤</span>
-            </div>
-        </div>
+        <TimetoolComps @selectTime="selectTime"></TimetoolComps>
         <div class="calendar-box">
             <CalendarComps :curTime="curTime" @clickDate="clickDate"></CalendarComps>
         </div>
@@ -30,64 +17,35 @@
     </div>
 </template>
 <script>
+    import TimetoolComps from "@/components/calendar/timetool";
     import CalendarComps from "@/components/calendar/calendarComps";
     export default {
         name: 'calendar',
-        components:{ CalendarComps },
+        components:{ CalendarComps,TimetoolComps },
         data(){
             return {
-                input: new Date().Format2String('yyyy-MM-dd'),
-                time: new Date().Format2String('yyyy-MM-dd'),
                 curTime: new Date().Format2String('yyyy-MM-dd'),
             }
         },
-        filters: {
-            filterMonth: function (value) {
-                let month = value.Format2String('MM');
-                let monthDay = value.getMonthDay();
-                return month+'-01 - '+ month + '-'+monthDay;
-            }
-        },
-        watch:{
-            input(curVal,oldVal){
-                this.time = curVal;
-                this.selectTime();
-            }
-        },
-        mounted(){
+        activated(){
             setTitle('考勤日历');
-            this.changeTime(new Date().Format2String('yyyy-MM-dd'));
         },
         methods:{
-            changeTime(stime,etime){
-                console.log('开始时间：'+stime);
-                console.log('结束时间：'+etime);
-                this.curTime = stime;
-            },
             clickDate(selectTime){
                 console.log('点击了时间：'+selectTime)
             },
-            curMonth(){
-                this.input = new Date().Format2String('yyyy-MM-dd');
-            },
-            minuMonth(){ /* 减1月 */
-                let now = new Date(this.input);
-                this.input = new Date(now.getFullYear(), now.getMonth()-1, now.getDate()).Format2String('yyyy-MM-dd');
-            },
-            plusMonth(){/* 加1月 */
-                let now = new Date(this.input);
-                this.input = new Date(now.getFullYear(), now.getMonth()+1, now.getDate()).Format2String('yyyy-MM-dd');
-            },
-            selectTime(){
-                let month = this.input.Format2String('yyyy-MM');
-                this.changeTime(month+'-01',month+'-'+this.input.getMonthDay());
+            selectTime(startTime,endTime){
+                this.sdate = startTime.Format2String('yyyyMMdd');
+                this.edate = endTime.Format2String('yyyyMMdd');
+                console.log('sdate:'+startTime);
+                console.log('edate:'+endTime);
             }
         }
     }
 </script>
 <style lang="css" scoped>
     .calendar-box{
-        height: 43vh;
+        /*height: 43vh;*/
         background-color: #fff;
     }
     .day-box{

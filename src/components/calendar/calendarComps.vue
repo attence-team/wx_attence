@@ -1,20 +1,6 @@
 <template>
     <div class="calendar">
-        <!--<ul>-->
-            <!--<li>日</li>-->
-            <!--<li>一</li>-->
-            <!--<li>二</li>-->
-            <!--<li>三</li>-->
-            <!--<li>四</li>-->
-            <!--<li>五</li>-->
-            <!--<li>六</li>-->
-            <!--<li>29</li><li class="diabled normal">30</li><li class="diabled warn">31</li><li class="warn">1</li><li class="warn">2</li><li class="warn">3</li><li>4</li>-->
-            <!--<li>5</li><li>6</li><li>7</li><li class="normal">8</li><li class="now-date"><span>9</span></li><li>10</li><li>11</li>-->
-            <!--<li>12</li><li>13</li><li>14</li><li>15</li><li>16</li><li>17</li><li>18</li>-->
-            <!--<li>19</li><li>20</li><li>21</li><li>22</li><li>23</li><li>24</li><li>25</li>-->
-            <!--<li>26</li><li>27</li><li>28</li><li>29</li><li>30</li><li>1</li><li>2</li>-->
-        <!--</ul>-->
-        <ul>
+        <ul class="clearfix">
             <li :class="time.type" @click="clickDay(idx)" v-for="(time,idx) in dateList">
                 <span>{{time.value}}</span>
             </li>
@@ -81,7 +67,7 @@
                     {value:'日'}, {value:'一'}, {value:'二'}, {value:'三'}, {value:'四'}, {value:'五'}, {value:'六'}
                 ];
                 let monthDay = this.time.getMonthDay();
-                let upMonthDay = new Date(this.time.getFullYear(), this.time.getMonth()+1, this.time.getDate()).getMonthDay();
+                let upMonthDay = new Date(getPreMonth(this.time.Format2String('yyyy-MM-dd'))).getMonthDay();
                 let week = new Date(this.time.Format2String('yyyy-MM')+'-01').getDay();
                 let monthCount = 1;
                 let upMonthCount = 1;
@@ -126,7 +112,6 @@
 </script>
 <style lang="css" scoped>
     .calendar ul{
-        background-color: #0086b3;
     }
    .calendar li{
        width: 14.28%;
