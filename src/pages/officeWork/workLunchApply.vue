@@ -2,21 +2,22 @@
     <div class="body-box">
         <div class="approved-head">
             <div class="approved-head-row">
-                <div class="approved-head-warp">申请部门：<span class="approved-head-info">xxxx部</span></div>
-                <div class="approved-head-warp">经办人：<span class="approved-head-info">张三</span></div>
+                <div class="approved-head-warp">申请部门：<span class="approved-head-info">{{dept_name}}</span></div>
+                <div class="approved-head-warp">经办人：<span class="approved-head-info">{{name}}</span></div>
             </div>
             <div class="approved-head-row">
-                <div class="approved-head-warp">申请时间：<span class="approved-head-info">2017-08-09</span></div>
-                <div class="approved-head-warp">单据状态：<span class="approved-head-info">未提交</span></div>
+                <div class="approved-head-warp">申请时间：<span class="approved-head-info">{{apply_time}}</span></div>
+                <div class="approved-head-warp">单据状态：<span class="approved-head-info">{{apply_state}}</span></div>
             </div>
         </div>
+        <form id="form">
         <div class="approved-body">
             <div class="approved-body-row bd-bottom-1 sendCarType">
                 <div class="approved-body-warp">
                     就餐类别
                     <div class="selectWrap">
-                        <select id="sendCarType" class="" name="">
-                            <option value="">自助餐</option>
+                        <select id="sendCarType" class="" name="" v-model="workLunchTypeVal">
+                            <option v-for="type in workLunchTypeArr" :value="type.stand_id">{{type.stand_name}}</option>
                         </select>
                         <div class="selectBtn"></div>
                     </div>
@@ -26,8 +27,8 @@
                 <div class="approved-body-warp">
                     临时卡号
                     <div class="selectWrap">
-                        <select id="sendCarType" class="" name="">
-                            <option value="">LS001</option>
+                        <select id="sendCarType" class="" name="" v-model="temporaryCardVal">
+                            <option v-for="card in temporaryCardArr" :value="card">{{card.rsbh}}</option>
                         </select>
                         <div class="selectBtn"></div>
                     </div>
@@ -36,7 +37,7 @@
             <div class="approved-body-row bd-bottom-1">
                 <div class="approved-body-warp">临时卡名称：
                     <span class="approved-body-info">
-                        <input type="text" name="" value="">
+                        {{temporaryCardVal.rs_name}}
                     </span>
                     <span class="cue">*必填</span>
                 </div>
@@ -44,7 +45,7 @@
             <div class="approved-body-row bd-bottom-1">
                 <div class="approved-body-warp">来宾单位：
                     <span class="approved-body-info">
-                        <input type="text" name="" value="">
+                        <input type="text" name="" v-model="guest">
                     </span>
                     <span class="cue">请输入来宾单位*必填</span>
                 </div>
@@ -52,7 +53,7 @@
             <div class="approved-body-row bd-bottom-1">
                 <div class="approved-body-warp">用餐人数：
                     <span class="approved-body-info">
-                        <input type="number" name="" value="">
+                        <input autocomplete="off" type="number" name="" v-model="staff_cnt">
                     </span>
                     <span class="cue">请输入用餐人数*必填</span>
                 </div>
@@ -61,8 +62,8 @@
                 <div class="approved-body-warp">
                     用餐开始时间：
                     <span class="approved-body-info">
-                        <label for="startTime" id="sendCarDateLable">{{startTime}}</label>
-                        <input type="date" id="startTime" name="startTime"  v-model="startTime">
+                        <label for="startTime" id="sendCarDateLable">{{dinner_time}}</label>
+                        <input type="date" id="startTime" name="startTime"  v-model="dinner_time">
                     </span>
                     <span class="cue">*必填</span>
                 </div>
@@ -71,8 +72,8 @@
                 <div class="approved-body-warp">
                     用餐开始时间：
                     <span class="approved-body-info">
-                        <label for="endTime" id="sendCarDateLable">{{endTime}}</label>
-                        <input type="date" id="endTime" name="endTime"  v-model="endTime">
+                        <label for="endTime" id="sendCarDateLable">{{dinner_time_end}}</label>
+                        <input type="date" id="endTime" name="endTime"  v-model="dinner_time_end">
                     </span>
                     <span class="cue">*必填</span>
                 </div>
@@ -80,7 +81,7 @@
             <div class="approved-body-row bd-bottom-1">
                 <div class="approved-body-warp">餐票：
                     <span class="approved-body-info">
-                        <input type="number" name="" value="">
+                        <input type="number" name="" v-model="director">
                     </span>
                     <span class="cue">*必填</span>
                 </div>
@@ -88,43 +89,140 @@
             <div class="approved-body-row bd-bottom-1">
                 <div class="approved-body-warp">餐票明细：
                     <span class="approved-body-info">
-                        <input type="text" name="" value="">
+                        <input type="text" name="" v-model="print_memo">
                     </span>
                 </div>
             </div>
             <div class="approved-body-row bd-bottom-1">
                 <div class="approved-body-warp">备注：
                     <span class="approved-body-info">
-                        <input type="text" name="" value="">
+                        <input type="text" name="" v-model="tra_memo">
                     </span>
                 </div>
             </div>
             <div class="approved-body-row bd-bottom-1 approvalProcess">
                 <div class="approved-body-warp">审批流程：
                     <span class="approved-body-info">
-                        <span class="approver">李四</span>
+                        <span class="approver">{{name}}</span>
                         <i></i>
                         <span class="approver">雄辉</span>
                     </span>
                 </div>
             </div>
-            <div class="submit">提交</div>
+            <div class="submit" @click="submit()">提交</div>
         </div>
+        </form>
     </div>
 </template>
 <script>
+    import {WlHttp} from '@/api/workLunchHttp';
+    import { Toast } from 'mint-ui';
     export default {
         name: 'workLunchApply',
+        //components:{Toast},
         data(){
             return {
-                startTime:"2017-08-09",
-                endTime:"2017-08-09",
+                name:getUserInfo().name, //申请人
+                staff_num:getUserInfo().staff_num, //职工id
+                dept_name:getUserInfo().dept_name, //部门名称
+                dept_num:getUserInfo().dept_num, //部门id
+                apply_time:'', //申请时间
+                apply_state:'未提交', //单据状态
+                workLunchTypeArr:[{stand_id:'',stand_name:'请选择'}],
+                workLunchTypeVal:'', //工作餐类别
+                temporaryCardArr:[{rsbh:'请选择',rs_name:''}],
+                temporaryCardVal:{rsbh:'请选择',rs_name:''}, // 临时卡号和名称
+                guest:'',  //来宾单位
+                staff_cnt:'', //用餐人数
+                dinner_time:'', //用餐开始时间
+                dinner_time_end:'', //用餐结束时间
+                director:'', //餐票数
+                print_memo:'',  //用餐明细
+                tra_memo:'',  //备注
+                veriMark:true
             }
         },
         mounted(){
-
+        },
+        activated(){
+            Object.assign(this.$data, this.$options.data())
+            this.getWorkLunchType();
+            this.getTemporaryCard();
+            this.apply_time = this.dinner_time = this.dinner_time_end = this.getCurrentDate()
         },
         methods:{
+            getCurrentDate:function() {
+                var D = new Date(),
+                    y = D.getFullYear(),m = (D.getMonth()+1),d = D.getDate();
+                function zerofill(num) {
+                    return num > 9 ? num : '0'+ num;
+                }
+                return y + '-' + zerofill(m) + '-' + zerofill(d);
+            },
+            getWorkLunchType:function() {
+                WlHttp.getWorkLunchType().then((res)=>{
+                    if (res.code=='1') {
+                        this.workLunchTypeArr = this.workLunchTypeArr.concat(res.data);
+                    }
+                });
+            },
+            getTemporaryCard:function() {
+                let params = {dept_num:this.dept_num};
+                WlHttp.getTemporaryCard(params).then((res)=>{
+                    if (res.code=='1') {
+                        this.temporaryCardArr = this.temporaryCardArr.concat(res.data);
+                    }
+                });
+            },
+            verification:function(obj) {
+                let tipsObj = {
+                    stand_id:'请选择就餐类别',dept_id:'部门id不存在',staff_num:'申请人id不存在',apply_time:'申请日期不存在',
+                    dinner_time:'请选择用餐开始时间',dinner_time_end:'请选择用餐结束时间',guest:'请输入来宾单位',staff_cnt:'请输入用餐人数',
+                    director:'请输入餐票数',rsbh:'请选择临时卡号',rs_name:'请选择临时卡号'
+                }
+                let pass = true;
+                for (let i in obj) {
+                    let tips = tipsObj[i];
+                    if (tips) {
+                        if (obj[i] == '' || obj[i] == '请选择') {
+                            Toast(tips);
+                            pass = false;
+                            return false;
+                        }
+                    }
+                }
+                return pass;
+            },
+            submit:function() {
+                let params = {
+                    dept_id:this.dept_num,
+                    staff_num:this.staff_num,
+                    apply_time:this.apply_time,
+                    stand_id:this.workLunchTypeVal,
+                    rsbh:this.temporaryCardVal.rsbh,
+                    rs_name:this.temporaryCardVal.rs_name,
+                    dinner_time:this.dinner_time,
+                    dinner_time_end:this.dinner_time_end,
+                    guest:this.guest,
+                    staff_cnt:this.staff_cnt,
+                    director:this.director,
+                    print_memo:this.print_memo,
+                    tra_memo:this.tra_memo
+                }
+
+                if (!this.verification(params)) {
+                    return false;
+                }
+
+                WlHttp.submit(params).then((res)=>{
+                    console.log(res);
+                    if (res.code=='1') {
+                        Toast('提交成功');
+                    }else{
+                        Toast('提交失败');
+                    }
+                });
+            }
         }
     }
 </script>
