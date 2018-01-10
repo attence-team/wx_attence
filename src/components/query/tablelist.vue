@@ -8,6 +8,7 @@
             <span v-for="column in columnNames.columnValues" v-html="obj[column]"></span>
             <span class="btn-wrap"><button @click="optfn(obj)">请选择</button></span>
         </div>
+        <div v-if="tableList.length<=0" class="noneData">暂无数据</div>
     </div>
 </template>
 <script>
