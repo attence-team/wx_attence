@@ -50,6 +50,9 @@
                 }
             }
         },
+        created(){
+            setTitle('异常处理');
+        },
         mounted(){
             this.tableList = [
                 /*{time:'2017-08-09<br>星期五',type:'<i class="color-red2">8：00<br>未刷卡</i>',status:'--'}*/

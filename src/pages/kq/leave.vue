@@ -115,7 +115,7 @@
             }
         },
         created(){
-
+            setTitle('请假');
         },
         methods:{
             setDisplay(event){
