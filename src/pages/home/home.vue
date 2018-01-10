@@ -1,5 +1,5 @@
 <template lang="html">
-    <div class="body-box">
+    <div class="body-box home-box scroll">
        <div class="carousel-box">
           <mt-swipe :show-indicators="false">
              <mt-swipe-item>
@@ -121,6 +121,9 @@ export default {
 </script>
 
 <style lang="css" scoped>
+  .home-box{
+        height: 100vh;
+  }
   .mywork-icon{
       background-image: url("../../assets/img/mywork-icon.png");
   }

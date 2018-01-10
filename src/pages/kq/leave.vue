@@ -1,82 +1,84 @@
 <template>
-    <div class="leave">
-        <div class="pert1 pert">
-            <div class="table-info">
-                <div class="group">
-                    <div class="hf-l hf">
-                        <label class="th">申请部门：</label>
-                        <span class="td">{{info.dept_name}}</span>
+    <div class="body-box">
+        <div class="leave">
+            <div class="pert1 pert">
+                <div class="table-info">
+                    <div class="group">
+                        <div class="hf-l hf">
+                            <label class="th">申请部门：</label>
+                            <span class="td">{{info.dept_name}}</span>
+                        </div>
+                        <div class="hf-r hf">
+                            <label class="th">请假人姓名：</label>
+                            <span class="td">{{info.name}}</span>
+                        </div>
                     </div>
-                    <div class="hf-r hf">
-                        <label class="th">请假人姓名：</label>
-                        <span class="td">{{info.name}}</span>
-                    </div>
-                </div>
-                <div class="group">
-                    <div class="hf-l hf">
-                        <label class="th">申请时间：</label>
-                        <span class="td">{{info.sqdate}}</span>
-                    </div>
-                    <div class="hf-r hf">
-                        <label class="th">单据状态：</label>
-                        <span class="td">{{info.status}}</span>
+                    <div class="group">
+                        <div class="hf-l hf">
+                            <label class="th">申请时间：</label>
+                            <span class="td">{{info.sqdate}}</span>
+                        </div>
+                        <div class="hf-r hf">
+                            <label class="th">单据状态：</label>
+                            <span class="td">{{info.status}}</span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="pert2 pert">
-            <div class="table-info">
-                <div class="group bd-bottom-1">
-                    <label class="th">请假类型</label>
-                    <span class="td td1">
+            <div class="pert2 pert">
+                <div class="table-info">
+                    <div class="group bd-bottom-1">
+                        <label class="th">请假类型</label>
+                        <span class="td td1">
                         <select class="select" v-model="selected" v-on:click="change" dir="rtl">
                             <option v-for="item in typeList" v-bind:value="item.num">{{item.name}}</option>
                         </select>
                     </span>
-                </div>
-                <div class="group bd-bottom-1">
-                    <label class="th">请假起日期</label>
-                    <span class="td">
+                    </div>
+                    <div class="group bd-bottom-1">
+                        <label class="th">请假起日期</label>
+                        <span class="td">
                         <DateComps @setDate="setStartDate"></DateComps>
-                        <!--<AmPm></AmPm>-->
+                            <!--<AmPm></AmPm>-->
                     </span>
-                </div>
-                <div class="group bd-bottom-1">
-                    <label class="th">请假预计止日期</label>
-                    <span class="td">
+                    </div>
+                    <div class="group bd-bottom-1">
+                        <label class="th">请假预计止日期</label>
+                        <span class="td">
                         <DateComps @setDate="setEndDate"></DateComps>
-                        <!--<AmPm></AmPm>-->
+                            <!--<AmPm></AmPm>-->
                     </span>
-                </div>
-                <div class="group bd-bottom-1">
-                    <label class="th">免打卡次数</label>
-                    <span class="td">
+                    </div>
+                    <div class="group bd-bottom-1">
+                        <label class="th">免打卡次数</label>
+                        <span class="td">
                         <input type="number" class="width-min"  placeholder="请输入" v-model="times">
                         <span style="padding-right: .1rem;">次</span>
                     </span>
-                </div>
-                <!--<div class="group bd-bottom-1">
-                    <label class="th">请假天数</label>
-                    <span class="td">
-                        <input disabled type="number" class="width-min" v-bind:value="leaveDays">
-                        <span>天</span>
-                    </span>
-                </div>-->
-                <div class="group bd-bottom-1">
-                    <label class="th">事由、备注</label>
-                    <span class="td" v-on:click="setDisplay($event)">
+                    </div>
+                    <!--<div class="group bd-bottom-1">
+                        <label class="th">请假天数</label>
+                        <span class="td">
+                            <input disabled type="number" class="width-min" v-bind:value="leaveDays">
+                            <span>天</span>
+                        </span>
+                    </div>-->
+                    <div class="group bd-bottom-1">
+                        <label class="th">事由、备注</label>
+                        <span class="td" v-on:click="setDisplay($event)">
                         <input id="resuly" v-model="text" class="text-resuly" :class="resuly" v-on:focus="setValue($event)" v-on:blur="clearValue($event)">
                         <span :class="show">请输入请假事由（必填）</span>
                     </span>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="pert3 pert group">
-            <label class="group-th">审批流程</label>
-            <span class="group-td"><span class="circle">雄辉</span></span>
-        </div>
-        <div class="pert4 pert">
-            <button v-on:click="saveLeave">提交</button>
+            <div class="pert3 pert group">
+                <label class="group-th">审批流程</label>
+                <span class="group-td"><span class="circle">雄辉</span></span>
+            </div>
+            <div class="pert4 pert">
+                <button v-on:click="saveLeave">提交</button>
+            </div>
         </div>
     </div>
 </template>
@@ -224,7 +226,7 @@
 
 <style lang="css" scoped>
     .leave{
-
+       background-color: #fff;
     }
     .pert{
         padding: .3rem .32rem;
