@@ -1,6 +1,6 @@
 <template>
     <!--原始刷卡记录-->
-    <div class="body-box">
+    <div class="body-box cardRecord">
         <TimeTool @selectTime="selectTime"></TimeTool>
         <div class="exp-box table-box touch-scroll">
             <div class="info">
@@ -33,7 +33,6 @@
         activated(){
             setTitle('原始刷卡记录');
             this.userInfo = getUserInfo();
-            //this.queryList();
         },
         methods:{
             selectTime(startTime,endTime){
@@ -57,6 +56,10 @@
     }
 </script>
 <style lang="css" scoped>
+    .cardRecord{
+        height: 100vh;
+        overflow: hidden;
+    }
     .info{
         width: 80%;
         height: 0.8rem;

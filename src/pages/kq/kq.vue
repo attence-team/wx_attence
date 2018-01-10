@@ -1,5 +1,5 @@
 <template lang="html">
-    <div class="body-box">
+    <div class="body-box scroll">
        <div class="carousel-box">
           <mt-swipe :show-indicators="false">
               <mt-swipe-item>
