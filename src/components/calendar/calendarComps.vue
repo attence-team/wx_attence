@@ -71,9 +71,6 @@
                 let week = new Date(this.time.Format2String('yyyy-MM')+'-01').getDay();
                 let monthCount = 1;
                 let upMonthCount = 1;
-                console.log('monthDay='+monthDay);
-                console.log('upMonthDay='+upMonthDay);
-                console.log('week='+week);
                 for(let i=1;i<=35;i++){
                     let day = {};
                     if(week!=6&&(week - i)>=0){ /* 上个月时间 */
