@@ -51,6 +51,9 @@
     .table-title{
         background:-webkit-gradient(linear, 0% 0%, 0% 100%,from(#d7eafd), to(#feffff));
     }
+    .table-row span{
+        color: #999;
+    }
     .table-title span{
         color: #333;
         font-weight: bold;
@@ -69,7 +72,6 @@
     .table-row span{
         flex: 1;
         text-align: center;
-        color: #999;
     }
     .btn-wrap button{
         height: .6rem;
