@@ -27,13 +27,14 @@
                 },
                 userInfo:{},
                 sdate:'',
-                edate:''
+                edate:'',
+                timeout:0
             }
         },
         activated(){
             setTitle('原始刷卡记录');
             this.userInfo = getUserInfo();
-            this.queryList();
+            //this.queryList();
         },
         methods:{
             selectTime(startTime,endTime){
@@ -49,9 +50,14 @@
                     currPage:'1',
                     pageLength:'30'
                 };
-                KqHttp.queryCardRecaordList(params).then((res)=>{
-                    this.tableList = res.data.pageData;
-                });
+                if(this.timeout) return;
+                this.timeout = setTimeout(()=>{
+                    clearTimeout(this.timeout);
+                    this.timeout = 0;
+                    KqHttp.queryCardRecaordList(params).then((res)=>{
+                        this.tableList = res.data.pageData;
+                    });
+                },100);
             }
         }
     }
