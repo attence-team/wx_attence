@@ -31,7 +31,7 @@
                         <label class="th">请假类型</label>
                         <span class="td td1">
                         <select class="select" v-model="selected" v-on:click="change" dir="rtl">
-                            <option v-for="item in typeList" v-bind:value="item.num">{{item.name}}</option>
+                            <option v-for="item in typeList" v-bind:value="item.leave_num">{{item.leave_cause}}</option>
                         </select>
                     </span>
                     </div>
@@ -84,6 +84,7 @@
 </template>
 <script>
     import {KqHttp} from '@/api/kqHttp';
+    import {SpHttp} from '@/api/spHttp';
     import DateComps from "@/components/query/date";
     import { Toast, Indicator } from 'mint-ui';
     /*import AmPm from "@/components/query/AmPm";*/
@@ -151,19 +152,24 @@
                 this.endDate = date;
             },
             getLeaveType(){
-                let _this = this;
                 let params = {staff_num: getUserInfo().staff_num};
                 KqHttp.queryLeaveType(params).then((res)=>{
+                    if(res.code == 1){
+                        this.typeList = res.data;
+                        this.selected = res.data[0].leave_num;
+                    }
+                });
+            },
+            querySubmitInfo(){
+                console.log(1)
+                let params = {
+                    vouty: 'kqt_deptleave_manage',
+                    vou_id: '108242922',
+                    dept: getUserInfo().dept_num
+                };
+                SpHttp.getSubmitInfo(params).then((res)=>{
                     if(res.code == '1'){
-                        _this.typeList = [];
-                        let data = res.data;
-                        data.forEach(function (value, index) {
-                            _this.typeList.push({
-                                num: value.leave_num,
-                                name: value.leave_cause
-                            })
-                        });
-                        _this.selected = data[0].leave_num;
+                        console.log(res);
                     }
                 });
             },
@@ -211,6 +217,7 @@
                             duration: 1500,
                             iconClass: 'icon icon-success'
                         });
+                        this.$router.push('/kq/applyQuery');
                     }
                 }).catch(res => {
                     console.log(res);
@@ -219,6 +226,7 @@
         },
         mounted(){
             this.getLeaveType();
+            this.querySubmitInfo();
         },
         components:{DateComps/*,AmPm*/}
     }

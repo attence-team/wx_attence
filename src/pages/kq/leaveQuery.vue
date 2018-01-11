@@ -7,16 +7,17 @@
                 <mt-cell title="姓名" value="" is-link></mt-cell>
                 <mt-cell title="部门名称" value="***部门" is-link></mt-cell>
             </div>
-        </div>
-        <div class="exp-box table-box touch-scroll">
             <button class="mint-button mint-button--primary mint-button--normal query">
                 <label class="mint-button-text">查询</label>
             </button>
-            <TableCellAuto :dataList="tableList" :columnNames="columnValue"></TableCellAuto>
+        </div>
+        <div class="exp-box table-box touch-scroll touch-scroll">
+            <TableCellAuto autowidth="150%" :dataList="tableList" :columnNames="columnValue"></TableCellAuto>
         </div>
     </div>
 </template>
 <script>
+    import {KqHttp} from '@/api/kqHttp';
     import TableCellAuto from "@/components/query/tablecellauto";
     export default {
         name: 'cardRecord',
@@ -25,9 +26,9 @@
             return {
                 tableList:[],
                 columnValue:{
-                    titles:['','姓名','实际出勤日','年休假','出差','月工作日','外出办事','补休','学习假','哺乳时间'],
-                    columnValues:['v1','v2','v3','v4','v5','v6','v7','v8','v9'],
-                },
+                    titles:['','姓名','请假起日期','请假止日期','请假类型','审批状态','审批状态名称'],
+                    columnValues:['staff_name','start_date','intending_date','leave_cause','all_sign','all_sign_nm'],
+            },
                 userInfo:{},
                 sdate:'',
                 edate:''
@@ -36,25 +37,21 @@
         activated(){
             setTitle('申请记录');
             this.userInfo = getUserInfo();
-            this.queryList();
+            this.getAnnualLeave();
         },
         methods:{
-            queryList(){
-                this.tableList = [
-                    {v1:'张三', v2:'22', v3:'2', v4:'3', v5:'4', v6:'0', v7:'1', v8:'3', v9:'6'},
-                    {v1:'张三', v2:'22', v3:'2', v4:'3', v5:'4', v6:'0', v7:'1', v8:'3', v9:'6'},
-                    {v1:'张三', v2:'22', v3:'2', v4:'3', v5:'4', v6:'0', v7:'1', v8:'3', v9:'6'},
-                    {v1:'张三', v2:'22', v3:'2', v4:'3', v5:'4', v6:'0', v7:'1', v8:'3', v9:'6'},
-                    {v1:'张三', v2:'22', v3:'2', v4:'3', v5:'4', v6:'0', v7:'1', v8:'3', v9:'6'},
-                    {v1:'张三', v2:'22', v3:'2', v4:'3', v5:'4', v6:'0', v7:'1', v8:'3', v9:'6'},
-                    {v1:'张三', v2:'22', v3:'2', v4:'3', v5:'4', v6:'0', v7:'1', v8:'3', v9:'6'},
-                    {v1:'张三', v2:'22', v3:'2', v4:'3', v5:'4', v6:'0', v7:'1', v8:'3', v9:'6'},
-                    {v1:'张三', v2:'22', v3:'2', v4:'3', v5:'4', v6:'0', v7:'1', v8:'3', v9:'6'},
-                    {v1:'张三', v2:'22', v3:'2', v4:'3', v5:'4', v6:'0', v7:'1', v8:'3', v9:'6'},
-                    {v1:'张三', v2:'22', v3:'2', v4:'3', v5:'4', v6:'0', v7:'1', v8:'3', v9:'6'},
-                    {v1:'张三', v2:'22', v3:'2', v4:'3', v5:'4', v6:'0', v7:'1', v8:'3', v9:'6'},
-                ];
-            }
+            getAnnualLeave(){
+                let params = {
+                    staff_num: getUserInfo().staff_num,
+                    currPage:'1',
+                    pageLength:'1000'
+                };
+                KqHttp.queryAnnualLeave(params).then((res)=>{
+                    if(res.code == '1'){
+                        _this.tableList = res.data.pageData;
+                    }
+                });
+            },
         }
     }
 </script>
@@ -65,8 +62,12 @@
 </style>
 
 <style lang="css" scoped>
+    .body-box{
+        height: 100vh;
+        overflow: hidden;
+    }
     .exp-box{
-        /*height: calc(100% - 0.8rem - 2*0.15rem - 0.25rem);*/
+        height: calc(100% - 0.8rem - 3*0.15rem - 0.25rem);
     }
     .table-box{
         background-color: #fff;
