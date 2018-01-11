@@ -131,7 +131,7 @@ export default {
                 spinnerType: 'fading-circle'
             });
             HomeHttp.queryMenuTree({"iv-user":'02236654'}).then((res)=>{
-                console.log(JSON.stringify(res))
+                //console.log(JSON.stringify(res))
                 this.menuList = res.data.submenus;
                 this.carouselImgs = res.data.pics.split(';');
                 this.$nextTick(()=>{
