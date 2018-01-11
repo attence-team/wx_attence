@@ -1,6 +1,6 @@
 <template>
     <div class="table-list">
-        <div class="table-list-width">
+        <div class="table-list-width" v-bind:style="{ width: autowidth}">
             <div class="table-row table-title">
                 <span v-for="title in columnNames.titles" class="bd-bottom-1">{{title}}</span>
             </div>
@@ -21,6 +21,10 @@
             }
         },
         props: {
+            autowidth:{
+                type:String,
+                default:'200%'
+            },
             dataList: {
                 type: Array,
                 default: []
@@ -46,12 +50,14 @@
         overflow-x: auto;
     }
     .table-list-width{
-        width: 180%;
         display: table;
     }
     .table-title{
         display: table-row;
         background:-webkit-gradient(linear, 0% 0%, 0% 100%,from(#d7eafd), to(#feffff));
+    }
+    .table-row span{
+        color: #999;
     }
     .table-title span{
         color: #333;
@@ -65,7 +71,6 @@
     }
     .table-row span{
         text-align: center;
-        color: #999;
         display: table-cell;
         padding: 0 .15rem;
     }

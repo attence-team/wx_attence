@@ -15,6 +15,7 @@ import Calendar from 'pages/kq/calendar';
 import Approval from 'pages/kq/approval';
 import ApprovalDetails from 'pages/kq/approvalDetails';
 import LeaveQuery from 'pages/kq/leaveQuery';
+import ApplyQuery from 'pages/kq/applyQuery';
 import CardRecord from 'pages/kq/cardRecord';
 import Bill from 'pages/kq/bill';
 //办公管理
@@ -129,6 +130,12 @@ export default new Router({
                   path: 'leaveQuery',
                   components: {
                       body: LeaveQuery
+                  }
+              },
+              {
+                  path: 'applyQuery',
+                  components: {
+                      body: ApplyQuery
                   }
               },
               {

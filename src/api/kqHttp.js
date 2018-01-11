@@ -35,5 +35,22 @@ export const KqHttp = {
      */
     saveLeave(params) {
         return post('lywebservice/attendance/saveLeave', params);
+    },
+    /**
+     * 获取年休假
+     * @param params
+     * @returns {*}
+     */
+    queryAnnualLeave(params) {
+        return post('lywebservice/attendance/queryAnnualLeave', params);
+    },
+    /**
+     * 获取考勤申请记录列表
+     * @param params
+     * @returns {*}
+     */
+    queryLeave(params) {
+        return post('lywebservice/attendance/queryLeave', params);
     }
+
 };
