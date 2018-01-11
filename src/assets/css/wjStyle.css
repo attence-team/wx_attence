@@ -80,7 +80,7 @@
     display: inline-block;
     vertical-align: middle;
 }
-/*列表区域 */
+/*审批列表区域 */
 .approval-list {
     margin: 0 0.3rem;
 }
@@ -110,6 +110,7 @@
     margin-bottom: 0.2rem;
 }
 .approval-info .approval-title-date {
+    display: flex;
     margin-bottom: 0.3rem;
 }
 .approval-info .approval-title {
@@ -147,6 +148,7 @@ input,select {
 .selectWrap {
     position: relative;
     line-height: normal;
+    box-sizing: border-box;
     display: inline-block;
     border-radius: 5px;
     border: 1px solid #3497f5;
@@ -252,13 +254,13 @@ input,select {
 .mint-cell-wrapper {
     padding: 0;
 }
-.application-list-box{
+.application-list-box ,.application-type-box{
     padding: 0 0.3rem;
     background-color: #fff;
 }
 .application-type-box {
     display: flex;
-    padding: 0.4rem 0;
+    padding: 0.3rem;
 }
 .application-type-box .application-type {
     flex:1;
@@ -285,8 +287,8 @@ input,select {
 .application-type-box .application-type:first-child {
     margin-left: 0;
 }
-
 .application-list-box .application-list{
+
 }
 .application-list .application-list-cell {
     display: flex;
@@ -304,16 +306,31 @@ input,select {
 }
 .application-list .application-list-info {
     flex: 1;
+    min-width: 0;
     font-size: 14px;
-    padding: 0.35rem 0;
+    padding: 0.25rem 0;
     margin-left: 0.3rem;
 }
+.application-list .application-list-info-wrap {
+}
 .application-list .application-title-date {
-    margin-bottom: 0.3rem;
+    display: flex;
+    margin-bottom: 0.2rem;
+}
+.application-list .application-date {
+
+}
+.application-list .application-title-wrap {
+    font-size: 16px;
+    flex: 1;min-width: 0;
 }
 .application-list .application-title {
     color: #000;
-    font-size: 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+    width: 100%;
 }
 .application-list .application-date {
     color: #666;

@@ -14,24 +14,28 @@
         <div class="approved-body">
             <div class="approved-body-row bd-bottom-1 sendCarType">
                 <div class="approved-body-warp">
-                    就餐类别
+                    就餐类别：
+                    <span class="approved-body-info">
                     <div class="selectWrap">
                         <select id="sendCarType" class="" name="" v-model="workLunchTypeVal">
                             <option v-for="type in workLunchTypeArr" :value="type.stand_id">{{type.stand_name}}</option>
                         </select>
                         <div class="selectBtn"></div>
                     </div>
+                    </span>
                 </div>
             </div>
             <div class="approved-body-row bd-bottom-1 sendCarType">
                 <div class="approved-body-warp">
-                    临时卡号
+                    临时卡号：
+                    <span class="approved-body-info">
                     <div class="selectWrap">
                         <select id="sendCarType" class="" name="" v-model="temporaryCardVal">
                             <option v-for="card in temporaryCardArr" :value="card">{{card.rsbh}}</option>
                         </select>
                         <div class="selectBtn"></div>
                     </div>
+                    </span>
                 </div>
             </div>
             <div class="approved-body-row bd-bottom-1">
@@ -44,60 +48,73 @@
             </div>
             <div class="approved-body-row bd-bottom-1">
                 <div class="approved-body-warp">来宾单位：
+                    <label class="inputLabel" for="guest">
                     <span class="approved-body-info">
-                        <input type="text" name="" v-model="guest">
+                        <input type="text" id="guest" name="" v-model="guest">
                     </span>
                     <span class="cue">请输入来宾单位*必填</span>
+                    </label>
                 </div>
             </div>
             <div class="approved-body-row bd-bottom-1">
                 <div class="approved-body-warp">用餐人数：
+                    <label class="inputLabel" for="staff_cnt">
                     <span class="approved-body-info">
-                        <input autocomplete="off" type="number" name="" v-model="staff_cnt">
+                        <input autocomplete="off" type="number" id="staff_cnt" name="" v-model="staff_cnt">
                     </span>
                     <span class="cue">请输入用餐人数*必填</span>
+                    </label>
                 </div>
             </div>
             <div class="approved-body-row bd-bottom-1 sendCarDate">
                 <div class="approved-body-warp">
                     用餐开始时间：
+                    <label class="inputLabel" for="startTime">
                     <span class="approved-body-info">
-                        <label for="startTime" id="sendCarDateLable">{{dinner_time}}</label>
+                        {{dinner_time}}
                         <input type="date" id="startTime" name="startTime"  v-model="dinner_time">
                     </span>
                     <span class="cue">*必填</span>
+                    </label>
                 </div>
             </div>
             <div class="approved-body-row bd-bottom-1 sendCarDate">
                 <div class="approved-body-warp">
-                    用餐开始时间：
+                    用餐结束时间：
+                    <label class="inputLabel" for="endTime">
                     <span class="approved-body-info">
-                        <label for="endTime" id="sendCarDateLable">{{dinner_time_end}}</label>
-                        <input type="date" id="endTime" name="endTime"  v-model="dinner_time_end">
+                        {{dinner_time_end}}<input type="date" id="endTime" name="endTime"  v-model="dinner_time_end">
                     </span>
                     <span class="cue">*必填</span>
+                    </label>
                 </div>
             </div>
             <div class="approved-body-row bd-bottom-1">
                 <div class="approved-body-warp">餐票：
+                    <label class="inputLabel" for="director">
                     <span class="approved-body-info">
-                        <input type="number" name="" v-model="director">
+                        <input type="number" id="director" name="" v-model="director">
                     </span>
                     <span class="cue">*必填</span>
+                    </label>
                 </div>
             </div>
             <div class="approved-body-row bd-bottom-1">
                 <div class="approved-body-warp">餐票明细：
+                    <label class="inputLabel" for="print_memo">
                     <span class="approved-body-info">
-                        <input type="text" name="" v-model="print_memo">
+                        <input type="text" name="" id="print_memo" v-model="print_memo">
                     </span>
+                    </label>
                 </div>
             </div>
             <div class="approved-body-row bd-bottom-1">
                 <div class="approved-body-warp">备注：
+                    <label class="inputLabel" for="tra_memo">
                     <span class="approved-body-info">
-                        <input type="text" name="" v-model="tra_memo">
+                        <input type="text" name="" id="tra_memo" v-model="tra_memo">
                     </span>
+                    </label>
                 </div>
             </div>
             <div class="approved-body-row bd-bottom-1 approvalProcess">
@@ -115,11 +132,10 @@
     </div>
 </template>
 <script>
-    import {WlHttp} from '@/api/workLunchHttp';
-    import { Toast } from 'mint-ui';
+    import { WlHttp } from '@/api/workLunchHttp';
+    import { Toast,Indicator } from 'mint-ui';
     export default {
         name: 'workLunchApply',
-        //components:{Toast},
         data(){
             return {
                 name:getUserInfo().name, //申请人
@@ -210,17 +226,15 @@
                     tra_memo:this.tra_memo
                 }
 
-                if (!this.verification(params)) {
-                    return false;
-                }
-
+                if (!this.verification(params)) {return false;}
+                Indicator.open();
                 WlHttp.submit(params).then((res)=>{
-                    console.log(res);
                     if (res.code=='1') {
                         Toast('提交成功');
                     }else{
                         Toast('提交失败');
                     }
+                    Indicator.close();
                 });
             }
         }
@@ -228,8 +242,20 @@
 </script>
 <style lang="css" scoped>
     .approved-body-warp {
+        display: flex;
+        align-items: center;
         line-height: 30px;
         overflow: hidden;
+    }
+    .approved-body-warp .inputLabel {
+        flex: 1;
+        display: flex;
+    }
+    .approved-body-info {
+        flex: 1;
+    }
+    .approved-body-info input {
+        width: 100%;
     }
     .route {
         width: 1.2rem;
@@ -237,13 +263,9 @@
         padding: 0 0.1rem;
         border: 1px solid #3497f5;
     }
-    .approved-body-info input {
-        width: 2.5rem;
-    }
     .sendCarType .selectWrap {
-        float: right;
         margin-right: 0;
-        width: 5.2rem;
+        width: 100%;
     }
     .sendCarType #rideNum {
         width: 0.5rem;

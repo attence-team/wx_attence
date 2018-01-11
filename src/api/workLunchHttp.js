@@ -8,9 +8,13 @@ export const WlHttp = {
     getTemporaryCard(params) {
         return post('lywebservice/dinner/queryTempCard',params);
     },
-    /* 获取临时卡号 */
+    /* 保存提交 */
     submit(params) {
         return post('lywebservice/dinner/saveDinner',params);
+    },
+    /* 获取工作餐列表 */
+    getWorkLunchList(params) {
+        return post('lywebservice/dinner/queryDinner',params);
     },
 
 };
