@@ -12,7 +12,7 @@
            <div class="menu-nav" v-for="menu in menuList">
                <div class="title">
                <i class="mywork-icon" :style="{backgroundImage: 'url('+menu.resicon+')'}"></i>{{menu.resname}}
-               <router-link v-if="!menu.moreurl" class="more" to="/home/kq">更多功能</router-link>
+               <router-link v-if="!menu.moreurl" class="more" :to="'/home/kq?resid='+menu.resid">更多功能</router-link>
               </div>
               <div class="menu-list clearfix">
                  <div class="item" v-for="subMenu in menu.submenus">
@@ -102,7 +102,7 @@ export default {
     components: {Swipe, SwipeItem , Indicator},
     data(){
         return {
-            carouselImgs:[],
+           carouselImgs:[],
            menuList:[],
            list:[],
            userInfo:{}

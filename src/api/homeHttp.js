@@ -8,4 +8,8 @@ export const HomeHttp = {
     queryMenuTree(params) {
         return post('lywebservice/user/getIndexMenu', params);
     },
+    /* 查询更多菜单树 */
+    queryMenuTowTree(params) {
+        return post('lywebservice/user/getSubMenu', params);
+    }
 };
