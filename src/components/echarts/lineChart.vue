@@ -1,6 +1,5 @@
 <template>
-    <div class="chart-wrapper" ref="chart" style="height:100%;width:100%;background-color: rgba(200,0,0,0.2);">
-ee
+    <div ref="chart" style="height:100%;width:100%;">
     </div>
 </template>
 <script>
@@ -19,18 +18,19 @@ ee
                         trigger: 'axis'
                     },
                     legend: {
-                        top:'3%',
-                        right:'1%',
-                        icon:'roundRect',
-                        itemWidth:15,
-                        itemHeight:3,
-                        textStyle:{color:"#55677b"},
-                        data:['客户拜访次数','客户拜访人数'],
+                        top:'2%',
+                        left:'5%',
+                        icon:'circle',
+                        data:[
+                            {name:'可挑拨库存',textStyle:{color:"#74d5fd"}},
+                            {name:'产量',textStyle:{color:"#58ffc6"}},
+                            {name:'调拨量',textStyle:{color:"#dddddd"}}
+                        ]
                     },
                     grid: {
-                        top:'19%',
-                        left: '1%',
-                        right: '1%',
+                        top:'12%',
+                        left: '0',
+                        right: '8%',
                         bottom: '5%',
                         containLabel: true
                     },
@@ -46,17 +46,18 @@ ee
                             },
                             axisLabel:{
                                 textStyle:{
-                                    color:"#7d8690"
+                                    color:"#fff"
                                 }
                             },
                             splitLine: {
                                 show: true,
                                 lineStyle: {
-                                    color: 'rgba(115,128,173,0.1)',
+                                    color: 'rgba(101,148,129,0.8)',
+                                    type:'dotted',
                                     width: 1,
                                 }
                             },
-                            data : ['2017-04','2017-05','2017-06','2017-07','2017-08','2017-09']
+                            data : ['周二\n01/02','周三\n01/03','周四\n01/04','周五\n01/05','周六\n01/06','昨天\n01/07','今天\n01/07']
                         }
                     ],
                     yAxis : [
@@ -65,39 +66,62 @@ ee
                             axisLine: {show:false},
                             axisTick:{show:false},
                             axisLabel:{
-                                textStyle:{
-                                    color:"#7d8690"
-                                }
+                                show:false
                             },
                             splitLine: {
-                                show: true,
-                                lineStyle: {
-                                    color: 'rgba(115,128,173,0.3)',
-                                    type: 'dashed',
-                                    width: 1
-                                }
+                                show: false
                             },
                             splitArea: {
-                                show: true,
-                                areaStyle: {
-                                    color: ['rgba(255,255,255,0)','rgba(237,242,252,0.5)']
-                                }
-                            },
+                                show: false
+                            }
                         }
                     ],
-                    color:["#30b08b","#2ab7eb"],
+                    color:["#74d5fd","#58ffc6","#dddddd"],
                     series : [
                         {
-                            name:'客户拜访次数',
+                            name:'可挑拨库存',
                             type:'line',
                             barWidth:15,
-                            data:[46, 36, 19, 63, 78, 111]
+                            symbolSize:8,
+                            itemStyle: {
+                                normal: {
+                                    label: {
+                                        show: true,
+                                        position: "top"
+                                    }
+                                }
+                            },
+                            data:[46, 36, 19, 63, 78, 111,90]
                         },
                         {
-                            name:'客户拜访人数',
+                            name:'产量',
                             type:'line',
                             barWidth:15,
-                            data:[25, 17, 17, 26, 13, 27]
+                            symbolSize:8,
+                            itemStyle: {
+                                normal: {
+                                    label: {
+                                        show: true,
+                                        position: "top"
+                                    }
+                                }
+                            },
+                            data:[25, 17, 17, 26, 13, 27,50]
+                        },
+                        {
+                            name:'调拨量',
+                            type:'line',
+                            barWidth:15,
+                            symbolSize:8,
+                            itemStyle: {
+                                normal: {
+                                    label: {
+                                        show: true,
+                                        position: "top"
+                                    }
+                                }
+                            },
+                            data:[10, 19, 19, 24, 20, 14,30]
                         }
                     ]
                 };

@@ -1,105 +1,117 @@
 <template lang="html">
     <div class="body-box home-box scroll">
        <div class="carousel-box">
-          <mt-swipe :show-indicators="false">
-             <mt-swipe-item>
-               <img class="img-item" src="../../assets/img/carousel-1.png">
-             </mt-swipe-item>
-             <mt-swipe-item>
-               <img class="img-item" src="../../assets/img/carousel-1.png">
+          <mt-swipe :show-indicators="false" :prevent="true" :auto="3000">
+             <mt-swipe-item v-for="img in carouselImgs">
+               <img class="img-item" :src="img">
              </mt-swipe-item>
           </mt-swipe>
           <div class="welcome">{{userInfo.name}}，欢迎您！</div>
        </div>
        <div class="menu-box">
-           <div class="menu-nav">
-              <div class="title"><i class="mywork-icon"></i>我的工作</div>
+           <div class="menu-nav" v-for="menu in menuList">
+               <div class="title">
+               <i class="mywork-icon" :style="{backgroundImage: 'url('+menu.resicon+')'}"></i>{{menu.resname}}
+               <router-link v-if="!menu.moreurl" class="more" :to="'/home/kq?resid='+menu.resid">更多功能</router-link>
+              </div>
               <div class="menu-list clearfix">
-                 <div class="item">
-                    <router-link to="/work/pending">
-                      <img src="../../assets/img/1_icon.png"><span>待办工作</span>
-                    </router-link>
-                 </div>
-                 <div class="item">
-                    <!--<router-link to="/work/done">-->
-                    <router-link to="/kq/approval">
-                      <img src="../../assets/img/2_icon.png"><span>已办工作</span>
+                 <div class="item" v-for="subMenu in menu.submenus">
+                    <router-link :to="subMenu.resurl">
+                      <img :src="subMenu.resicon"><span>{{subMenu.resname}}</span>
                     </router-link>
                  </div>
               </div>
            </div>
-           <div class="menu-nav">
-              <div class="title"><i class="kq-icon"></i>考勤管理 <router-link class="more" to="/home/kq">更多功能</router-link></div>
-              <div class="menu-list clearfix">
-                 <div class="item">
-                    <router-link to="/kq/leave">
-                      <img src="../../assets/img/3_icon.png"><span>请假申请</span>
-                    </router-link>
-                 </div>
-                 <div class="item">
-                    <!--<router-link to="/kq/yearLeave">-->
-                    <router-link to="/kq/approval">
-                      <img src="../../assets/img/4_icon.png"><span>年假申请</span>
-                    </router-link>
-                 </div>
-                 <div class="item">
-                    <router-link to="/kq/exception">
-                      <img src="../../assets/img/5_icon.png"><span>异常处理</span>
-                    </router-link>
-                 </div>
-                 <div class="item">
-                    <router-link to="/kq/calendar">
-                      <img src="../../assets/img/6_icon.png"><span>考勤日历</span>
-                    </router-link>
-                 </div>
-              </div>
-           </div>
-           <div class="menu-nav">
-              <div class="title"><i class="work-icon"></i>办公管理</div>
-              <div class="menu-list clearfix">
-                 <div class="item">
-                    <router-link to="/officework/sendCarApply">
-                      <img src="../../assets/img/7_icon.png"><span>派车申请</span>
-                    </router-link>
-                 </div>
-                 <div class="item">
-                    <router-link to="/officework/workLunchApply">
-                      <img src="../../assets/img/8_icon.png"><span>工作餐申请</span>
-                    </router-link>
-                 </div>
-                 <div class="item">
-                    <router-link to="/officework/sendCarQuery">
-                      <img src="../../assets/img/9_icon.png"><span>派车单据查询</span>
-                    </router-link>
-                 </div>
-                  <div class="item">
-                    <router-link to="/officework/workLunchQuery">
-                      <img src="../../assets/img/10_icon.png"><span>工作餐单据查询</span>
-                    </router-link>
-                 </div>
-              </div>
-           </div>
+           <!--<div style="height: 5px;background-color: #bd2c00;margin: 10px 0;"></div>-->
+           <!--<div class="menu-nav">-->
+              <!--<div class="title"><i class="mywork-icon"></i>我的工作</div>-->
+              <!--<div class="menu-list clearfix">-->
+                 <!--<div class="item">-->
+                    <!--<router-link to="/work/pending">-->
+                      <!--<img src="../../assets/img/1_icon.png"><span>待办工作</span>-->
+                    <!--</router-link>-->
+                 <!--</div>-->
+                 <!--<div class="item">-->
+                    <!--&lt;!&ndash;<router-link to="/work/done">&ndash;&gt;-->
+                    <!--<router-link to="/kq/approval">-->
+                      <!--<img src="../../assets/img/2_icon.png"><span>已办工作</span>-->
+                    <!--</router-link>-->
+                 <!--</div>-->
+              <!--</div>-->
+           <!--</div>-->
+           <!--<div class="menu-nav">-->
+              <!--<div class="title"><i class="kq-icon"></i>考勤管理 <router-link class="more" to="/home/kq">更多功能</router-link></div>-->
+              <!--<div class="menu-list clearfix">-->
+                 <!--<div class="item">-->
+                    <!--<router-link to="/kq/leave">-->
+                      <!--<img src="../../assets/img/3_icon.png"><span>请假申请</span>-->
+                    <!--</router-link>-->
+                 <!--</div>-->
+                 <!--<div class="item">-->
+                    <!--&lt;!&ndash;<router-link to="/kq/yearLeave">&ndash;&gt;-->
+                    <!--<router-link to="/kq/approval">-->
+                      <!--<img src="../../assets/img/4_icon.png"><span>年假申请</span>-->
+                    <!--</router-link>-->
+                 <!--</div>-->
+                 <!--<div class="item">-->
+                    <!--<router-link to="/kq/exception">-->
+                      <!--<img src="../../assets/img/5_icon.png"><span>异常处理</span>-->
+                    <!--</router-link>-->
+                 <!--</div>-->
+                 <!--<div class="item">-->
+                    <!--<router-link to="/kq/calendar">-->
+                      <!--<img src="../../assets/img/6_icon.png"><span>考勤日历</span>-->
+                    <!--</router-link>-->
+                 <!--</div>-->
+              <!--</div>-->
+           <!--</div>-->
+           <!--<div class="menu-nav">-->
+              <!--<div class="title"><i class="work-icon"></i>办公管理</div>-->
+              <!--<div class="menu-list clearfix">-->
+                 <!--<div class="item">-->
+                    <!--<router-link to="/officework/sendCarApply">-->
+                      <!--<img src="../../assets/img/7_icon.png"><span>派车申请</span>-->
+                    <!--</router-link>-->
+                 <!--</div>-->
+                 <!--<div class="item">-->
+                    <!--<router-link to="/officework/workLunchApply">-->
+                      <!--<img src="../../assets/img/8_icon.png"><span>工作餐申请</span>-->
+                    <!--</router-link>-->
+                 <!--</div>-->
+                 <!--<div class="item">-->
+                    <!--<router-link to="/officework/sendCarQuery">-->
+                      <!--<img src="../../assets/img/9_icon.png"><span>派车单据查询</span>-->
+                    <!--</router-link>-->
+                 <!--</div>-->
+                  <!--<div class="item">-->
+                    <!--<router-link to="/officework/workLunchQuery">-->
+                      <!--<img src="../../assets/img/10_icon.png"><span>工作餐单据查询</span>-->
+                    <!--</router-link>-->
+                 <!--</div>-->
+              <!--</div>-->
+           <!--</div>-->
        </div>
     </div>
 </template>
 <script>
 import {HomeHttp} from '@/api/homeHttp';
+import { Indicator } from 'mint-ui';
 import { Swipe, SwipeItem } from 'mint-ui';
 export default {
     name:'homeInfo',
-    components: {Swipe, SwipeItem},
+    components: {Swipe, SwipeItem , Indicator},
     data(){
         return {
-           msg:'',
+           carouselImgs:[],
            menuList:[],
            list:[],
            userInfo:{}
         }
     },
     mounted(){
-        setTitle('工作台');
-        this.queryList();
+        setTitle('移动门户');
         this.initUserData();
+        this.queryMenuTree();
     },
     methods:{
         changeTwo(){
@@ -113,8 +125,21 @@ export default {
                 this.userInfo = getUserInfo();
             })
         },
-        queryList(){
-
+        queryMenuTree(){
+            Indicator.open({
+                text: '加载中...',
+                spinnerType: 'fading-circle'
+            });
+            HomeHttp.queryMenuTree({"iv-user":'02236654'}).then((res)=>{
+                //console.log(JSON.stringify(res))
+                this.menuList = res.data.submenus;
+                this.carouselImgs = res.data.pics.split(';');
+                this.$nextTick(()=>{
+                    Indicator.close();
+                })
+            }).catch(function (e) {
+                Indicator.close();
+            })
         }
     }
 }
@@ -124,13 +149,13 @@ export default {
   .home-box{
         height: 100vh;
   }
-  .mywork-icon{
-      background-image: url("../../assets/img/mywork-icon.png");
-  }
-  .kq-icon{
-      background-image: url("../../assets/img/kq-icon.png");
-  }
-  .work-icon{
-      background-image: url("../../assets/img/work-icon.png");
-  }
+  /*.mywork-icon{*/
+      /*background-image: url("../../assets/img/mywork-icon.png");*/
+  /*}*/
+  /*.kq-icon{*/
+      /*background-image: url("../../assets/img/kq-icon.png");*/
+  /*}*/
+  /*.work-icon{*/
+      /*background-image: url("../../assets/img/work-icon.png");*/
+  /*}*/
 </style>
