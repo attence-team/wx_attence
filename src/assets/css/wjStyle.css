@@ -256,6 +256,7 @@ input,select {
 }
 .application-list-box ,.application-type-box{
     padding: 0 0.3rem;
+    box-sizing: border-box;
     background-color: #fff;
 }
 .application-type-box {
