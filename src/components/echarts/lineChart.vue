@@ -1,5 +1,5 @@
 <template>
-    <div ref="chart" style="height:100%;width:100%;">
+    <div ref="chart" style="height:100%;width:100%;position: relative;">
     </div>
 </template>
 <script>
@@ -18,8 +18,8 @@
                         trigger: 'axis'
                     },
                     legend: {
-                        top:'2%',
-                        left:'5%',
+                        top:'0',
+                        left:'4.5%',
                         icon:'circle',
                         data:[
                             {name:'可挑拨库存',textStyle:{color:"#74d5fd"}},
@@ -62,7 +62,11 @@
                     ],
                     yAxis : [
                         {
-                            type : 'value',
+//                            type : 'value',
+                            name:'单位：箱',
+                            nameTextStyle:{
+                                color:'#ddd'
+                            },
                             axisLine: {show:false},
                             axisTick:{show:false},
                             axisLabel:{
@@ -91,7 +95,7 @@
                                     }
                                 }
                             },
-                            data:[46, 36, 19, 63, 78, 111,90]
+                            data:[2000, 1000, 2000, 6000, 36067, 10850,20866.1]
                         },
                         {
                             name:'产量',
@@ -106,7 +110,7 @@
                                     }
                                 }
                             },
-                            data:[25, 17, 17, 26, 13, 27,50]
+                            data:[1002, 2000, 5000, 3000, 500, 2700,5850]
                         },
                         {
                             name:'调拨量',
@@ -121,7 +125,7 @@
                                     }
                                 }
                             },
-                            data:[10, 19, 19, 24, 20, 14,30]
+                            data:[1002, 2000, 5000, 3400, 5700, 4700,8850]
                         }
                     ]
                 };
