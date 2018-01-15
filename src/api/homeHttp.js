@@ -1,5 +1,9 @@
-import { get,post } from './api'
+import { get,post,postHeader } from './api'
 export const HomeHttp = {
+    /* 获取用户id */
+    getUserId() {
+        return postHeader('lywx/SSOLogn.jsp', {});
+    },
     /* 查询用户信息 */
     queryUserInfo(params) {
         return post('lywebservice/user/getUserInfo', params);

@@ -61,10 +61,8 @@
     </div>
 </template>
 <script>
-import { Swipe, SwipeItem } from 'mint-ui';
-import { Badge } from 'mint-ui';
 import {HomeHttp} from '@/api/homeHttp';
-import { Indicator } from 'mint-ui';
+import { Swipe, SwipeItem,Badge,Indicator } from 'mint-ui';
 export default {
     name:'kq',
     components:{Badge,Swipe,SwipeItem,Indicator},
@@ -82,7 +80,13 @@ export default {
     },
     methods:{
         goRouter(url){
-            this.$router.push(url);
+            if(url.substring(0,1)=='/'){
+                this.$router.push({
+                    path:url
+                });
+            }else{
+                window.location.href = url;
+            }
         },
         queryMenuTree(){
             Indicator.open({

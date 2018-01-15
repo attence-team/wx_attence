@@ -11,8 +11,18 @@ if(Config.baseURL.prod&&Config.baseURL.prod.indexOf('http')>=0){
 }else{
   baseURL = Config.baseURL.dev;
 }
-// axios.defaults.withCredentials = true;
- export function post(url, params) {
+export function postHeader(url, params) {
+    return new Promise((resolve, reject) => {
+        axios.post(baseURL + url, params)
+            .then(response => {
+                resolve(response.headers);
+            })
+            .catch((error) => {
+                reject(error)
+            })
+    })
+}
+export function post(url, params) {
     return new Promise((resolve, reject) => {
         axios.post(baseURL + url, params)
             .then(response => {

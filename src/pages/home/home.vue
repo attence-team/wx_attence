@@ -16,9 +16,9 @@
               </div>
               <div class="menu-list clearfix">
                  <div class="item" v-for="subMenu in menu.submenus">
-                    <router-link :to="subMenu.resurl">
+                    <a @click="goRouter(subMenu.resurl,subMenu.resid)">
                       <img :src="subMenu.resicon"><span>{{subMenu.resname}}</span>
-                    </router-link>
+                    </a>
                  </div>
               </div>
            </div>
@@ -95,32 +95,49 @@
 </template>
 <script>
 import {HomeHttp} from '@/api/homeHttp';
-import { Indicator } from 'mint-ui';
-import { Swipe, SwipeItem } from 'mint-ui';
+import {Swipe,SwipeItem,Indicator,Toast} from 'mint-ui';
 export default {
     name:'homeInfo',
-    components: {Swipe, SwipeItem , Indicator},
+    components: {Swipe, SwipeItem ,Toast,Indicator},
     data(){
         return {
            carouselImgs:[],
            menuList:[],
            list:[],
+           userID:'02236654',
            userInfo:{}
         }
     },
     mounted(){
         setTitle('移动门户');
-        this.initUserData();
-        this.queryMenuTree();
+        HomeHttp.getUserId().then((headers)=>{
+            this.userID = headers["iv-user"];
+            this.initUserData();
+            this.queryMenuTree();
+        }).catch(()=>{
+//            Toast({
+//                message: '网络异常',
+//                duration: 10000
+//            });
+            this.initUserData();
+            this.queryMenuTree();
+        });
     },
     methods:{
+        goRouter(url,resid){
+            if(url.substring(0,1)=='/'){
+                this.$router.push(url+'?resid='+resid);
+            }else{
+                window.location.href = url;
+            }
+        },
         changeTwo(){
            this.$router.push({
                path:'/home/anotherPage2'
            });
         },
         initUserData(){
-            HomeHttp.queryUserInfo({"iv-user":'02236654'}).then((res)=>{
+            HomeHttp.queryUserInfo({"iv-user":this.userID}).then((res)=>{
                 setUserInfo(res.data);
                 this.userInfo = getUserInfo();
             })
@@ -130,8 +147,15 @@ export default {
                 text: '加载中...',
                 spinnerType: 'fading-circle'
             });
-            HomeHttp.queryMenuTree({"iv-user":'02236654'}).then((res)=>{
-                //console.log(JSON.stringify(res))
+            HomeHttp.queryMenuTree({"iv-user":this.userID}).then((res)=>{
+                if(res.code==0){
+                    Indicator.close();
+                    Toast({
+                        message: res.result,
+                        duration: 1000*60*60*10
+                    });
+                    return;
+                }
                 this.menuList = res.data.submenus;
                 this.carouselImgs = res.data.pics.split(';');
                 this.$nextTick(()=>{

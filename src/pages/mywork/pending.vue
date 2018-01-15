@@ -2,27 +2,29 @@
     <div class="body-box">
        <!--待办工作-->
        <div class="carousel-box">
-          <mt-swipe :show-indicators="false">
-              <mt-swipe-item>
-                 <img class="img-item" src="../../assets/img/carousel-1.png">
-              </mt-swipe-item>
-              <mt-swipe-item>
-                 <img class="img-item" src="../../assets/img/carousel-1.png">
-              </mt-swipe-item>
+          <mt-swipe :show-indicators="false" :prevent="true" :auto="3000">
+             <mt-swipe-item v-for="img in carouselImgs">
+               <img class="img-item" :src="img">
+             </mt-swipe-item>
           </mt-swipe>
-          <div class="welcome">江楠，欢迎您！</div>
+          <div class="welcome">你好，{{userInfo.name}}</div>
        </div>
        <div class="menu-box menu-tree">
            <div class="menu-nav">
               <div class="menu-list clearfix">
-                 <mt-cell title="NC待办" @click.native="goRouter('/kq/approval')" is-link>
-                    <img slot="icon" src="../../assets/img/11_icon.png" width="24" height="24">
-                 </mt-cell>
-                 <mt-cell title="考勤管理待办" @click.native="goRouter('/kq/approval')" is-link>
-                    <img slot="icon" src="../../assets/img/5_icon.png" width="24" height="24">
-                 </mt-cell>
-                 <mt-cell title="办公管理待办" @click.native="goRouter('/kq/approval')" is-link>
-                    <img slot="icon" src="../../assets/img/5_icon.png" width="24" height="24">
+                 <!--<mt-cell title="NC待办" @click.native="goRouter('/kq/approval')" is-link>-->
+                    <!--<img slot="icon" src="../../assets/img/11_icon.png" width="24" height="24">-->
+                 <!--</mt-cell>-->
+                 <!--<mt-cell title="考勤管理待办" @click.native="goRouter('/kq/approval')" is-link>-->
+                    <!--<img slot="icon" src="../../assets/img/5_icon.png" width="24" height="24">-->
+                 <!--</mt-cell>-->
+                 <!--<mt-cell title="办公管理待办" @click.native="goRouter('/kq/approval')" is-link>-->
+                    <!--<img slot="icon" src="../../assets/img/5_icon.png" width="24" height="24">-->
+                 <!--</mt-cell>-->
+                 <mt-cell :title="subMenu.resname"
+                 v-for="subMenu in menuList"
+                 @click.native="goRouter(subMenu.resurl)" is-link>
+                    <img slot="icon" :src="subMenu.resicon" width="24" height="24">
                  </mt-cell>
               </div>
            </div>
@@ -30,26 +32,50 @@
     </div>
 </template>
 <script>
-import { Swipe, SwipeItem } from 'mint-ui';
-import { Badge } from 'mint-ui';
+import {HomeHttp} from '@/api/homeHttp';
+import { Swipe, SwipeItem,Badge,Indicator } from 'mint-ui';
 export default {
-    name:'pending',
-    components:{Badge,Swipe,SwipeItem},
+    name:'kq',
+    components:{Badge,Swipe,SwipeItem,Indicator},
     data(){
         return {
-            urls:[
-                {title:'1',imgUrl:'http://www.jq22.com/demo/jQuerySlider201712071158/img/a5.png'},
-                {title:'2',imgUrl:'http://www.jq22.com/demo/jQuerySlider201712071158/img/a4.png'},
-                {title:'3',imgUrl:'http://www.jq22.com/demo/jQuerySlider201712071158/img/a2.png'}
-            ]
+            carouselImgs:[],
+            menuList:[],
+            userInfo:{}
         }
     },
     mounted(){
         setTitle('待办工作');
+        this.userInfo = getUserInfo();
+        this.queryMenuTree();
     },
     methods:{
         goRouter(url){
-            this.$router.push(url);
+            if(url.substring(0,1)=='/'){
+                this.$router.push({
+                    path:url
+                });
+            }else{
+                window.location.href = url;
+            }
+        },
+        queryMenuTree(){
+            Indicator.open({
+                text: '加载中...',
+                spinnerType: 'fading-circle'
+            });
+            HomeHttp.queryMenuTowTree({
+                "iv-user":this.userInfo.oa_id,
+                "resid":this.$route.query.resid
+            }).then((res)=>{
+                this.menuList = res.data.submenus;
+                this.carouselImgs = res.data.pics.split(';');
+                this.$nextTick(()=>{
+                    Indicator.close();
+                })
+            }).catch(function (e) {
+                Indicator.close();
+            })
         }
     }
 }
