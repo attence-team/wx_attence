@@ -1,11 +1,16 @@
 import axios from 'axios'
-import {Config} from './config'
+var Config = {
+    TIMEOUT: 30000,
+    baseURL: {
+        dev: 'http://mock.eolinker.com/ZXF1aEK62a6c81919359967c3fba0fe8cbb83c9e9046f38?uri=',
+        prod: window.BASE_URL?window.BASE_URL:""
+    }
+};
 // axios 配置
 axios.defaults.timeout = Config.TIMEOUT;
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
 axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
-axios.defaults.baseURL = '';
-let baseURL = '';
+var baseURL = '';
 if(Config.baseURL.prod&&Config.baseURL.prod.indexOf('http')>=0){
   baseURL = Config.baseURL.prod;
 }else{
