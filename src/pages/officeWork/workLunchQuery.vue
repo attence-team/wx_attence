@@ -78,7 +78,7 @@
         components:{TimeTool},
         data(){
             return {
-                listBox:true,
+                listBox:false,
                 staff_num:getUserInfo().staff_num, //职工id
                 sdate:'', //开始日期
                 edate:'', //结束日期
@@ -91,6 +91,13 @@
         },
         mounted(){
             //this.getWorkLunchList();//creatMescroll();
+            let _this = this;
+            setTimeout(function() {
+               let header = document.getElementById('header'),
+                   listBox = document.getElementById('listBox');
+                   listBox.style.top = header.offsetHeight + 'px';
+                   _this.listBox = true; //显示列表容器
+            },1)
         },
         activated(){
         },
@@ -187,11 +194,11 @@
 .body-box {
     position: relative;
 }
-/* .mescroll-wrap {
+.mescroll-wrap {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
     overflow: hidden;
-} */
+}
 </style>
