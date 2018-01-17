@@ -72,13 +72,13 @@
 <script>
     import { WlHttp } from '@/api/workLunchHttp';
     import TimeTool from "@/components/query/timetool";
-    window.Mescroll = require('../../assets/js/mescroll.min.js');
+    //window.Mescroll = require('../../assets/js/mescroll.min.js');
     export default {
         name: 'workLunchQuery',
         components:{TimeTool},
         data(){
             return {
-                listBox:false,
+                listBox:true,
                 staff_num:getUserInfo().staff_num, //职工id
                 sdate:'', //开始日期
                 edate:'', //结束日期
@@ -90,7 +90,7 @@
             }
         },
         mounted(){
-            this.creatMescroll();
+            //this.getWorkLunchList();//creatMescroll();
         },
         activated(){
         },
@@ -112,7 +112,7 @@
                     pageLength:this.pageLength
                 };
                 WlHttp.getWorkLunchList(params).then((res)=>{
-                    //console.log(res);
+
                     if (res.code=='1') {
                         let pageData = res.data.pageData;
                         let _this = this,hasNext = true;
@@ -123,24 +123,26 @@
                         pageData.map(function(e) {
                             _this.listDataArr.push(e);
                         })
-                        this.mescroll.endSuccess(20,hasNext);
+                        console.log(_this.listDataArr);
+                        //this.mescroll.endSuccess(20,hasNext);
                     }else{
-                        this.mescroll.endErr();
+                        //this.mescroll.endErr();
                     }
                 });
             },
             changeLd_appr(index){
                 this.ld_appr = index;
-                this.mescroll.resetUpScroll();
+                //this.mescroll.resetUpScroll();
             },
             changeDir_appr(index){
                 this.dir_appr = index;
-                this.mescroll.resetUpScroll();
+                //this.mescroll.resetUpScroll();
             },
             selectTime(startTime,endTime){
                 this.sdate = startTime.Format2String('yyyyMMdd');
                 this.edate = endTime.Format2String('yyyyMMdd');
-                this.mescroll.resetUpScroll();
+                this.getWorkLunchList();
+                //this.mescroll.resetUpScroll();
             },
             creatMescroll(){
                  let _this = this;
@@ -185,11 +187,11 @@
 .body-box {
     position: relative;
 }
-.mescroll-wrap {
+/* .mescroll-wrap {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
     overflow: hidden;
-}
+} */
 </style>
