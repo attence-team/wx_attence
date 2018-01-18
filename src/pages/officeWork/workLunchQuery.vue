@@ -102,11 +102,11 @@
         },
         methods:{
             toPage(item){
-//               if(item.dir_title.indexOf('未提交')){
-//                  this.$router.push('workLunchApply?id=' + item.dinner_id);
-//               }else{
+               if(item.dir_title.indexOf('未提交')){
+                  this.$router.push('workLunchApply?id=' + item.dinner_id);
+               }else{
                  this.$router.push('workLunchDetails?id=' + item.dinner_id);
-              // }
+               }
             },
             getWorkLunchList(){
                 let params = {

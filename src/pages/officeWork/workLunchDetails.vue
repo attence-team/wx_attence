@@ -16,7 +16,7 @@
         <p>审核编号：<span>{{info.dinner_id}}</span></p>
         <p>申请部门：<span>{{info.dept_name}}</span></p>
         <p>临时卡名称：<span>{{info.rs_name}}</span></p>
-        <p>就餐类别：<span>自助餐</span></p>
+        <p>就餐类别：<span>{{info.stand_name}}</span></p>
         <p>来宾单位：<span>{{info.guest}}</span></p>
         <p>用餐人数：<span>{{info.staff_cnt}}</span></p>
         <p>用餐开始时间：<span>{{info.dinner_time}}</span></p>
@@ -59,8 +59,7 @@
     methods:{
        queryDetail(){
          WlHttp.getWorkLunchDetails({
-            dinner_id: '94075'
-            //this.$route.query.id
+            dinner_id:this.$route.query.id
          }).then((res)=>{
              this.info = res.data;
              this.state = this.info.ld_appr_nm!=='已审批';
