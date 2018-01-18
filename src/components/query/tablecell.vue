@@ -4,8 +4,8 @@
             <span v-for="title in columnNames.titles">{{title}}</span>
         </div>
         <div v-if="tableList.length>0" class="table-row bd-bottom-1" v-for="obj in tableList">
-            <i class="point"></i>
-            <span v-for="column in columnNames.columnValues">{{obj[column]}}</span>
+            <i class="point" v-if="pointShow"></i>
+            <span :title="obj[column]" v-for="column in columnNames.columnValues">{{obj[column]}}</span>
         </div>
         <div v-if="tableList.length<=0" class="noneData">暂无数据</div>
     </div>
@@ -29,11 +29,14 @@
                     titles:['列1','列2','列3'],
                     columnValues:['value1','value2','value3'],
                 }
-            }
+            },
+            pointShow:{
+             type: Boolean,
+             default: true
+           }
         },
         watch:{
             dataList:function (c,o) {
-                console.log(c)
                 this.tableList = c;
             }
         }
@@ -48,6 +51,9 @@
     }
     .table-row span{
         color: #999;
+      overflow: hidden;
+      text-overflow:ellipsis;
+      white-space: nowrap;
     }
     .table-title span{
         color: #333;

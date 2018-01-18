@@ -18,7 +18,7 @@
           </div>
         </div>
         <div class="exp-box table-box scroll">
-            <TableCell :dataList="tableList" :columnNames="columnValue"></TableCell>
+            <TableCell :dataList="tableList" :pointShow="false" :columnNames="columnValue"></TableCell>
         </div>
     </div>
 </template>
@@ -34,7 +34,7 @@
                 tableList:[],
                 columnValue:{
                     titles:['部门名称','姓名','日期','打卡时间','打卡情况'],
-                    columnValues:['v1','v2','v3','v4','v5'],
+                    columnValues:['dept_name','staff_name','year_month','bursh_time','bursh_name'],
                 },
                 userInfo:{},
                 sdate:'',
@@ -44,7 +44,7 @@
         mounted(){
             setTitle('考勤查询');
             this.userInfo = getUserInfo();
-            this.queryList();
+            //this.queryList();
         },
         methods:{
             selectTime(startTime,endTime){
@@ -53,16 +53,17 @@
                 this.queryList();
             },
             queryList(){
-              this.tableList = [
-                {v1:'xxxx部',v2:'张三',v3:'20171012',v4:'083032',v5:'正常打卡'},
-                {v1:'xxxx部',v2:'张三',v3:'20171012',v4:'083032',v5:'正常打卡'},
-                {v1:'xxxx部',v2:'张三',v3:'20171012',v4:'083032',v5:'正常打卡'},
-                {v1:'xxxx部',v2:'张三',v3:'20171012',v4:'083032',v5:'正常打卡'},
-                {v1:'xxxx部',v2:'张三',v3:'20171012',v4:'083032',v5:'正常打卡'},
-                {v1:'xxxx部',v2:'张三',v3:'20171012',v4:'083032',v5:'正常打卡'},
-                {v1:'xxxx部',v2:'张三',v3:'20171012',v4:'083032',v5:'正常打卡'},
-                {v1:'xxxx部',v2:'张三',v3:'20171012',v4:'083032',v5:'正常打卡'}
-              ];
+                KqHttp.queryKqList({
+                   staff_num: getUserInfo().staff_num,
+                   dept_num: getUserInfo().dept_num,
+                   sdate:this.sdate,
+                   edate:this.edate,
+                   currPage:'1',
+                   pageLength:'100'
+                }).then((res)=>{
+//                   console.log(res)
+                   this.tableList = res.data.pageData;
+                });
             }
         }
     }
