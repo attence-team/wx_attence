@@ -1,5 +1,5 @@
 <template>
-    <div class="body-box">
+    <div class="body-box scroll">
         <div class="approved-head">
             <div class="approved-head-row">
                 <div class="approved-head-warp">申请部门：<span class="approved-head-info">{{dept_name}}</span></div>
@@ -76,7 +76,7 @@
                     <label class="inputLabel" for="startTime">
                     <span class="approved-body-info">
                         {{info.dinner_time}}
-                        <input type="date" id="startTime" name="startTime"  v-model="info.dinner_time">
+                        <input type="date"  name="startTime"  v-model="info.dinner_time">
                     </span>
                     <span class="cue">*必填</span>
                     </label>
@@ -87,7 +87,7 @@
                     用餐结束时间：
                     <label class="inputLabel" for="endTime">
                     <span class="approved-body-info">
-                        {{info.dinner_time_end}}<input type="date" id="endTime" name="endTime"  v-model="info.dinner_time_end">
+                        {{info.dinner_time_end}}<input type="date" name="endTime"  v-model="info.dinner_time_end">
                     </span>
                     <span class="cue">*必填</span>
                     </label>
@@ -299,9 +299,11 @@
     .approved-body-warp .inputLabel {
         flex: 1;
         display: flex;
+        position: relative;
     }
     .approved-body-info {
         flex: 1;
+        color: #999;
     }
     .approved-body-info input {
         width: 100%;
@@ -323,8 +325,12 @@
         color: #999;
     }
     .sendCarDate input[type="date"] {
-        width: 0;
-        height: 0;
+      position: absolute;
+      width: 100%;
+      height: 60px;
+      top: 0;
+      left: 0;
+      opacity: 0;
     }
     .aboard-place-box {
         display: flex;
