@@ -42,8 +42,10 @@
 </template>
 <script>
   import { WlHttp } from '@/api/workLunchHttp';
+  import JEInput from "@/components/form/je-input";
   export default {
     name: 'workLunchDetails',
+    components:{JEInput},
     data(){
       return {
         info:{},
