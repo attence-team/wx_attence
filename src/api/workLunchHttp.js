@@ -16,5 +16,8 @@ export const WlHttp = {
     getWorkLunchList(params) {
         return post('lywebservice/dinner/queryDinner',params);
     },
-
+    /* 根据ID获取工作餐数据接口 */
+    getWorkLunchDetails(params) {
+      return post('lywebservice/dinner/getDinner',params);
+    },
 };

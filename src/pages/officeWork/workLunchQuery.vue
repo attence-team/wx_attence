@@ -14,20 +14,20 @@
         <div class="mescroll-wrap" id="listBox" v-show="listBox">
             <div class="application-list-box mescroll" id="mescroll">
                 <ul class="application-list">
-                    <router-link v-for="item in listDataArr" :to="'workLunchApply?id=' + item.dinner_id ">
-                    <li class="application-list-cell">
-                        <div class="icon"></div>
-                        <div class="application-list-info bd-bottom-1">
-                            <div class="application-list-info-wrap">
-                                <p class="application-title-date">
-                                    <span class="application-title-wrap"><span class="application-title">{{item.dir_title}}</span><!--<span class="submitted">（已提交）</span>--></span>
-                                    <span class="application-date">{{item.apply_time | formatDate}}</span>
-                                </p>
-                                <p class="eat-type">就餐类别：{{item.stand_name}}</p>
-                            </div>
-                        </div>
-                    </li>
-                    </router-link>
+                    <!--<router-link v-for="item in listDataArr" :to="'workLunchApply?id=' + item.dinner_id ">-->
+                      <li class="application-list-cell" v-for="item in listDataArr" @click="toPage(item)">
+                          <div class="icon"></div>
+                          <div class="application-list-info bd-bottom-1">
+                              <div class="application-list-info-wrap">
+                                  <p class="application-title-date">
+                                      <span class="application-title-wrap"><span class="application-title">{{item.dir_title}}</span><!--<span class="submitted">（已提交）</span>--></span>
+                                      <span class="application-date">{{item.apply_time | formatDate}}</span>
+                                  </p>
+                                  <p class="eat-type">就餐类别：{{item.stand_name}}</p>
+                              </div>
+                          </div>
+                      </li>
+                    <!--</router-link>-->
                     <!-- <router-link to="workLunchApply">
                     <li class="application-list-cell">
                         <div class="icon"></div>
@@ -101,6 +101,13 @@
           }
         },
         methods:{
+            toPage(item){
+//               if(item.dir_title.indexOf('未提交')){
+//                  this.$router.push('workLunchApply?id=' + item.dinner_id);
+//               }else{
+                 this.$router.push('workLunchDetails?id=' + item.dinner_id);
+              // }
+            },
             getWorkLunchList(){
                 let params = {
                     staff_num:this.staff_num,
