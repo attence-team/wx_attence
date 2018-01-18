@@ -139,10 +139,12 @@
             },
             changeLd_appr(index){
                 this.ld_appr = index;
+                this.getWorkLunchList();
                 //this.mescroll.resetUpScroll();
             },
             changeDir_appr(index){
                 this.dir_appr = index;
+                this.getWorkLunchList();
                 //this.mescroll.resetUpScroll();
             },
             selectTime(startTime,endTime){
