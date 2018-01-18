@@ -18,6 +18,8 @@ import LeaveQuery from 'pages/kq/leaveQuery';
 import ApplyQuery from 'pages/kq/applyQuery';
 import CardRecord from 'pages/kq/cardRecord';
 import Bill from 'pages/kq/bill';
+import kqQuery from 'pages/kq/kqQuery';
+
 //办公管理
 import SendCarApply from 'pages/officeWork/sendCarApply';
 import WorkLunchApply from 'pages/officeWork/workLunchApply';
@@ -148,6 +150,12 @@ export default new Router({
                   path: 'bill',
                   components: {
                       body: Bill
+                  }
+              },
+              {
+                  path: 'kqQuery',
+                  components: {
+                     body: kqQuery
                   }
               }
           ]

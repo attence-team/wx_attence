@@ -33,6 +33,7 @@
         },
         watch:{
             dataList:function (c,o) {
+                console.log(c)
                 this.tableList = c;
             }
         }

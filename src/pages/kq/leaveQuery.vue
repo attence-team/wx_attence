@@ -76,10 +76,12 @@
     }
     .query-box{
         background-color: #fff;
-        padding-left: 0.25rem;
+    }
+    .query-box .info{
+        margin-left: 0.25rem;
     }
     .query{
-        width: 100%;
-        margin: 0.5rem 0;
+        width: 90%;
+        margin: 0.3rem 5%;
     }
 </style>

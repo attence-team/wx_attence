@@ -97,5 +97,6 @@ export default {
     .menu-list {
         padding: 0 0 0 0.4rem;
         overflow: hidden;
+        border-radius: 5px;
     }
 </style>

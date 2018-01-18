@@ -1,5 +1,5 @@
 import axios from 'axios'
-var Config = {
+let Config = {
     TIMEOUT: 30000,
     baseURL: {
         dev: 'http://mock.eolinker.com/ZXF1aEK62a6c81919359967c3fba0fe8cbb83c9e9046f38?uri=',
@@ -10,7 +10,7 @@ var Config = {
 axios.defaults.timeout = Config.TIMEOUT;
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
 axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
-var baseURL = '';
+let baseURL = '';
 if(Config.baseURL.prod&&Config.baseURL.prod.indexOf('http')>=0){
   baseURL = Config.baseURL.prod;
 }else{
