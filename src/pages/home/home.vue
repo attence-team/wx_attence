@@ -1,18 +1,26 @@
 <template lang="html">
     <div class="body-box home-box scroll">
+       <LeftMenu :show="leftMenuShow"/>
        <div class="carousel-box">
           <mt-swipe :show-indicators="false" :prevent="true" :auto="3000">
-             <mt-swipe-item v-for="img in carouselImgs">
-               <img class="img-item" :src="img">
+             <!--<mt-swipe-item v-for="img in carouselImgs">-->
+               <!--<img class="img-item" :src="img">-->
+             <!--</mt-swipe-item>-->
+             <mt-swipe-item>
+               <img class="img-item" src="../../assets/img/carousel-1.jpg">
              </mt-swipe-item>
           </mt-swipe>
+          <div class="menu-btn" @click="leftMenuShow=!leftMenuShow"><i class="iconfont icon-3401caidan"></i></div>
+          <div class="title">企业文化 . 核心理念</div>
           <div class="welcome">{{userInfo.name}}，欢迎您！</div>
        </div>
        <div class="menu-box">
            <div class="menu-nav" v-for="menu in menuList">
-               <div class="title">
-               <i class="mywork-icon" :style="{backgroundImage: 'url('+menu.resicon+')'}"></i>{{menu.resname}}
-               <router-link v-if="!menu.moreurl" class="more" :to="'/home/kq?resid='+menu.resid">更多功能</router-link>
+               <div class="title bd-bottom-1">
+                 <span>
+                    <i class="mywork-icon" :style="{backgroundImage: 'url('+menu.resicon+')'}"></i>{{menu.resname}}
+                    <router-link v-if="!menu.moreurl" class="more" :to="'/home/kq?resid='+menu.resid">更多功能</router-link>
+                 </span>
               </div>
               <div class="menu-list clearfix">
                  <div class="item" v-for="subMenu in menu.submenus">
@@ -24,7 +32,7 @@
            </div>
            <!--<div style="height: 5px;background-color: #bd2c00;margin: 10px 0;"></div>-->
            <!--<div class="menu-nav">-->
-              <!--<div class="title"><i class="mywork-icon"></i>我的工作</div>-->
+              <!--<div class="title bd-bottom-1"><span><i class="mywork-icon"></i>我的工作</span></div>-->
               <!--<div class="menu-list clearfix">-->
                  <!--<div class="item">-->
                     <!--<router-link to="/work/pending">-->
@@ -96,16 +104,18 @@
 <script>
 import {HomeHttp} from '@/api/homeHttp';
 import {Swipe,SwipeItem,Indicator,Toast} from 'mint-ui';
+import LeftMenu from "@/components/menu/leftMenu";
 export default {
     name:'homeInfo',
-    components: {Swipe, SwipeItem ,Toast,Indicator},
+    components: {Swipe, SwipeItem ,Toast,Indicator,LeftMenu},
     data(){
         return {
            carouselImgs:[],
            menuList:[],
            list:[],
            userID:'02236654',
-           userInfo:{}
+           userInfo:{},
+           leftMenuShow:false
         }
     },
     mounted(){
@@ -173,13 +183,13 @@ export default {
   .home-box{
         height: 100vh;
   }
-  /*.mywork-icon{*/
-      /*background-image: url("../../assets/img/mywork-icon.png");*/
-  /*}*/
-  /*.kq-icon{*/
-      /*background-image: url("../../assets/img/kq-icon.png");*/
-  /*}*/
-  /*.work-icon{*/
-      /*background-image: url("../../assets/img/work-icon.png");*/
-  /*}*/
+  .mywork-icon{
+      background-image: url("../../assets/img/mywork-icon.png");
+  }
+  .kq-icon{
+      background-image: url("../../assets/img/kq-icon.png");
+  }
+  .work-icon{
+      background-image: url("../../assets/img/work-icon.png");
+  }
 </style>
