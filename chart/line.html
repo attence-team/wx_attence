@@ -11,10 +11,15 @@
 </body>
 <script type='text/javascript' src='../static/js/echarts.min.js'></script>
 <script>
-  var myChart = echarts.init(document.getElementById('chartId'));
-  initChart(myChart);
-  function initChart(myChart){
-    let option = {
+  function initChart() {
+    var dataList = JSON.parse(sessionStorage.getItem('dataList'));
+    //alert(sessionStorage.getItem('dataList'));
+    var myChart = echarts.init(document.getElementById('chartId'));
+    createChart(myChart,dataList);
+  }
+  function createChart(myChart,data){
+    data = [{"open_date":"20150909","day_db_count":53219.5},{"open_date":"20150903","day_db_count":51153.9},{"open_date":"20150911","day_db_count":53234.5},{"open_date":"20150906","day_db_count":57053.5},{"open_date":"20150908","day_db_count":54533.3},{"open_date":"20150905","day_db_count":56189.3},{"open_date":"20150907","day_db_count":55819.5},{"open_date":"20150904","day_db_count":52637.7},{"open_date":"20150912","day_db_count":57172.7},{"open_date":"20150910","day_db_count":52411.3}];
+    var option = {
       tooltip : {
         trigger: 'axis'
       },
@@ -42,7 +47,7 @@
           axisTick:{show:false},
           axisLine: {
             lineStyle: {
-              color: '#7380ad'
+              color: "rgba(250,250,250,0.8)"
             }
           },
           axisLabel:{

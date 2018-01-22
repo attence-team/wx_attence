@@ -29,42 +29,64 @@
         data(){
             return {
                 time: new Date(),
-                dateList:[]
+                dateList:[],
+                recordList:[]
             }
         },
         props: {
             curTime: {
                 type: String,
                 default: ((new Date()).Format2String('yyyy-MM-dd'))
+            },
+            dataList:{
+               type:Array,
+               default:[]
             }
         },
         watch:{
             curTime(curVal,oldVal){
                 this.time = new Date(curVal);
                 this.initCalendar();
+                this.setDateSelect(new Date().Format2String('yyyy-MM-dd'),'active');
+                this.$emit('clickDate',new Date().Format2String('yyyy-MM-dd'));
+            },
+            dataList(curVal,oldVal){
+               this.recordList = curVal;
+               this.setDateSelectList();
             }
         },
         mounted(){
             this.initCalendar();
-            this.setDateSelect(new Date().Format2String('yyyy-MM-dd'),'active');
-            this.setDateSelect('2018-01-08','warn');
-            this.setDateSelect('2018-01-06','warn');
-            this.setDateSelect('2018-01-05','warn');
-            this.setDateSelect('2018-01-04','normal');
-            this.setDateSelect('2018-01-03','normal');
-            this.setDateSelect('2018-01-02','normal');
-            this.setDateSelect('2018-01-01','normal');
-            this.setDateSelect('2017-12-31','diabled normal');
+//            this.setDateSelect('2018-01-08','warn');
+//            this.setDateSelect('2018-01-05','warn');
+//            this.setDateSelect('2018-01-04','normal');
+//            this.setDateSelect('2018-01-03','normal');
+//            this.setDateSelect('2018-01-02','normal');
+//            this.setDateSelect('2018-01-01','normal');
+//            this.setDateSelect('2017-12-31','diabled normal');
         },
         methods:{
             clickDay(idx){
                 if(this.dateList[idx].time){
+                    this.setDateSelect(this.dateList[idx].time,'active');
                     this.$emit('clickDate',this.dateList[idx].time);
+                }
+            },
+            setDateSelectList(){
+                //2:迟到, 3:早退, 4:请假, 9:休息日, 5:未刷卡
+                for(let i=0;i<this.recordList.length;i++){
+                   let record = this.recordList[i];
+                   if(record.bursh_mark==2||record.bursh_mark==3||record.bursh_mark==5){
+                     this.setDateSelect(record.year_month,'warn');
+                   }else if(record.bursh_mark==4){
+                     this.setDateSelect(record.year_month,'normal');
+                   }
                 }
             },
             initCalendar(){
                 this.dateList = [
-                    {value:'日'}, {value:'一'}, {value:'二'}, {value:'三'}, {value:'四'}, {value:'五'}, {value:'六'}
+                    {value:'日',type:''}, {value:'一',type:''}, {value:'二',type:''},
+                  {value:'三',type:''}, {value:'四',type:''}, {value:'五',type:''}, {value:'六',type:''}
                 ];
                 let monthDay = this.time.getMonthDay();
                 let upMonthDay = new Date(getPreMonth(this.time.Format2String('yyyy-MM-dd'))).getMonthDay();
@@ -81,6 +103,7 @@
                     }else if(monthCount<=monthDay){
                         let time = monthCount<10?('0'+monthCount):(''+monthCount);
                         day = {
+                            type:'',
                             time:this.time.Format2String('yyyy-MM-')+time,
                             value: monthCount++
                         };
@@ -94,14 +117,20 @@
                 }
             },
             setDateSelect(date,type){
+                if(type=='active'){
+                    for(let i=8;i<this.dateList.length;i++){
+                       if(this.dateList[i].type=='active'){
+                         this.dateList[i].type = '';
+                       }
+                    }
+                }
                 let idx = this.getDateIdx(date);
                 if(idx<0) return;
                 this.dateList[idx].type = type;
             },
             getDateIdx(date){
-                let day = new Date(date).getDate();
-                for(let i=0;i<this.dateList.length;i++){
-                   if(this.dateList[i].value == day){
+                for(let i=8;i<this.dateList.length;i++){
+                   if(this.dateList[i].time == date){
                        return i;
                    }
                 }
@@ -146,8 +175,11 @@
     {
         color: #999999;
     }
+    .calendar li span{
+      transition: background-color .3s,color .3s;
+    }
     .active span{
-        display: block;
+        display: inline-block;
         margin: 0 auto;
         width: 0.88rem;
         height: 0.88rem;

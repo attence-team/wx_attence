@@ -3,15 +3,18 @@
     <div class="body-box">
         <TimetoolComps @selectTime="selectTime"></TimetoolComps>
         <div class="calendar-box">
-            <CalendarComps :curTime="curTime" @clickDate="clickDate"></CalendarComps>
+            <CalendarComps :dataList="recordList" :curTime="curTime" @clickDate="clickDate"></CalendarComps>
         </div>
         <div class="day-box">
-            <div class="title">2017-10-19具体事宜</div>
+            <div class="title">{{currentDate}}具体事宜</div>
             <div class="days">
-                <div class="day-item"><span class="bd-bottom-1">正常（09:04）</span></div>
-                <div class="day-item"><span class="bd-bottom-1">正常（12:34）</span></div>
-                <div class="day-item warn"><span class="bd-bottom-1">未刷卡（13:00）</span></div>
-                <div class="day-item"><span>正常（18:04）</span></div>
+                <!--<div class="day-item"><span class="bd-bottom-1">正常（09:04）</span></div>-->
+                <!--<div class="day-item"><span class="bd-bottom-1">正常（12:34）</span></div>-->
+                <!--<div class="day-item warn"><span class="bd-bottom-1">未刷卡（13:00）</span></div>-->
+                <!--<div class="day-item"><span>正常（18:04）</span></div>-->
+                <div :class="{'day-item':true,warn:(cur.bursh_name.indexOf('正常')!=-1)}" v-for="(cur,idx) in curData">
+                   <span :class="{'bd-bottom-1':(idx!=curData.length-1)}">{{cur.bursh_name}}（{{cur.bursh_time}}）</span>
+                </div>
             </div>
         </div>
     </div>
@@ -19,26 +22,53 @@
 <script>
     import TimetoolComps from "@/components/calendar/timetool";
     import CalendarComps from "@/components/calendar/calendarComps";
+    import {KqHttp} from '@/api/kqHttp';
     export default {
         name: 'calendar',
         components:{ CalendarComps,TimetoolComps },
         data(){
             return {
-                curTime: new Date().Format2String('yyyy-MM-dd'),
+               curTime: new Date().Format2String('yyyy-MM-dd'),
+               curData:[],
+               currentDate:'',
+               recordList:[]
             }
         },
         activated(){
-            setTitle('考勤日历');
+           setTitle('考勤日历');
+           this.currentDate = new Date().Format2String('yyyy-MM-dd');
         },
         methods:{
             clickDate(selectTime){
-                console.log('点击了时间：'+selectTime)
+                console.log('点击了时间：'+selectTime);
+                this.currentDate = selectTime;
+                KqHttp.queryKqList({
+                  staff_num:'2333',
+                  sdate:'20160601',
+                  edata:'20160631',
+                  currPage:1,
+                  pageLength:1000
+                }).then((res)=>{
+                   this.curData = res.data.pageData;
+                });
             },
             selectTime(startTime,endTime){
+                this.curTime =  startTime;
                 this.sdate = startTime.Format2String('yyyyMMdd');
                 this.edate = endTime.Format2String('yyyyMMdd');
                 console.log('sdate:'+startTime);
                 console.log('edate:'+endTime);
+                this.queryList();
+            },
+            queryList(){
+                KqHttp.queryKqCalendarList({
+                   staff_num:getUserInfo().staff_num,
+                   sdate:this.sdate,
+                   edata:this.edate
+                }).then((res)=>{
+                    console.log(res);
+                    this.recordList = res.data;
+                });
             }
         }
     }

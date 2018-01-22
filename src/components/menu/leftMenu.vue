@@ -1,27 +1,32 @@
 <template>
-  <div class="leftMenu" v-if="menuShow">
-    <div class="bg-shadow" @click="menuShow=false"></div>
-    <div class="menu-box" v-show="menuShow">
+  <div class="leftMenu">
+    <!--<div class="bg-shadow" @click="menuShow=false"></div>-->
+    <div class="menu-box">
       <div class="title">
          <img src="../../assets/img/setting-icon.png">
          <span>系统入口</span>
       </div>
       <div>
-        <a class="menu-cell">
-          <i class="menu-item-icon mywork-icon"></i>
-          <span class="menu-cell-content">我的工作</span>
+        <a class="menu-cell" v-for="data in dataList" @click="clkItem(data)">
+          <i class="menu-item-icon mywork-icon" :style="{backgroundImage: 'url('+data.resicon+')'}"></i>
+          <span class="menu-cell-content">{{data.resname}}</span>
           <i class="iconfont icon-arrow-right-copy"></i>
         </a>
-        <a class="menu-cell">
-          <i class="menu-item-icon mywork-icon"></i>
-          <span class="menu-cell-content">考勤管理</span>
-          <i class="iconfont icon-arrow-right-copy"></i>
-        </a>
-        <a class="menu-cell">
-          <i class="menu-item-icon mywork-icon"></i>
-          <span class="menu-cell-content">办公管理</span>
-          <i class="iconfont icon-arrow-right-copy"></i>
-        </a>
+        <!--<a class="menu-cell" @click="clkItem('我的工作')">-->
+          <!--<i class="menu-item-icon mywork-icon"></i>-->
+          <!--<span class="menu-cell-content">我的工作</span>-->
+          <!--<i class="iconfont icon-arrow-right-copy"></i>-->
+        <!--</a>-->
+        <!--<a class="menu-cell" @click="clkItem('考勤管理')">-->
+          <!--<i class="menu-item-icon mywork-icon"></i>-->
+          <!--<span class="menu-cell-content">考勤管理</span>-->
+          <!--<i class="iconfont icon-arrow-right-copy"></i>-->
+        <!--</a>-->
+        <!--<a class="menu-cell" @click="clkItem('办公管理')">-->
+          <!--<i class="menu-item-icon mywork-icon"></i>-->
+          <!--<span class="menu-cell-content">办公管理</span>-->
+          <!--<i class="iconfont icon-arrow-right-copy"></i>-->
+        <!--</a>-->
       </div>
     </div>
   </div>
@@ -30,46 +35,37 @@
   export default {
     name: 'leftMenu',
     data(){
-      return {
-        menuShow:''
-      }
+      return {}
     },
     props: {
-      show: {
-         type: Boolean,
-         default: false
+      dataList: {
+        type: Array,
+        default: []
       }
     },
-    watch:{
-      show(newVal,oldVal){
-         this.menuShow = newVal;
+    methods:{
+      clkItem(item){
+         this.$emit('selectLink',item.resurl+'?resid='+item.resid);
       }
     }
   }
 </script>
 <style lang="css" scoped>
    .leftMenu{
-      position: fixed;
-      height: 100%;
-      width: 100%;
-      z-index: 99999999;
-   }
-   .bg-shadow{
-     position: absolute;
-     top: 0;
-     left: 0;
-     height: 100%;
-     width: 100%;
-     background-color: rgba(0,0,0,0.5);
+      height: 100vh;
+      width: 60vw;
+      margin-top: -1px;
    }
    .menu-box{
      height: 100%;
-     width: 60%;
+     width: 100%;
      background-color: #fff;
    }
    .menu-box .title{
      height: 1.8rem;
-     background-color: #eff0f2;
+     /*background-color: #eff0f2;*/
+     background-image: url("../../assets/img/sys-setting-bg.png");
+     background-size: cover;
    }
    .menu-box .title img{
       position: relative;
@@ -120,14 +116,7 @@
       float: right;
       color: #aaa;
    }
-
    .mywork-icon{
       background-image: url("../../assets/img/work-icon.png");
-   }
-   .kq-icon{
-     background-image: url("../../assets/img/kq-icon.png");
-   }
-   .work-icon{
-     background-image: url("../../assets/img/work-icon.png");
    }
 </style>

@@ -6,7 +6,9 @@
                 <span :class="{active: countIdx==1}" @click="selCount(1)">月统计</span>
             </div>
             <div class="chart-item">
-                <LineChart/>
+              <div style="height:100%;width:100%;position: relative;">
+                <iframe src="./chart/line.html" ref="iframe" @load="loaded" style="height:100%;width:100%;" frameborder="no" border="0" scrolling="no" allowtransparency="yes"></iframe>
+              </div>
             </div>
         </div>
         <div class="count-footer">
@@ -18,22 +20,55 @@
     </div>
 </template>
 <script>
-    import LineChart from "@/components/echarts/lineChart";
+//    import LineChart from "@/components/echarts/lineChart";
+    import {ProductHttp} from '@/api/productHttp';
     export default {
         name: 'dayCount',
-        components:{ LineChart },
+//        components:{ LineChart },
         data(){
             return {
                 countIdx:0,
-                footerIdx:0
+                footerIdx:0,
+                dataList:[]
             }
+        },
+        mounted(){
+           this.initChart();
         },
         methods:{
             selCount(idx){
-                this.countIdx = idx;
+               this.countIdx = idx;
+               this.loadIframe();
             },
             selFooterCount(idx){
                 this.footerIdx = idx;
+            },
+            loaded(){
+                let st = setInterval(()=>{
+                   if(this.dataList.length>0){
+                     clearInterval(st);
+                     this.loadIframe();
+                   }
+                },500);
+            },
+            loadIframe(){
+               let initChart = this.$refs.iframe.contentWindow.initChart;
+              initChart();
+            },
+            initChart() {
+                ProductHttp.queryProdectCount({
+                   series:'',
+                   types:'db',
+                   dataTypes:'day',
+                   sDate:'20150903',
+                   eDate:'20150912'
+                }).then((res)=>{
+                    debugger;
+                    if(res.code==1){
+                       sessionStorage.setItem('dataList',JSON.stringify(res.data));
+                       this.dataList = res.data;
+                    }
+                })
             }
         }
     }

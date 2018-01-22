@@ -1,6 +1,10 @@
 <template lang="html">
     <div class="body-box home-box scroll">
-       <LeftMenu :show="leftMenuShow"/>
+       <mt-popup
+        v-model="leftMenuShow"
+        position="left">
+        <LeftMenu :dataList="leftMenuTree" @selectLink="selectLink"/>
+      </mt-popup>
        <div class="carousel-box">
           <mt-swipe :show-indicators="false" :prevent="true" :auto="3000">
              <!--<mt-swipe-item v-for="img in carouselImgs">-->
@@ -103,11 +107,11 @@
 </template>
 <script>
 import {HomeHttp} from '@/api/homeHttp';
-import {Swipe,SwipeItem,Indicator,Toast} from 'mint-ui';
+import {Swipe,SwipeItem,Indicator,Toast,Popup} from 'mint-ui';
 import LeftMenu from "@/components/menu/leftMenu";
 export default {
     name:'homeInfo',
-    components: {Swipe, SwipeItem ,Toast,Indicator,LeftMenu},
+    components: {Swipe, SwipeItem ,Toast,Indicator,LeftMenu,Popup},
     data(){
         return {
            carouselImgs:[],
@@ -115,7 +119,8 @@ export default {
            list:[],
            userID:'02236654',
            userInfo:{},
-           leftMenuShow:false
+           leftMenuShow:false,
+           leftMenuTree:[]
         }
     },
     mounted(){
@@ -124,6 +129,7 @@ export default {
             this.userID = headers["iv-user"];
             this.initUserData();
             this.queryMenuTree();
+            this.queryLeftMenuTree();
         }).catch(()=>{
 //            Toast({
 //                message: '网络异常',
@@ -131,6 +137,7 @@ export default {
 //            });
             this.initUserData();
             this.queryMenuTree();
+            this.queryLeftMenuTree();
         });
     },
     methods:{
@@ -140,6 +147,14 @@ export default {
             }else{
                 window.location.href = url;
             }
+        },
+        selectLink(url){
+           this.leftMenuShow = false;
+           if(url.substring(0,1)=='/'){
+              this.$router.push('home/kq'+url);
+           }else{
+              window.location.href = url;
+           }
         },
         changeTwo(){
            this.$router.push({
@@ -174,6 +189,26 @@ export default {
             }).catch(function (e) {
                 Indicator.close();
             })
+        },
+        queryLeftMenuTree(){
+          Indicator.open({
+            text: '加载中...',
+            spinnerType: 'fading-circle'
+          });
+          HomeHttp.queryLeftMenu({"iv-user":this.userID}).then((res)=>{
+              Indicator.close();
+              if(res.code==0){
+                Toast({
+                  message: res.result,
+                  duration: 1000*60*60*10
+                });
+                return;
+              }
+              console.log(res.data)
+              this.leftMenuTree = res.data;
+          }).catch(function (e) {
+            Indicator.close();
+          })
         }
     }
 }

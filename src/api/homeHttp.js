@@ -15,5 +15,9 @@ export const HomeHttp = {
     /* 查询更多菜单树 */
     queryMenuTowTree(params) {
         return post('lywebservice/user/getSubMenu', params);
+    },
+    /* 查询左侧滑出菜单 */
+    queryLeftMenu(params){
+        return post('lywebservice/user/getLeftMenu', params);
     }
 };
