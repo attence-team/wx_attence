@@ -63,5 +63,9 @@ export const KqHttp = {
     /* 人员检索 */
     queryPersonByParams(params) {
       return post('lywebservice/user/queryStaff', params);
+    },
+    /* 部门检索 */
+    queryDepartByParams(params) {
+      return post('lywebservice/user/queryDept', params);
     }
 };

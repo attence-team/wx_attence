@@ -9,7 +9,19 @@
     <div class="person-list scroll">
       <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore">
         <div class="scroll-box" v-if="cellList&&cellList.length>0">
-           <mt-cell v-for="cell in cellList" :title="cell.name" :value="cell.dept_name" is-link></mt-cell>
+           <template v-if="queryType=='depart'">
+             <mt-cell v-for="cell in cellList"
+                      :title="cell.dept_name"
+                      @click.native="clickCell(cell)"
+                      is-link></mt-cell>
+           </template>
+           <template v-if="queryType=='person'">
+             <mt-cell v-for="cell in cellList"
+                      :title="cell.name"
+                      :value="cell.dept_name"
+                      @click.native="clickCell(cell)"
+                      is-link></mt-cell>
+           </template>
         </div>
         <!--<div v-else class="noneData">请输入内容进行检索</div>-->
       </mt-loadmore>
@@ -40,9 +52,16 @@
       deptNum: {
         type: String,
         default: ''
+      },
+      queryType:{
+        type: String,
+        default: 'person'
       }
     },
     watch:{
+      queryType(newVal,oldVal){
+         this.currPage = 1;
+      },
       searchShow(newVal,oldVal){
          if(newVal){
            this.queryPerson();
@@ -58,6 +77,9 @@
       }
     },
     methods:{
+      clickCell(item){
+         this.$emit('selectCell',item);
+      },
       loadTop() {
         this.$refs.loadmore.onTopLoaded();
         this.currPage = 1;
@@ -68,21 +90,40 @@
         this.queryPerson();
       },
       queryPerson(){
-        let params = {
-          staff_obj:this.searchInput,
-          dept_num:this.deptNum,
-          currPage:this.currPage,
-          pageLength:this.pageLength
-        };
-        KqHttp.queryPersonByParams(params).then((res)=>{
-            if(this.currPage==1){
-              this.cellList = res.data.pageData;
-            }else{
-              this.cellList = this.cellList.concat(res.data.pageData);
-            }
-            this.allLoaded = (this.currPage == res.data.pageCount);
-            this.$refs.loadmore.onBottomLoaded();
-        })
+        debugger
+        console.log(this.currPage)
+        if(this.queryType=='person'){ //人员查询
+            KqHttp.queryPersonByParams({
+              staff_obj:this.searchInput,
+              dept_num:this.deptNum,
+              currPage:this.currPage,
+              pageLength:this.pageLength
+            }).then((res)=>{
+              if(this.currPage==1){
+                this.cellList = res.data.pageData;
+              }else{
+                this.cellList = this.cellList.concat(res.data.pageData);
+              }
+              this.allLoaded = (this.currPage == res.data.pageCount);
+              this.$refs.loadmore.onBottomLoaded();
+            })
+        }else{ //部门查询
+            KqHttp.queryDepartByParams({
+              dept_obj:this.searchInput,
+              currPage:this.currPage,
+              pageLength:this.pageLength
+            }).then((res)=>{
+//              debugger
+              if(this.currPage==1){
+                this.cellList = res.data.pageData;
+              }else{
+                this.cellList = this.cellList.concat(res.data.pageData);
+              }
+              this.allLoaded = (this.currPage == res.data.pageCount);
+              this.$refs.loadmore.onBottomLoaded();
+            })
+        }
+
       }
     }
   }
