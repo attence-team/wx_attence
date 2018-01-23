@@ -12,8 +12,6 @@
   "dependencies": {
     "axios": "^0.17.0",
     "babel-polyfill": "^6.26.0",
-    "echarts": "^3.8.5",
-    "qs": "^6.5.1",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
     "mint-ui": "^2.2.13"

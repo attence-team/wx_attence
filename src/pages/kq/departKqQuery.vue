@@ -4,8 +4,8 @@
         <TimeTool @selectTime="selectTime"></TimeTool>
         <div class="query-box">
             <div class="info">
-                <mt-cell title="姓名" value="" is-link></mt-cell>
                 <mt-cell title="部门名称" value="***部门" is-link></mt-cell>
+                <mt-cell title="姓名" :value="searchInfo.name" @click.native="searchShow = !searchShow" is-link></mt-cell>
             </div>
             <button class="mint-button mint-button--primary mint-button--normal query">
                 <label class="mint-button-text">查询</label>
@@ -20,7 +20,7 @@
         <mt-popup
           v-model="searchShow"
           position="left">
-          <SearchComps/>
+          <SearchComps :searchShow="searchShow"/>
         </mt-popup>
         <div class="exp-box table-box scroll">
             <TableCell :dataList="tableList" :pointShow="false" :columnNames="columnValue"></TableCell>
@@ -46,7 +46,8 @@
                 userInfo:{},
                 sdate:'',
                 edate:'',
-                searchShow:false
+                searchShow:false,
+                searchInfo:{name:''}
             }
         },
         mounted(){

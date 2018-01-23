@@ -59,5 +59,9 @@ export const KqHttp = {
     /* 考勤日历查询 */
     queryKqCalendarList(params) {
       return post('lywebservice/attendance/getLeaveCalendar', params);
+    },
+    /* 人员检索 */
+    queryPersonByParams(params) {
+      return post('lywebservice/user/queryStaff', params);
     }
 };
