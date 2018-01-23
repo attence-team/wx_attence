@@ -4,7 +4,7 @@
         <TimeTool @selectTime="selectTime"></TimeTool>
         <div class="query-box">
             <div class="info">
-                <mt-cell title="部门名称" value="***部门" is-link></mt-cell>
+                <mt-cell title="部门名称" :value="searchInfo.dept_name" is-link></mt-cell>
                 <mt-cell title="姓名" :value="searchInfo.name" @click.native="searchShow = !searchShow" is-link></mt-cell>
             </div>
             <button class="mint-button mint-button--primary mint-button--normal query">
@@ -20,7 +20,7 @@
         <mt-popup
           v-model="searchShow"
           position="left">
-          <SearchComps :searchShow="searchShow"/>
+          <SearchComps :deptNum="dept_num" :searchShow="searchShow"/>
         </mt-popup>
         <div class="exp-box table-box scroll">
             <TableCell :dataList="tableList" :pointShow="false" :columnNames="columnValue"></TableCell>
@@ -47,12 +47,18 @@
                 sdate:'',
                 edate:'',
                 searchShow:false,
-                searchInfo:{name:''}
+                searchInfo:{name:'',dept_name:''},
+                dept_num:''
             }
         },
         mounted(){
             setTitle('部门考勤查询');
             this.userInfo = getUserInfo();
+            this.searchInfo = {
+              name:this.userInfo.name,
+              dept_name:this.userInfo.dept_name
+            };
+            this.dept_num = this.userInfo.dept_num;
             //this.queryList();
         },
         methods:{

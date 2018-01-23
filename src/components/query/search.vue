@@ -7,28 +7,39 @@
       </div>
     </div>
     <div class="person-list scroll">
-      <div class="scroll-box" v-if="cellList&&cellList.length>0">
-        <mt-cell v-for="cell in cellList" :title="cell.dept_name" :value="cell.name" is-link></mt-cell>
-      </div>
-      <div v-else class="noneData">请输入内容进行检索</div>
+      <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore">
+        <div class="scroll-box" v-if="cellList&&cellList.length>0">
+           <mt-cell v-for="cell in cellList" :title="cell.name" :value="cell.dept_name" is-link></mt-cell>
+        </div>
+        <!--<div v-else class="noneData">请输入内容进行检索</div>-->
+      </mt-loadmore>
     </div>
   </div>
 </template>
 <script>
+  import { Loadmore } from 'mint-ui';
   import {KqHttp} from '@/api/kqHttp';
   export default {
     name: 'search',
+    components:{Loadmore},
     data(){
       return {
         searchInput:'',
         timeOut:0,
-        cellList:[]
+        cellList:[],
+        allLoaded:false,
+        currPage:1,
+        pageLength:50
       }
     },
     props: {
       searchShow: {
         type: Boolean,
         default: false
+      },
+      deptNum: {
+        type: String,
+        default: ''
       }
     },
     watch:{
@@ -47,15 +58,30 @@
       }
     },
     methods:{
+      loadTop() {
+        this.$refs.loadmore.onTopLoaded();
+        this.currPage = 1;
+        this.queryPerson();
+      },
+      loadBottom() {
+        this.currPage=this.currPage+1;
+        this.queryPerson();
+      },
       queryPerson(){
         let params = {
-          //staff_obj:this.searchInput,
-          dept_num:1011,
-          currPage:1,
-          pageLength:100
+          staff_obj:this.searchInput,
+          dept_num:this.deptNum,
+          currPage:this.currPage,
+          pageLength:this.pageLength
         };
         KqHttp.queryPersonByParams(params).then((res)=>{
-            this.cellList = res.data.pageData;
+            if(this.currPage==1){
+              this.cellList = res.data.pageData;
+            }else{
+              this.cellList = this.cellList.concat(res.data.pageData);
+            }
+            this.allLoaded = (this.currPage == res.data.pageCount);
+            this.$refs.loadmore.onBottomLoaded();
         })
       }
     }
@@ -97,9 +123,12 @@
      position: absolute;
      top: 0.026rem;
      left: 0.1rem;
+     color: #666;
+     font-weight: bold;
   }
   .person-list{
      height: calc(100vh - 0.8rem);
      margin-left: 0.25rem;
+     padding-top: 0.2rem;
   }
 </style>
