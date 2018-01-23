@@ -7,12 +7,12 @@
       </mt-popup>
        <div class="carousel-box">
           <mt-swipe :show-indicators="false" :prevent="true" :auto="3000">
-             <!--<mt-swipe-item v-for="img in carouselImgs">-->
-               <!--<img class="img-item" :src="img">-->
-             <!--</mt-swipe-item>-->
-             <mt-swipe-item>
-               <img class="img-item" src="../../assets/img/carousel-1.jpg">
+             <mt-swipe-item v-for="img in carouselImgs">
+               <img class="img-item" :src="img">
              </mt-swipe-item>
+             <!--<mt-swipe-item>-->
+               <!--<img class="img-item" src="../../assets/img/carousel-1.jpg">-->
+             <!--</mt-swipe-item>-->
           </mt-swipe>
           <div class="menu-btn" @click="leftMenuShow=!leftMenuShow"><i class="iconfont icon-3401caidan"></i></div>
           <div class="title">企业文化 . 核心理念</div>
@@ -23,7 +23,7 @@
                <div class="title bd-bottom-1">
                  <span>
                     <i class="mywork-icon" :style="{backgroundImage: 'url('+menu.resicon+')'}"></i>{{menu.resname}}
-                    <router-link v-if="!menu.moreurl" class="more" :to="'/home/kq?resid='+menu.resid">更多功能</router-link>
+                    <router-link v-if="menu.moreurl" class="more" :to="menu.moreurl+'?resid='+menu.resid">更多功能</router-link>
                  </span>
               </div>
               <div class="menu-list clearfix">
@@ -131,10 +131,10 @@ export default {
             this.queryMenuTree();
             this.queryLeftMenuTree();
         }).catch(()=>{
-//            Toast({
-//                message: '网络异常',
-//                duration: 10000
-//            });
+            Toast({
+                message: '网络异常',
+                duration: 10000
+            });
             this.initUserData();
             this.queryMenuTree();
             this.queryLeftMenuTree();
@@ -151,7 +151,7 @@ export default {
         selectLink(url){
            this.leftMenuShow = false;
            if(url.substring(0,1)=='/'){
-              this.$router.push('home/kq'+url);
+              this.$router.push(url);
            }else{
               window.location.href = url;
            }

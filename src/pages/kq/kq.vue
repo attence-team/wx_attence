@@ -11,7 +11,9 @@
        <div class="menu-box menu-tree">
            <div class="menu-nav" v-for="menu in menuList">
               <div class="title bd-bottom-1">
-               <i class="mywork-icon" :style="{backgroundImage: 'url('+menu.resicon+')'}"></i>{{menu.resname}}
+                <span>
+                   <i class="mywork-icon" :style="{backgroundImage: 'url('+menu.resicon+')'}"></i>{{menu.resname}}
+                </span>
               </div>
               <div class="menu-list clearfix">
                  <mt-cell :title="subMenu.resname"

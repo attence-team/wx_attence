@@ -1,5 +1,5 @@
 <template>
-    <!-- 考勤查询 -->
+    <!-- 个人考勤查询 -->
     <div class="body-box kqQuery">
         <TimeTool @selectTime="selectTime"></TimeTool>
         <div class="query-box">
@@ -7,9 +7,9 @@
                 <mt-cell title="姓名" value="" is-link></mt-cell>
                 <mt-cell title="部门名称" value="***部门" is-link></mt-cell>
             </div>
-            <button class="mint-button mint-button--primary mint-button--normal query">
-                <label class="mint-button-text">查询</label>
-            </button>
+            <!--<button class="mint-button mint-button&#45;&#45;primary mint-button&#45;&#45;normal query">-->
+                <!--<label class="mint-button-text">查询</label>-->
+            <!--</button>-->
           <div class="application-type-box bd-bottom-1">
             <div class="application-type approved" @click="">正常刷卡</div>
             <div class="application-type at" @click="">迟到</div>
@@ -42,7 +42,7 @@
             }
         },
         mounted(){
-            setTitle('考勤查询');
+            setTitle('个人考勤查询');
             this.userInfo = getUserInfo();
             //this.queryList();
         },
