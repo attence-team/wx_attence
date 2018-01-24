@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # vue pc 模板
 
 ## 11月21日更新版本 vue=>2.5.2 / element-ui=>2.0.5 / echarts => 3.8.5
@@ -81,3 +82,26 @@
 
 
 
+=======
+# 
+
+> 
+
+## Build Setup
+
+``` bash
+# install dependencies
+npm install
+
+# serve with hot reload at localhost:8080
+npm run dev
+
+# build for production with minification
+npm run build
+
+# build for production and view the bundle analyzer report
+npm run build --report
+```
+
+For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+>>>>>>> 94a5279940d875a55cf6f8b3032577553ab1c68d
