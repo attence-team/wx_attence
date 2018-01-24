@@ -4,137 +4,146 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
   <meta name="format-detection" content="telephone=no" />
+  <style>
+    html,body{
+      padding: 0;
+      margin: 0;
+      width: 100%;
+      overflow-y: hidden;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .chartItem{
+      height:100vh;
+      width:100%;
+    }
+  </style>
 </head>
 <body>
-<div id="chartId" style="height:100vh;width:100%;position: relative;">
-</div>
+<div id="chartId" class="chartItem"></div>
 </body>
 <script type='text/javascript' src='../static/js/echarts.min.js'></script>
 <script>
-  function initChart() {
-    var dataList = JSON.parse(sessionStorage.getItem('dataList'));
-    //alert(sessionStorage.getItem('dataList'));
-    var myChart = echarts.init(document.getElementById('chartId'));
-    createChart(myChart,dataList);
-  }
-  function createChart(myChart,data){
-    data = [{"open_date":"20150909","day_db_count":53219.5},{"open_date":"20150903","day_db_count":51153.9},{"open_date":"20150911","day_db_count":53234.5},{"open_date":"20150906","day_db_count":57053.5},{"open_date":"20150908","day_db_count":54533.3},{"open_date":"20150905","day_db_count":56189.3},{"open_date":"20150907","day_db_count":55819.5},{"open_date":"20150904","day_db_count":52637.7},{"open_date":"20150912","day_db_count":57172.7},{"open_date":"20150910","day_db_count":52411.3}];
-    var option = {
-      tooltip : {
-        trigger: 'axis'
-      },
-      legend: {
-        top:'0',
-        left:'4.5%',
-        icon:'circle',
-        data:[
-          {name:'可挑拨库存',textStyle:{color:"#74d5fd"}},
-          {name:'产量',textStyle:{color:"#58ffc6"}},
-          {name:'调拨量',textStyle:{color:"#dddddd"}}
-        ]
-      },
-      grid: {
-        top:'12%',
-        left: '8%',
-        right: '8%',
-        bottom: '5%',
-        containLabel: true
-      },
-      xAxis : [
-        {
-          type : 'category',
-          boundaryGap: false,
-          axisTick:{show:false},
-          axisLine: {
-            lineStyle: {
-              color: "rgba(250,250,250,0.8)"
+    function initChart() {
+        var dataList = JSON.parse(sessionStorage.getItem('dataList'));
+        var dom = document.getElementById('chartId');
+        if(dataList){
+            var lt = dataList[0].data.length;
+            if(lt>7){
+                dom.style.width = 100 + (lt-7)*14 + '%';
             }
-          },
-          axisLabel:{
-            textStyle:{
-              color:"#fff"
-            }
-          },
-          splitLine: {
-            show: true,
-            lineStyle: {
-              color: 'rgba(101,148,129,0.8)',
-              type:'dotted',
-              width: 1,
-            }
-          },
-          data : ['周二\n01/02','周三\n01/03','周四\n01/04','周五\n01/05','周六\n01/06','昨天\n01/07','今天\n01/07']
         }
-      ],
-      yAxis : [
-        {
-          name:'单位：箱',
-          nameTextStyle:{
-            color:'#ddd'
-          },
-          axisLine: {show:false},
-          axisTick:{show:false},
-          axisLabel:{
-            show:false
-          },
-          splitLine: {
-            show: false
-          },
-          splitArea: {
-            show: false
-          }
+        var myChart = echarts.init(dom);
+        createChart(myChart,dataList);
+    }
+    function createChart(myChart,data){
+        var legendData = [],xData = [],seriesData = [];
+        for(var i=0;i<data.length;i++){
+            var obj = {name:data[i].name};
+            if(data[i].code=='db'){
+                obj.textStyle = {color:"#dddddd"}
+            }else if(data[i].code=='cl'){
+                obj.textStyle = {color:"#58ffc6"}
+            }else if(data[i].code=='ck'){
+                obj.textStyle = {color:"#74d5fd"}
+            }
+            legendData.push(obj);
+            var datas = [];
+            for(var j=0;j<data[i].data.length;j++){
+                if(i==0){
+                    var xStr = data[i].data[j].show_date.split(';');
+                    xData.push(xStr[0]+'\n'+xStr[1]);
+                }
+                datas.push({
+                    value: data[i].data[j].show_count,
+                    curVal: data[i].data[j].scount
+                });
+            }
+            seriesData.push({
+                name: data[i].name,
+                type:'line',
+                barWidth:15,
+                symbolSize:8,
+                itemStyle: {
+                    normal: {
+                        label: {
+                            show: true,
+                            position: "top",
+                            formatter:function (item) {
+                                return item.data.curVal;
+                            }
+                        }
+                    }
+                },
+                data:datas
+            });
         }
-      ],
-      color:["#74d5fd","#58ffc6","#dddddd"],
-      series : [
-        {
-          name:'可挑拨库存',
-          type:'line',
-          barWidth:15,
-          symbolSize:8,
-          itemStyle: {
-            normal: {
-              label: {
-                show: true,
-                position: "top"
-              }
-            }
-          },
-          data:[2000, 1000, 2000, 6000, 36067, 10850,20866.1]
-        },
-        {
-          name:'产量',
-          type:'line',
-          barWidth:15,
-          symbolSize:8,
-          itemStyle: {
-            normal: {
-              label: {
-                show: true,
-                position: "top"
-              }
-            }
-          },
-          data:[1002, 2000, 5000, 3000, 500, 2700,5850]
-        },
-        {
-          name:'调拨量',
-          type:'line',
-          barWidth:15,
-          symbolSize:8,
-          itemStyle: {
-            normal: {
-              label: {
-                show: true,
-                position: "top"
-              }
-            }
-          },
-          data:[1002, 2000, 5000, 3400, 5700, 4700,8850]
-        }
-      ]
-    };
-    myChart.setOption(option);
-  }
+        var option = {
+            tooltip : {
+                show:false
+            },
+            legend: {
+                top:'0',
+                left:'4.5%',
+                icon:'circle',
+                data:legendData
+            },
+            grid: {
+                top:'12%',
+                left: '6%',
+                right: '6%',
+                bottom: '5%',
+                containLabel: true
+            },
+            xAxis : [
+                {
+                    type : 'category',
+                    boundaryGap: false,
+                    axisTick:{show:false},
+                    axisLine: {
+                        lineStyle: {
+                            color: "rgba(250,250,250,0.8)"
+                        }
+                    },
+                    axisLabel:{
+                        textStyle:{
+                            color:"#fff"
+                        }
+                    },
+                    splitLine: {
+                        show: true,
+                        lineStyle: {
+                            color: 'rgba(101,148,129,0.8)',
+                            type:'dotted',
+                            width: 1,
+                        }
+                    },
+                    data : xData
+                }
+            ],
+            yAxis : [
+                {
+                    name:'单位：箱',
+                    nameTextStyle:{
+                        color:'#ddd'
+                    },
+                    axisLine: {show:false},
+                    axisTick:{show:false},
+                    axisLabel:{
+                        show:false
+                    },
+                    splitLine: {
+                        show: false
+                    },
+                    splitArea: {
+                        show: false
+                    }
+                }
+            ],
+            color:["#74d5fd","#58ffc6","#dddddd"],
+            series : seriesData
+        };
+        myChart.setOption(option);
+    }
 </script>
 </html>

@@ -7,7 +7,7 @@
             </div>
             <div class="chart-item">
               <div style="height:100%;width:100%;position: relative;">
-                <iframe src="./chart/line.html" ref="iframe" @load="loaded" style="height:100%;width:100%;" frameborder="no" border="0" scrolling="no" allowtransparency="yes"></iframe>
+                <iframe src="./chart/line.html" id="iframe" ref="iframe" @load="loaded" style="height:100%;" frameborder="no" border="0" scrolling="no" allowtransparency="yes"></iframe>
               </div>
             </div>
         </div>
@@ -20,16 +20,27 @@
     </div>
 </template>
 <script>
-//    import LineChart from "@/components/echarts/lineChart";
     import {ProductHttp} from '@/api/productHttp';
     export default {
         name: 'dayCount',
-//        components:{ LineChart },
         data(){
             return {
                 countIdx:0,
                 footerIdx:0,
-                dataList:[]
+                dataList:[],
+                series:'',
+                dataTypes:'day',
+                timeout:0
+            }
+        },
+        watch:{
+            countIdx(newVal,oldVal){
+                this.dataTypes = newVal?'month':'day';
+                this.initChart();
+            },
+            footerIdx(newVal,oldVal){
+                this.series = newVal?newVal:'';
+                this.initChart();
             }
         },
         mounted(){
@@ -37,38 +48,43 @@
         },
         methods:{
             selCount(idx){
-               this.countIdx = idx;
-               this.loadIframe();
+                this.countIdx = idx;
             },
             selFooterCount(idx){
                 this.footerIdx = idx;
             },
             loaded(){
+                document.getElementById('iframe').style.width = '100%';
                 let st = setInterval(()=>{
                    if(this.dataList.length>0){
                      clearInterval(st);
                      this.loadIframe();
                    }
-                },500);
+                },100);
             },
             loadIframe(){
-               let initChart = this.$refs.iframe.contentWindow.initChart;
-              initChart();
+                if(!this.$refs.iframe.contentWindow) return;
+                this.$refs.iframe.contentWindow.initChart();
             },
             initChart() {
-                ProductHttp.queryProdectCount({
-                   series:'',
-                   types:'db',
-                   dataTypes:'day',
-                   sDate:'20150903',
-                   eDate:'20150912'
-                }).then((res)=>{
-                    debugger;
-                    if(res.code==1){
-                       sessionStorage.setItem('dataList',JSON.stringify(res.data));
-                       this.dataList = res.data;
-                    }
-                })
+                if(this.timeout) return;
+                this.timeout = setTimeout(()=>{
+                    clearTimeout(this.timeout);
+                    this.timeout = 0;
+                    sessionStorage.setItem('dataList','[]');
+                    ProductHttp.queryProdectCount({
+                        series:this.series,
+                        dataTypes:this.dataTypes,
+                        sDate:'20150903',
+                        eDate:'20150912'
+                    }).then((res)=>{
+                        if(res.code==1){
+                            sessionStorage.setItem('dataList',JSON.stringify(res.data));
+                            this.dataList = res.data;
+                            this.loadIframe();
+                        }
+                    })
+                },100);
             }
         }
     }

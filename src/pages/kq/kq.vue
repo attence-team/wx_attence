@@ -18,7 +18,7 @@
               <div class="menu-list clearfix">
                  <mt-cell :title="subMenu.resname"
                  v-for="subMenu in menu.submenus"
-                 @click.native="goRouter(subMenu.resurl)" is-link>
+                 @click.native="goRouter(subMenu.resurl,subMenu.resid)" is-link>
                     <img slot="icon" :src="subMenu.resicon" width="18" height="18">
                  </mt-cell>
               </div>
@@ -81,7 +81,11 @@ export default {
         this.queryMenuTree();
     },
     methods:{
-        goRouter(url){
+        goRouter(url,resid){
+            HomeHttp.saveLog({
+                staff_num:this.userInfo.staff_num,
+                res_id:resid
+            });
             if(url.substring(0,1)=='/'){
                 this.$router.push({
                     path:url

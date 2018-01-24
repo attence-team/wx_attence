@@ -1,5 +1,9 @@
 import { get,post,postHeader } from './api'
 export const HomeHttp = {
+    /* 保存操作日志 */
+    saveLog(params){
+        return post('lywebservice/wxLog/saveWxLog', params);
+    },
     /* 获取用户id */
     getUserId() {
         return postHeader('lywx/SSOLogn.jsp', {});

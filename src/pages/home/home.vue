@@ -129,20 +129,26 @@ export default {
         HomeHttp.getUserId().then((headers)=>{
             this.userID = headers["iv-user"];
             this.initUserData();
-            this.queryMenuTree();
-            this.queryLeftMenuTree();
+            this.queryMenuTree(()=>{
+                this.queryLeftMenuTree();
+            });
         }).catch(()=>{
             Toast({
                 message: '网络异常',
-                duration: 10000
+                duration: 5000
             });
             this.initUserData();
-            this.queryMenuTree();
-            this.queryLeftMenuTree();
+            this.queryMenuTree(()=>{
+                this.queryLeftMenuTree();
+            });
         });
     },
     methods:{
         goRouter(url,resid){
+            HomeHttp.saveLog({
+                staff_num:this.userInfo.staff_num,
+                res_id:resid
+            });
             if(url.substring(0,1)=='/'){
                 this.$router.push(url+'?resid='+resid);
             }else{
@@ -168,12 +174,15 @@ export default {
                 this.userInfo = getUserInfo();
             })
         },
-        queryMenuTree(){
+        queryMenuTree(callBackFn){
             Indicator.open({
                 text: '加载中...',
                 spinnerType: 'fading-circle'
             });
             HomeHttp.queryMenuTree({"iv-user":this.userID}).then((res)=>{
+                if(callBackFn){
+                    callBackFn();
+                }
                 if(res.code==0){
                     Indicator.close();
                     Toast({
@@ -192,12 +201,12 @@ export default {
             })
         },
         queryLeftMenuTree(){
-          Indicator.open({
-            text: '加载中...',
-            spinnerType: 'fading-circle'
-          });
+//          Indicator.open({
+//            text: '加载中...',
+//            spinnerType: 'fading-circle'
+//          });
           HomeHttp.queryLeftMenu({"iv-user":this.userID}).then((res)=>{
-              Indicator.close();
+              //Indicator.close();
               if(res.code==0){
                 Toast({
                   message: res.result,
@@ -205,10 +214,7 @@ export default {
                 });
                 return;
               }
-              console.log(res.data)
               this.leftMenuTree = res.data;
-          }).catch(function (e) {
-            Indicator.close();
           })
         }
     }

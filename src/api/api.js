@@ -18,7 +18,7 @@ if(Config.baseURL.prod&&Config.baseURL.prod.indexOf('http')>=0){
 }
 export function postHeader(url, params) {
     return new Promise((resolve, reject) => {
-        axios.post(baseURL + url, params)
+        axios.post(baseURL + url+'?t='+Math.random(), params)
             .then(response => {
                 resolve(response.headers);
             })
@@ -29,7 +29,7 @@ export function postHeader(url, params) {
 }
 export function post(url, params) {
     return new Promise((resolve, reject) => {
-        axios.post(baseURL + url, params)
+        axios.post(baseURL + url+'?t='+Math.random(), params)
             .then(response => {
                resolve(response.data);
             })
@@ -40,7 +40,7 @@ export function post(url, params) {
 }
 export function get(url, params) {
     return new Promise((resolve, reject) => {
-        axios.get(baseURL + url, {params:params})
+        axios.get(baseURL + url+'?t='+Math.random(), {params:params})
             .then(response => {
                resolve(response.data);
             })
