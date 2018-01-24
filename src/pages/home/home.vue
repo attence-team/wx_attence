@@ -23,7 +23,8 @@
                <div class="title bd-bottom-1">
                  <span>
                     <i class="mywork-icon" :style="{backgroundImage: 'url('+menu.resicon+')'}"></i>{{menu.resname}}
-                    <router-link v-if="menu.moreurl" class="more" :to="menu.moreurl+'?resid='+menu.resid">更多功能</router-link>
+                    <router-link v-if="menu.moreurl" class="more" :to="menu.moreurl+'?resid='+menu.resid">
+                    <i class="iconfont icon-arrow-right-copy"></i></router-link>
                  </span>
               </div>
               <div class="menu-list clearfix">
