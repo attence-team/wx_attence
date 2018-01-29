@@ -112,17 +112,20 @@ Date.prototype.getMonthDay = function () {
 String.prototype.Format2String = function (fmt) {
     if(this == '') return null;
     var reg = new RegExp("^[0-9]*$");
-    if(reg.test(this)){ // 如果全部是数字
-        return new Date(this).Format2String(fmt);
+    var _this = this;
+    if(this.length==8){
+        _this = this.substring(0,4)+'/'+this.substring(4,6)+'/'+this.substring(6,8);
     }
-    var result = new Date(this.replace(/-/g,"/"));
+    if(reg.test(_this)){ // 如果全部是数字
+        return new Date(_this).Format2String(fmt);
+    }
+    var result = new Date(_this.replace(/-/g,"/"));
     if(result.toString()=='Invalid Date'){
         console.log('时间格式不正确，请使用yyyy-MM-dd hh:MM:ss 或者 yyyy/MM/dd hh:MM:ss');
         return null;
     }
     return result.Format2String(fmt);
 };
-
 String.prototype.getMonthDay = function () {
     let curDate = new Date(this);
     let curMonth = curDate.getMonth();

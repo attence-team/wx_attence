@@ -43,7 +43,8 @@
                 this.initChart();
             }
         },
-        mounted(){
+        activated(){
+           setTitle('移动报表');
            this.initChart();
         },
         methods:{
@@ -63,7 +64,7 @@
                 },100);
             },
             loadIframe(){
-                if(!this.$refs.iframe.contentWindow) return;
+                if(!this.$refs.iframe.contentWindow.initChart) return;
                 this.$refs.iframe.contentWindow.initChart();
             },
             initChart() {
@@ -74,9 +75,7 @@
                     sessionStorage.setItem('dataList','[]');
                     ProductHttp.queryProdectCount({
                         series:this.series,
-                        dataTypes:this.dataTypes,
-                        sDate:'20150903',
-                        eDate:'20150912'
+                        dataTypes:this.dataTypes
                     }).then((res)=>{
                         if(res.code==1){
                             sessionStorage.setItem('dataList',JSON.stringify(res.data));
@@ -127,14 +126,16 @@
        transform: scale(.5);
    }
     .count-menu span{
-        display: block;
-        width: 50%;
-        height: 100%;
-        float: left;
-        text-align: center;
-        color: #fff;
-        font-size: 32px;
-    }
+         display: block;
+         padding: 0;
+         margin: 0;
+         width: 50%;
+         height: 100%;
+         float: left;
+         text-align: center;
+         color: #fff;
+         font-size: 32px;
+     }
     .count-menu span.active{
         color: #3497f5;
         background-color: #ffffff;

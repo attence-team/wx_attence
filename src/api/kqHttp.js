@@ -67,5 +67,9 @@ export const KqHttp = {
     /* 部门检索 */
     queryDepartByParams(params) {
       return post('lywebservice/user/queryDept', params);
+    },
+    /* 获取请假信息 */
+    getLeaveInfo(params) {
+        return post('lywebservice/attendance/getLeave', params);
     }
 };

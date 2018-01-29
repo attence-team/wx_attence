@@ -22,7 +22,13 @@
                     <div class="color-red color-r">未刷卡{{exceptionCount.no_punch}}次</div>
                 </div>
             </div>
-            <TableList :dataList="tableList" :columnNames="columnValue" @optfn="optfn"></TableList>
+            <div class="table-scroll-box scroll">
+                <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :autoFill="false" ref="loadmore">
+                    <div class="scroll-box">
+                      <TableList :dataList="tableList" :columnNames="columnValue" @optfn="optfn"></TableList>
+                    </div>
+                </mt-loadmore>
+            </div>
         </div>
     </div>
 </template>
@@ -30,9 +36,10 @@
     import {KqHttp} from '@/api/kqHttp';
     import TimeTool from "@/components/query/timetool";
     import TableList from "@/components/query/tablelist";
+    import { Loadmore } from 'mint-ui';
     export default {
         name: 'exception',
-        components:{TimeTool,TableList},
+        components:{Loadmore,TimeTool,TableList},
         data(){
             return {
                 tableList:[],
@@ -47,7 +54,12 @@
                     early:"0",
                     late:"0",
                     no_punch:"0"
-                }
+                },
+                timeOut:0,
+                cellList:[],
+                allLoaded:false,
+                currPage:1,
+                pageLength:50
             }
         },
         created(){
@@ -57,16 +69,30 @@
             this.tableList = [
                 /*{time:'2017-08-09<br>星期五',type:'<i class="color-red2">8：00<br>未刷卡</i>',status:'--'}*/
             ];
+            this.currPage = 1;
+            console.log('mounted');
             this.getAbnormalLeave();
             this.getAbnormalLeaveCount();
         },
         methods:{
+            loadTop() {
+                console.log('loadTop');
+                this.allLoaded = false;
+                this.$refs.loadmore.onTopLoaded();
+                this.currPage = 1;
+                this.getAbnormalLeave();
+            },
+            loadBottom() {
+                console.log('loadBottom');
+                this.currPage=this.currPage+1;
+                //this.$refs.loadmore.onBottomLoaded();
+                this.getAbnormalLeave();
+            },
             selectTime(startTime,endTime){
-                console.log(startTime);
-                console.log(endTime);
+                console.log('selectTime');
+                this.currPage = 1;
                 this.startTime = startTime;
                 this.endTime = endTime;
-
                 this.getAbnormalLeave();
                 this.getAbnormalLeaveCount();
             },
@@ -74,26 +100,32 @@
                 console.log(obj)
             },
             getAbnormalLeave(){
-                let _this = this;
                 let params = {
                     staff_num: getUserInfo().staff_num,
-                    sdate: new Date(_this.startTime).Format2String('yyyyMMdd'),
-                    edate: new Date(_this.endTime).Format2String('yyyyMMdd'),
-                    currPage: '1',
-                    pageLength: '1000'
+                    sdate: new Date(this.startTime).Format2String('yyyyMMdd'),
+                    edate: new Date(this.endTime).Format2String('yyyyMMdd'),
+                    currPage: this.currPage,
+                    pageLength: this.pageLength
                 };
                 KqHttp.queryAbnormalLeave(params).then((res)=>{
-                    if(res.code == '1' && res.data.rowCount > 0){
                         let data = res.data.pageData;
-                        _this.tableList = [];
+                        let tempArry = [];
                         data.forEach(function(value){
-                            _this.tableList.push({
+                            tempArry.push({
                                 time:value.year_month + '<br>' + value.week,
                                 type:'<i class="color-red2">'+ value.bursh_name +'</i>', //+'<br>'+未刷卡+'</i>',
                                 status:'--'
                             })
-                        })
-                    }
+                        });
+                        if(this.currPage==1){
+                            this.tableList = [];
+                            this.tableList = tempArry;
+                        }else{
+                            this.tableList = this.tableList.concat(tempArry);
+                        }
+                        console.log(this.tableList)
+                        this.allLoaded = res.data.pageData.length<this.pageLength;
+                        this.$refs.loadmore.onBottomLoaded();
                 });
             },
             getAbnormalLeaveCount(){
@@ -120,10 +152,6 @@
 </script>
 <style lang="css" scoped>
     .info{
-        //width: 80%;
-        //height: 0.8rem;
-        //line-height: 0.8rem;
-        //margin: 0 auto;
         padding: .4rem 0 .5rem;
     }
     .exp-box{
@@ -132,7 +160,6 @@
     .table-box{
         background-color: #fff;
         padding: 0 .25rem;
-        min-height: calc(100% - 1rem);
     }
     .box1{
         height: .8rem;
@@ -233,7 +260,9 @@
     .color-red2{
         color: #ff6054;
     }
-
+    .table-scroll-box{
+        height: calc(100% - 3*0.8rem - 0.4rem - 0.9rem + 4px);
+    }
 </style>
 <style>
     .color-red2{

@@ -12,6 +12,7 @@
        overflow-y: hidden;
        overflow-x: auto;
        -webkit-overflow-scrolling: touch;
+       background-color: rgba(0,0,0,0);
     }
    .chartItem{
       height:100vh;
@@ -25,12 +26,14 @@
 <script type='text/javascript' src='../static/js/echarts.min.js'></script>
 <script>
   function initChart() {
+    document.body.innerHTML = '<div id="chartId" class="chartItem"></div>';
     var dataList = JSON.parse(sessionStorage.getItem('dataList'));
     var dom = document.getElementById('chartId');
     if(dataList){
         var lt = dataList[0].data.length;
         if(lt>7){
             dom.style.width = 100 + (lt-7)*14 + '%';
+            document.body.scrollTo(dom.scrollWidth,0);
         }
     }
     var myChart = echarts.init(dom);
@@ -78,20 +81,27 @@
             data:datas
         });
     }
+    var legend = {
+          top:'0', left:'4.5%',
+          icon:'circle',
+          data:legendData
+    };
+    if(data[0].data.length>7){
+        legend = {
+            top:'0', right:'4.5%',
+            icon:'circle',
+            data:legendData
+        }
+    }
     var option = {
       tooltip : {
          show:false
       },
-      legend: {
-        top:'0',
-        left:'4.5%',
-        icon:'circle',
-        data:legendData
-      },
+      legend: legend,
       grid: {
-        top:'12%',
-        left: '6%',
-        right: '6%',
+        top:'14%',
+        left: '30',
+        right: '30',
         bottom: '5%',
         containLabel: true
       },
@@ -124,6 +134,7 @@
       yAxis : [
         {
           name:'单位：箱',
+          nameGap:25,
           nameTextStyle:{
             color:'#ddd'
           },
@@ -143,7 +154,7 @@
       color:["#74d5fd","#58ffc6","#dddddd"],
       series : seriesData
     };
-    myChart.setOption(option);
+    myChart.setOption(option,true);
   }
 </script>
 </html>

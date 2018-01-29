@@ -46,7 +46,7 @@
 </script>
 <style lang="css" scoped>
     .table-list{
-        margin-bottom: 1rem;
+        margin-bottom: 0.1rem;
     }
     .table-title{
         background:-webkit-gradient(linear, 0% 0%, 0% 100%,from(#d7eafd), to(#feffff));

@@ -8,7 +8,8 @@ import Pending from 'pages/mywork/pending';
 import Done from 'pages/mywork/done';
 //考勤管理
 import Kq_home from 'pages/kq/kq';
-import Leave from 'pages/kq/leave';
+// import Leave from 'pages/kq/leave';
+import Leave from 'pages/kq/leave_temp';
 import YearLeave from 'pages/kq/yearLeave';
 import Exception from 'pages/kq/exception';
 import Calendar from 'pages/kq/calendar';

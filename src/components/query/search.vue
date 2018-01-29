@@ -90,8 +90,6 @@
         this.queryPerson();
       },
       queryPerson(){
-        debugger
-        console.log(this.currPage)
         if(this.queryType=='person'){ //人员查询
             KqHttp.queryPersonByParams({
               staff_obj:this.searchInput,

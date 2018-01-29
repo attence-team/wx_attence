@@ -235,6 +235,7 @@
 <style lang="css" scoped>
     .leave{
        background-color: #fff;
+       min-height: 100vh;
     }
     .pert{
         padding: .3rem .32rem;

@@ -1,53 +1,47 @@
 <template>
-  <div class="je-input">
-     <input :type="type" v-model="val" :placeholder="placeholder" />
-     <i></i>
-     <span>{{title}}</span>
-  </div>
+    <div class="je-select">
+        <select v-model="selected">
+            <option v-for="(option,idx) in options" :value="option.value">
+                {{option.name}}
+            </option>
+        </select>
+        <i></i>
+        <span>{{title}}</span>
+    </div>
 </template>
 <script>
-  export default {
-    name: 'je-input',
-    data(){
-      return {
-        val:'',
-      }
-    },
-    props: {
-        title: {
-           type: String,
-           default: ''
-        },
-        value: {
-           default: ''
-        },
-        type:{
-           type: String,
-           default: 'text'
-        },
-        placeholder:{
-           type: String,
-           default: ''
-        }
-    },
-    watch:{
-        val(newVal){
-            if(this.type=='number'){
-                newVal = newVal.replace(/[^0-9]/g,'');
+    export default {
+        name: 'je-select',
+        data(){
+            return {
+                selected:''
             }
-            this.$emit('input', newVal);
         },
-        value(newVal){
-            this.val = newVal;
+        props: {
+            title: {
+                type: String,
+                default: ''
+            },
+            options:{
+                type: Array,
+                default: []
+            },
+            value: {
+                default: ''
+            },
+        },
+        watch:{
+            value(newVal){
+                this.selected = newVal;
+            },
+            selected(newVal){
+                this.$emit('input', newVal);
+            }
         }
-    },
-    mounted(){
-       this.val = this.type=='date'?new Date().Format2String('yyyy-MM-dd'):'';
     }
-  }
 </script>
 <style lang="css" scoped>
-  .je-input{
+  .je-select{
      position: relative;
      display: inline-block;
      width: 100%;
@@ -55,7 +49,7 @@
      color: #333333;
      font-size: 16px;
   }
-  .je-input:before{
+  .je-select:before{
     content: "";
     position: absolute;
     left: 0;  right: 0;
@@ -65,7 +59,7 @@
     -webkit-transform: scaleY(.5);
     -webkit-transform-origin: 0 0;
   }
-  .je-input input{
+  .je-select select{
      width: 100%;
      height: auto;
      margin-top: 0.5rem;
@@ -74,7 +68,7 @@
      color: #333;
      padding: 6px 8px 8px 0;
   }
-  .je-input input + i{
+  .je-select select + i{
     display: block;
     position: relative;
     top: -1px;
@@ -82,7 +76,7 @@
     height: 1px;
     background-color: #6179d1;
   }
-  .je-input input + i + span {
+  .je-select select + i + span {
       display: block;
       position: absolute;
       height: 0.5rem;
@@ -92,19 +86,18 @@
       font-size: 16px;
   }
   @media screen and (min-width: 300px) and (max-width: 360px) {
-      .je-input input + i + span {
+      .je-select select + i + span {
           font-size: 14px;
       }
-      .je-input input{
+      .je-select select{
           font-size: 14px;
       }
   }
-
-  .je-input input:focus + i{
+  .je-select select:focus + i{
     transition: width 1s;
     width: 100%;
   }
-  .je-input input:focus + i + span{
+  .je-select select:focus + i + span{
      color: #6179d1;
   }
 </style>

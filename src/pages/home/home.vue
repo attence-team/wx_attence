@@ -124,8 +124,10 @@ export default {
            leftMenuTree:[]
         }
     },
-    mounted(){
+    activated(){
         setTitle('移动门户');
+    },
+    mounted(){
         HomeHttp.getUserId().then((headers)=>{
             this.userID = headers["iv-user"];
             this.initUserData();

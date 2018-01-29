@@ -107,7 +107,7 @@
     position: relative;
     width: 25%;
     float: left;
-    padding: 0.2rem 0;
+    padding: 0.2rem 0 0 0;
 }
 .menu-list .item img{
     display: block;
@@ -117,9 +117,11 @@
 .menu-list .item span:last-child{
     display: block;
     text-align: center;
-    line-height: 0.4rem;
+    height: 0.6rem;
+    line-height: 0.3rem;
     font-size: 12px;
     color: #333;
+
 }
 .menu-list .item .mint-badge{
     position: absolute;
@@ -149,4 +151,24 @@
     line-height: 0.8rem;
     text-align: center;
     color: #888;
+}
+.form-btns{
+    width: 98%;
+    margin: 0.1rem auto 0 auto;
+    text-align: center;
+    padding: 0.4rem 0;
+}
+.form-btns .cancel,
+.form-btns .submit{
+    width: 40%;
+    margin: 0 2%;
+    height: 40px;
+    font-size: 16px;
+}
+.form-btns .cancel{
+    background-color: #aaa;
+    color: #fff;
+}
+.form-btns .submit{
+    background-color: #6179d1;
 }
