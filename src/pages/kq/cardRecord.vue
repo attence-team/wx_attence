@@ -7,7 +7,13 @@
                 <div class="fl text-over clearfix">部门：<span>{{userInfo.dept_name}}</span></div>
                 <div class="fr text-over">姓名：<span>{{userInfo.name}}</span></div>
             </div>
-            <TableCell :dataList="tableList" :columnNames="columnValue"></TableCell>
+            <div class="table-scroll-box scroll">
+                <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :autoFill="false" ref="loadmore">
+                <div class="scroll-box">
+                    <TableCell :dataList="tableList" :columnNames="columnValue"></TableCell>
+                </div>
+                </mt-loadmore>
+            </div>
         </div>
     </div>
 </template>
@@ -15,9 +21,10 @@
     import {KqHttp} from '@/api/kqHttp';
     import TimeTool from "@/components/query/timetool";
     import TableCell from "@/components/query/tablecell";
+    import { Loadmore } from 'mint-ui';
     export default {
         name: 'cardRecord',
-        components:{TimeTool,TableCell},
+        components:{Loadmore,TimeTool,TableCell},
         data(){
             return {
                 tableList:[],
@@ -27,44 +34,29 @@
                 },
                 userInfo:{},
                 sdate:'',
-                edate:''
+                edate:'',
+                allLoaded:false,
+                currPage:1,
+                pageLength:50
             }
         },
         activated(){
             setTitle('原始刷卡记录');
             this.userInfo = getUserInfo();
-            //this.queryList();
-//            this.tableList = [
-//                {year_month:'66666666',week:'星期一',bursh_time:'10:10:10'},
-//                {year_month:'20181010',week:'星期一',bursh_time:'10:10:10'},
-//                {year_month:'20181010',week:'星期一',bursh_time:'10:10:10'},
-//                {year_month:'20181010',week:'星期一',bursh_time:'10:10:10'},
-//                {year_month:'20181010',week:'星期一',bursh_time:'10:10:10'},
-//                {year_month:'20181010',week:'星期一',bursh_time:'10:10:10'},
-//                {year_month:'20181010',week:'星期一',bursh_time:'10:10:10'},
-//                {year_month:'20181010',week:'星期一',bursh_time:'10:10:10'},
-//                {year_month:'0000000',week:'星期一',bursh_time:'10:10:10'},
-//                {year_month:'20181010',week:'星期一',bursh_time:'10:10:10'},
-//                {year_month:'20181010',week:'星期一',bursh_time:'10:10:10'},
-//                {year_month:'20181010',week:'星期一',bursh_time:'10:10:10'},
-//                {year_month:'111111111',week:'星期一',bursh_time:'10:10:10'},
-//                {year_month:'20181010',week:'星期一',bursh_time:'10:10:10'},
-//                {year_month:'20181010',week:'星期一',bursh_time:'10:10:10'},
-//                {year_month:'20181010',week:'星期一',bursh_time:'10:10:10'},
-//                {year_month:'20181010',week:'星期一',bursh_time:'10:10:10'},
-//                {year_month:'20181010',week:'星期一',bursh_time:'10:10:10'},
-//                {year_month:'20181010',week:'星期一',bursh_time:'10:10:10'},
-//                {year_month:'20181010',week:'星期一',bursh_time:'10:10:10'},
-//                {year_month:'20181010',week:'星期一',bursh_time:'10:10:10'},
-//                {year_month:'20181010',week:'星期一',bursh_time:'10:10:10'},
-//                {year_month:'20181010',week:'星期一',bursh_time:'10:10:10'},
-//                {year_month:'20181010',week:'星期一',bursh_time:'10:10:10'},
-//                {year_month:'20181010',week:'星期一',bursh_time:'10:10:10'},
-//                {year_month:'20181010',week:'星期一',bursh_time:'10:10:10'}
-//            ];
         },
         methods:{
+            loadTop() {
+                this.currPage = 1;
+                this.allLoaded = false;
+                this.$refs.loadmore.onTopLoaded();
+                this.queryList();
+            },
+            loadBottom() {
+                this.currPage=this.currPage+1;
+                this.queryList();
+            },
             selectTime(startTime,endTime){
+                this.currPage = 1;
                 this.sdate = startTime.Format2String('yyyyMMdd');
                 this.edate = endTime.Format2String('yyyyMMdd');
                 this.queryList();
@@ -74,11 +66,18 @@
                     staff_num: this.userInfo.staff_num,
                     sdate:this.sdate,
                     edate:this.edate,
-                    currPage:'1',
-                    pageLength:'30'
+                    currPage:this.currPage,
+                    pageLength:this.pageLength
                 };
                 KqHttp.queryCardRecaordList(params).then((res)=>{
-                    this.tableList = res.data.pageData;
+                    if(this.currPage==1){
+                        this.tableList = [];
+                        this.tableList = res.data.pageData;
+                    }else{
+                        this.tableList = this.tableList.concat(res.data.pageData);
+                    }
+                    this.allLoaded = res.data.pageData.length<this.pageLength;
+                    this.$refs.loadmore.onBottomLoaded();
                 });
             }
         }
@@ -109,7 +108,10 @@
     }
     .table-box{
         background-color: #fff;
-        padding: 0.1rem;
+        padding: 0.1rem 0.1rem 0 0.1rem;
         min-height: calc(100% - 1rem);
+    }
+    .table-scroll-box{
+        height: calc(100% - 1.25rem);
     }
 </style>

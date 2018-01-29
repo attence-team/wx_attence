@@ -8,8 +8,8 @@
                 <span class="point-wrap bd-bottom-1"><i class="point"></i></span>
                 <span v-for="column in columnNames.columnValues" class="bd-bottom-1">{{obj[column]}}</span>
             </div>
-            <div v-if="tableList.length<=0" class="noneData">暂无数据</div>
         </div>
+        <div v-if="tableList.length<=0" class="noneData">暂无数据</div>
     </div>
 </template>
 <script>
@@ -46,7 +46,7 @@
 </script>
 <style lang="css" scoped>
     .table-list{
-        margin-bottom: 1rem;
+        margin-bottom: 0.1rem;
         overflow-x: auto;
     }
     .table-list-width{

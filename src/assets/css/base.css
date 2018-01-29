@@ -80,7 +80,7 @@ input[disabled]{
   -webkit-overflow-scrolling: touch;
 }
 .scroll-box{
-   min-height: 101%;
+   min-height: 100%;
 }
 html{
   font-size: 14px;

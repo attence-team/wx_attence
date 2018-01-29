@@ -76,20 +76,16 @@
         },
         methods:{
             loadTop() {
-                console.log('loadTop');
                 this.allLoaded = false;
                 this.$refs.loadmore.onTopLoaded();
                 this.currPage = 1;
                 this.getAbnormalLeave();
             },
             loadBottom() {
-                console.log('loadBottom');
                 this.currPage=this.currPage+1;
-                //this.$refs.loadmore.onBottomLoaded();
                 this.getAbnormalLeave();
             },
             selectTime(startTime,endTime){
-                console.log('selectTime');
                 this.currPage = 1;
                 this.startTime = startTime;
                 this.endTime = endTime;
@@ -123,7 +119,6 @@
                         }else{
                             this.tableList = this.tableList.concat(tempArry);
                         }
-                        console.log(this.tableList)
                         this.allLoaded = res.data.pageData.length<this.pageLength;
                         this.$refs.loadmore.onBottomLoaded();
                 });

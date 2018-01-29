@@ -30,15 +30,11 @@
             @selectCell="selectCell"/>
         </mt-popup>
         <div class="exp-box scroll">
-          <!--<mt-loadmore-->
-            <!--:top-method="loadTop"-->
-            <!--:bottom-method="loadBottom"-->
-            <!--:bottom-all-loaded="allLoaded"-->
-            <!--ref="loadmoreTable">-->
-            <div class="table-box scroll-box">
-              <TableCell :dataList="tableList" :pointShow="false" :columnNames="columnValue"></TableCell>
-            </div>
-          <!--</mt-loadmore>-->
+            <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :autoFill="false" ref="loadmore">
+                <div class="table-box scroll-box">
+                    <TableCell :dataList="tableList" :pointShow="false" :columnNames="columnValue"></TableCell>
+                </div>
+            </mt-loadmore>
         </div>
     </div>
 </template>
@@ -63,14 +59,16 @@
                 edate:'',
                 searchShow:false,
                 searchInfo:{},
-                currPage:1,
-                pageLength:1000,
+                queryType:'kepart',
                 allLoaded:false,
-                queryType:'person'
+                currPage:1,
+                pageLength:50
             }
         },
-        mounted(){
+        activated(){
             setTitle('部门考勤查询');
+        },
+        mounted(){
             this.currPage = 1;
             this.userInfo = getUserInfo();
             this.searchInfo = {
@@ -82,14 +80,17 @@
         },
         methods:{
             loadTop() {
-              this.$refs.loadmoreTable.onTopLoaded();
-              this.currPage = 1;
+                this.currPage = 1;
+                this.allLoaded = false;
+                this.$refs.loadmore.onTopLoaded();
+                this.queryList();
             },
             loadBottom() {
-              this.currPage=this.currPage+1;
-              this.$refs.loadmoreTable.onBottomLoaded();
+                this.currPage=this.currPage+1;
+                this.queryList();
             },
             selectTime(startTime,endTime){
+                this.currPage = 1;
                this.sdate = startTime.Format2String('yyyyMMdd');
                this.edate = endTime.Format2String('yyyyMMdd');
                this.queryList();
@@ -115,7 +116,14 @@
                    currPage: this.currPage,
                    pageLength: this.pageLength
                 }).then((res)=>{
-                   this.tableList = res.data.pageData;
+                  if(this.currPage==1){
+                      this.tableList = [];
+                      this.tableList = res.data.pageData;
+                  }else{
+                      this.tableList = this.tableList.concat(res.data.pageData);
+                  }
+                  this.allLoaded = res.data.pageData.length<this.pageLength;
+                  this.$refs.loadmore.onBottomLoaded();
                 });
             }
         }
@@ -139,7 +147,7 @@
         background-color: #fff;
     }
     .table-box{
-        padding: 0.25rem;
+        padding: 0.25rem 0.25rem 0 0.25rem;
     }
     .query-box{
       background-color: #fff;
