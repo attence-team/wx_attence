@@ -1,11 +1,13 @@
 <template>
     <div class="table-list">
-        <div class="table-row table-title bd-bottom-1">
-            <span v-for="title in columnNames.titles">{{title}}</span>
-        </div>
-        <div v-if="tableList.length>0" class="table-row bd-bottom-1" v-for="obj in tableList">
-            <i class="point" v-if="pointShow"></i>
-            <span :title="obj[column]" v-for="column in columnNames.columnValues">{{obj[column]}}</span>
+        <div :style="{width: tableWidth+'%'}">
+            <div class="table-row table-title bd-bottom-1">
+                <span v-for="title in columnNames.titles">{{title}}</span>
+            </div>
+            <div v-if="tableList.length>0" class="table-row bd-bottom-1" v-for="obj in tableList">
+                <i class="point" v-if="pointShow"></i>
+                <span :title="obj[column]" v-for="column in columnNames.columnValues">{{obj[column]}}</span>
+            </div>
         </div>
         <div v-if="tableList.length<=0" class="noneData">暂无数据</div>
     </div>
@@ -15,7 +17,8 @@
         name: 'table-cell',
         data(){
             return {
-                tableList:[]
+                tableList:[],
+                tableWidth:100
             }
         },
         props: {
@@ -36,15 +39,22 @@
            }
         },
         watch:{
-            dataList:function (c,o) {
+            dataList(c,o) {
                 this.tableList = c;
+            }
+        },
+        activated(){
+            if(this.columnNames.titles.length>5){
+                this.tableWidth = 100 + (this.columnNames.titles.length-5)*20
             }
         }
     }
 </script>
 <style lang="css" scoped>
     .table-list{
+        width: 100%;
         margin-bottom: 0.1rem;
+        overflow-x: auto;
     }
     .table-title{
         background:-webkit-gradient(linear, 0% 0%, 0% 100%,from(#d7eafd), to(#feffff));

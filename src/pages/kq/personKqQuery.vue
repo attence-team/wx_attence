@@ -20,10 +20,13 @@
         <label class="mint-button-text">查询</label>
       </button>
       <div class="application-type-box bd-bottom-1">
-        <div class="application-type approved" @click="">正常刷卡</div>
-        <div class="application-type at" @click="">迟到</div>
-        <div class="application-type retreated" @click="">早退</div>
-        <div class="application-type nnsubmitted" @click="">请假</div>
+        <!--<div class="application-type approved" @click="">正常刷卡</div>-->
+        <!--<div class="application-type at" @click="">迟到</div>-->
+        <!--<div class="application-type retreated" @click="">早退</div>-->
+        <!--<div class="application-type nnsubmitted" @click="">请假</div>-->
+        <div class="application-type at" @click="queryListType()">全部</div>
+        <div class="application-type approved" @click="queryListType(1)">正常刷卡</div>
+        <div class="application-type retreated" @click="queryListType(2)">非正常刷卡</div>
       </div>
     </div>
     <mt-popup
@@ -65,6 +68,7 @@
         edate:'',
         searchShow:false,
         searchInfo:{},
+        bursh_name:'',
         queryType:'person',
         allLoaded:false,
         currPage:1,
@@ -110,8 +114,13 @@
           this.searchInfo.dept_name = item.dept_name;
         }
       },
+      queryListType(type){
+          this.bursh_name = type?type:'';
+          this.queryList();
+      },
       queryList(){
         KqHttp.queryKqList({
+          bursh_name:this.bursh_name,
           staff_num: this.searchInfo.staff_num,
           dept_num: this.searchInfo.dept_num,
           dept_name: this.searchInfo.dept_name,

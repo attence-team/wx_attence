@@ -1,9 +1,11 @@
 <template>
     <!-- 部门考勤查询 -->
     <div class="body-box kqQuery">
-        <TimeTool @selectTime="selectTime"></TimeTool>
         <div class="query-box">
             <div class="info">
+                <mt-cell title="年月" is-link>
+                    {{year_month}}<input class="year-month" v-model="year_month" type="month"/>
+                </mt-cell>
                 <!--rlgly 人力管理    部门考勤分析 （可以查询所有部门 所有人）-->
                 <!--kqgly 部门考勤管理员 和 bmld  部门领导  （只能查询本部门内的所有人）-->
                 <!--staff  普通员工（只能查询自己）-->
@@ -40,23 +42,23 @@
 </template>
 <script>
     import {KqHttp} from '@/api/kqHttp';
-    import TimeTool from "@/components/query/timetool";
     import TableCell from "@/components/query/tablecell";
     import SearchComps from "@/components/query/search";
     import {Loadmore,Popup} from 'mint-ui';
     export default {
         name: 'departKqQuery',
-        components:{Loadmore,Popup,TimeTool,TableCell,SearchComps},
+        components:{Loadmore,Popup,TableCell,SearchComps},
         data(){
             return {
                 tableList:[],
                 columnValue:{
-                    titles:['部门名称','姓名','日期','打卡时间','打卡情况'],
-                    columnValues:['dept_name','staff_name','year_month','bursh_time','bursh_name'],
+                    titles:['姓名','月工作日','应打卡','未打卡','免打卡','出差','年休假','外出办事','补休','学习假','哺乳假'],
+                    columnValues:['name','gzr','ydk','wdk','mdk','cc','nxj','ygbs','bx','xxj','blsj'],
                 },
                 userInfo:{},
                 sdate:'',
                 edate:'',
+                year_month:new Date().Format2String('yyyy-MM'),
                 searchShow:false,
                 searchInfo:{},
                 queryType:'kepart',
@@ -90,7 +92,7 @@
                 this.queryList();
             },
             selectTime(startTime,endTime){
-                this.currPage = 1;
+               this.currPage = 1;
                this.sdate = startTime.Format2String('yyyyMMdd');
                this.edate = endTime.Format2String('yyyyMMdd');
                this.queryList();
@@ -106,13 +108,10 @@
                }
             },
             queryList(){
-              KqHttp.queryKqList({
-                   staff_num: this.searchInfo.staff_num,
+              KqHttp.queryDeptKqList({
                    dept_num: this.searchInfo.dept_num,
                    dept_name: this.searchInfo.dept_name,
-                   name:this.searchInfo.name,
-                   sdate:this.sdate,
-                   edate:this.edate,
+                   year_month:this.year_month.Format2String('yyyyMM'),
                    currPage: this.currPage,
                    pageLength: this.pageLength
                 }).then((res)=>{
@@ -143,7 +142,7 @@
         overflow: hidden;
     }
     .exp-box{
-        height: calc(100% - 1.1rem - 2*48px - 2*0.3rem - 51px);
+        height: calc(100% - 3*48px - 2*0.3rem - 42px);
         background-color: #fff;
     }
     .table-box{
@@ -158,6 +157,17 @@
     .query{
       width: 90%;
       margin: 0.3rem 5%;
+    }
+    .year-month{
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 99999;
+        height: 100%;
+        width: 90%;
+        text-align: right;
+        background-color: rgba(200,0,0,0.2);
+        opacity: 0;
     }
     .at{
      background-color: #5AC0DE;
