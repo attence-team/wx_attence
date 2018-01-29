@@ -15,7 +15,7 @@
                     <div class="icon"></div>
                     <div class="application-list-info bd-bottom-1">
                         <p class="application-title-date">
-                            <span class="application-title">张三的派车申请<span class="submitted">（已提交）</span></span>
+                            <span class="application-title">张三的派车申请<span class="approved">（已审批）</span></span>
                             <span class="application-date">2017-08-08</span>
                         </p>
                         <p class="eat-type">用车事由：外出办事</p>
@@ -39,7 +39,7 @@
                     <div class="icon"></div>
                     <div class="application-list-info bd-bottom-1">
                         <p class="application-title-date">
-                            <span class="application-title">张三的派车申请<span class="retreated">（已退回）</span></span>
+                            <span class="application-title">张三的派车申请<span class="approved">（已审批）</span></span>
                             <span class="application-date">2017-08-08</span>
                         </p>
                         <p class="eat-type">用车事由：外出办事</p>
@@ -51,7 +51,19 @@
                     <div class="icon"></div>
                     <div class="application-list-info bd-bottom-1">
                         <p class="application-title-date">
-                            <span class="application-title">张三的派车申请<span class="nnsubmitted">（未提交）</span></span>
+                            <span class="application-title">张三的派车申请<span class="approved">（已审批）</span></span>
+                            <span class="application-date">2017-08-08</span>
+                        </p>
+                        <p class="eat-type">用车事由：外出办事</p>
+                    </div>
+                </li>
+                </router-link>
+                <router-link to="sendCarApply">
+                <li class="application-list-cell">
+                    <div class="icon"></div>
+                    <div class="application-list-info bd-bottom-1">
+                        <p class="application-title-date">
+                            <span class="application-title">张三的派车申请<span class="approved">（已审批）</span></span>
                             <span class="application-date">2017-08-08</span>
                         </p>
                         <p class="eat-type">用车事由：外出办事</p>

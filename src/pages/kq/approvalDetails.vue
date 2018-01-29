@@ -47,17 +47,29 @@
     </div>
 </template>
 <script>
+import { appHttp } from '@/api/approval';
 export default {
     name: 'approval',
     data(){
         return {
+            params:{
+                vouty:this.$route.query.voc_cd,
+                vou_id:this.$route.query.vou_id
+            },
+            data:[]
         }
     },
     created(){
+        this.getDetails();
     },
     methods:{
-        tabBtn:function(index) {
-            this.tabSelected = index;
+        getDetails:function() {
+            appHttp.getApprovalDetails(this.params).then((res)=>{
+                console.log(res);
+                if (res.code=='1') {
+                    this.data = res.data;
+                }
+            });
         }
     }
 }
@@ -69,7 +81,7 @@ export default {
     background-color: #fff;
 }
 .approval-details-box,.approval-details-list-box {
-    padding: 0 0.3rem;
+    padding: 0 0.25rem;
     border-top: 0;
     background-color: #fff;
 }
@@ -81,13 +93,13 @@ export default {
 .approval-details-box .approval-info {
     margin: 0;
     padding: 0;
-    margin-left: 0.3rem;
+    margin-left: 1.45rem;
 }
 .approval-details-box .approval-name {
-    margin-top: 0;
+
 }
 .approval-details {
-    padding: 0.5rem 0 0.5rem 1.7rem
+    padding: 0.5rem 0 0.5rem 1.45rem
 }
 .approval-details p {
     color: #999;

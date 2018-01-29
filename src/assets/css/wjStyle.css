@@ -65,7 +65,7 @@
     line-height: 1rem;
     text-align: right;
     margin-top: 0.25rem;
-    padding: 0 0.3rem;
+    padding: 0 0.25rem;
 }
 .batch-approval .batch-approval-text {
     color: #666;
@@ -82,21 +82,24 @@
 }
 /*审批列表区域 */
 .approval-list {
-    margin: 0 0.3rem;
+    margin: 0 0.25rem;
 }
 .approval-list .approval-list-cell {
     overflow: hidden;
+    position: relative;
 }
 .approval-list-cell .approval-name {
-    float: left;
+    position: absolute;
+    left: 0;
+    top: 50%;
     color: #fff;
     width: 1.2rem;
     height: 1.2rem;
     font-size: 16px;
     line-height: 1.2rem;
+    margin-top: -0.6rem;
     text-align: center;
     border-radius: 100%;
-    margin-top: 0.5rem;
     background-color: #6eb4f6;
 }
 @media screen and (max-width: 375px) {
@@ -114,7 +117,7 @@
 }
 .approval-list .approval-list-cell .approval-info {
     padding: 0.3rem 0;
-    margin-left: 1.7rem;
+    margin-left: 1.45rem;
 }
 .approval-list .approval-list-cell a:last-child .approval-info{
     border-bottom: 0;
