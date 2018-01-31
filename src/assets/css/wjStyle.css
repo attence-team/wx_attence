@@ -5,10 +5,10 @@
 }
 /*tab切换 */
 .tab-box {
-    height: 60px;
-    line-height: 60px;
+    height: 1rem;
+    line-height: 1rem;
     text-align: center;
-    padding: 0 0.5rem;
+    padding: 0 0.25rem;
     background-color: #fff;
     display: flex;
     vertical-align: middle;
@@ -74,12 +74,7 @@
     display: inline-block;
     vertical-align: middle;
 }
-.batch-approval .mint-switch {
-    height: 32px;
-    font-size: 0;
-    display: inline-block;
-    vertical-align: middle;
-}
+
 /*审批列表区域 */
 .approval-list {
     margin: 0 0.25rem;
@@ -93,11 +88,11 @@
     left: 0;
     top: 50%;
     color: #fff;
-    width: 1.2rem;
-    height: 1.2rem;
-    font-size: 16px;
-    line-height: 1.2rem;
-    margin-top: -0.6rem;
+    width: 1rem;
+    height: 1rem;
+    font-size: 14px;
+    line-height: 1rem;
+    margin-top: -0.5rem;
     text-align: center;
     border-radius: 100%;
     background-color: #6eb4f6;
@@ -117,7 +112,7 @@
 }
 .approval-list .approval-list-cell .approval-info {
     padding: 0.3rem 0;
-    margin-left: 1.45rem;
+    margin-left: 1.2rem;
 }
 .approval-list .approval-list-cell a:last-child .approval-info{
     border-bottom: 0;
@@ -127,17 +122,22 @@
 }
 .approval-info .approval-title-date {
     display: flex;
+    justify-content: space-between;
     margin-bottom: 0.3rem;
 }
 .approval-info .approval-title {
     color: #333;
-    font-size: 18px;
+    font-size: 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 .approval-info .approval-date {
     color: #666;
     float: right;
-    font-size: 16px;
-    line-height: 27px;
+    font-size: 14px;
+    line-height: 17px;
+    white-space: nowrap;
 }
 .approval-info .approval-start-date,.approval-info .approval-end-date{
     color: #999;
@@ -276,6 +276,7 @@ input,select {
     background-color: #fff;
 }
 .application-type-box {
+    height: 65px;
     display: flex;
     padding: 0.3rem;
 }
@@ -475,3 +476,21 @@ input,select {
     background-color: #3497f5;
 }
 /* 申请填报 end*/
+.mint-switch {
+    font-size: 0;
+    display: inline-block;
+    vertical-align: middle;
+}
+.mint-switch-core {
+    height: 20px;
+    width: 40px;
+    vertical-align: middle;
+}
+.mint-switch-core:after {
+    height: 18px;
+    width: 18px;
+}
+.mint-switch-core:before  {
+    height: 18px;
+    width: 38px;
+}

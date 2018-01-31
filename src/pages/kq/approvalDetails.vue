@@ -3,87 +3,124 @@
         <div class="approval-details-box">
             <ul class="approval-list">
                 <li class="approval-list-cell">
-                    <div class="approval-name">江楠</div>
+                    <div class="approval-name">{{name}}</div>
                     <div class="approval-info">
                         <p class="approval-title-date">
-                            <span class="approval-title">江楠的外出</span>
+                            <span class="approval-title">{{name + title}}</span>
                         </p>
-                        <p class="approval-state">待审批</p>
+                        <p class="approval-state">{{state}}</p>
                     </div>
                 </li>
             </ul>
             <div class="approval-details bd-top-1">
-                <p>所在部门：<span>信息技术部</span></p>
-                <p>请假类型：<span>外出</span></p>
-                <p>开始时间：<span>2017-11-10 10:00</span></p>
-                <p>结束时间：<span>2017-11-13 17:00</span></p>
-                <p>免打卡次数：<span>32次</span></p>
-                <p>请假天数：<span>8天</span></p>
-                <p>请假事由：<span>家里有事，回老家</span></p>
+                <p v-for="(val, key, index) in data">{{key}}：<span>{{val}}</span></p>
             </div>
         </div>
         <div class="approval-details-list-box">
             <ul class="approval-details-list">
-                <li class="approval-details-list-cell">
-                    <div class="approval-name">江楠</div>
-                    <div class="approval-title-date bd-bottom-1">
-                        <span class="approval-title">发起申请</span>
-                        <span class="approval-date">2017-11-12</span>
-                    </div>
-                </li>
-                <li class="approval-details-list-cell">
-                    <div class="approval-name unapproved">雄辉</div>
+                <li class="approval-details-list-cell" v-for="node in nodeArr">
+                    <div class="approval-name unapproved">{{node.staff_name}}</div>
                     <div class="approval-title-date">
-                        <span class="approval-title">未审批</span>
-                        <span class="approval-date">2017-11-12</span>
+                        <span class="approval-title">{{node.state}}</span>
+                        <span class="approval-date">{{node.audit_dt}}</span>
                     </div>
                 </li>
             </ul>
         </div>
+        <div class="approval-details-opinion">
+            <span>审批意见：</span>
+            <textarea class="opinion" name="name" rows="8" cols="80" v-model="opinion"></textarea>
+        </div>
         <div class="approval-btn-box">
-            <div class="approval-btn agree">同意</div>
-            <div class="approval-btn return">退回</div>
+            <div class="approval-btn agree" @click='approveClk(1)'>同意</div>
+            <div class="approval-btn return" @click='approveClk(2)'>退回</div>
         </div>
     </div>
 </template>
 <script>
 import { appHttp } from '@/api/approval';
+import { WlHttp } from '@/api/workLunchHttp';
+import { Toast} from 'mint-ui';
 export default {
     name: 'approval',
     data(){
         return {
+            name:this.$route.query.name,
+            title:this.$route.query.title,
+            state:this.$route.query.state,
             params:{
                 vouty:this.$route.query.voc_cd,
                 vou_id:this.$route.query.vou_id
             },
-            data:[]
+            data:[],
+            nodeArr:[],
+            opinion:''
         }
     },
     created(){
         this.getDetails();
+        this.getBillStatus();
     },
     methods:{
-        getDetails:function() {
+        getDetails() {
             appHttp.getApprovalDetails(this.params).then((res)=>{
-                console.log(res);
+                //console.log(res);
                 if (res.code=='1') {
                     this.data = res.data;
                 }
             });
+        },
+        getBillStatus(){
+            appHttp.getBillStatus(this.params).then((res)=>{
+                console.log(res);
+                if (res.code=='1') {
+                    this.nodeArr = res.data;
+                }
+            });
+        },
+        approveClk(type){
+          // 审批标识（1同意 2退回）
+           WlHttp.sendWorkLunchApprove({
+              vou_ids:this.$route.query.vou_id,
+              opinion:this.opinion,
+              flag:type
+           }).then((res)=>{
+              if(res.code==1){
+                Toast({
+                  message: res.result,
+                  iconClass: 'icon icon-success',
+                  duration: 1500
+                });
+                this.$router.goBack();
+              }else{
+                Toast({
+                  message: res.result,
+                  duration: 1500
+                });
+              }
+           });
         }
     }
 }
 </script>
 <style lang="css" scoped>
+.body-box {
+    background-color: #fff;
+}
 .approval-list {
     border: 0;
     margin: 0;
     background-color: #fff;
 }
-.approval-details-box,.approval-details-list-box {
+.approval-details-box {
     padding: 0 0.25rem;
     border-top: 0;
     background-color: #fff;
+}
+.approval-details-list-box {
+    padding: 0.25rem 0;
+    border-top: 0;
+    background-color: #f2f2f2;
 }
 .approval-details-box .approval-list-cell {
     padding: 0.25rem 0;
@@ -93,13 +130,13 @@ export default {
 .approval-details-box .approval-info {
     margin: 0;
     padding: 0;
-    margin-left: 1.45rem;
+    margin-left: 1.25rem;
 }
 .approval-details-box .approval-name {
 
 }
 .approval-details {
-    padding: 0.5rem 0 0.5rem 1.45rem
+    padding: 0.45rem 0 0.45rem 1.25rem
 }
 .approval-details p {
     color: #999;
@@ -117,12 +154,11 @@ export default {
     margin-bottom: 0;
 }
 .approval-details-list {
-    margin: 0.25rem 0;
     background-color: #fff;
 }
 .approval-details-list .approval-details-list-cell {
-    height: 1.6rem;
-    line-height: 1.6rem;
+    height: 1.25rem;
+    line-height: 1.25rem;
     display: flex;
     align-items: center;
 }
@@ -132,13 +168,14 @@ export default {
 }
 .approval-details-list-cell .approval-name {
     color: #fff;
-    width: 1.2rem;
-    height: 1.2rem;
-    font-size: 16px;
-    line-height: 1.2rem;
+    width: 1rem;
+    height: 1rem;
+    font-size: 14px;
+    line-height: 1rem;
     text-align: center;
     border-radius: 100%;
     background-color: #6eb4f6;
+    margin: 0 0.25rem;
 }
 .approval-details-list-cell .unapproved {
     background-color: #fea558;
@@ -146,7 +183,6 @@ export default {
 .approval-details-list-cell .approval-title-date {
     flex: 1;
     font-size: 0;
-    margin-left: 0.3rem;
 }
 .approval-details-list-cell:last-child .approval-title-date {
     border-bottom: 0;
@@ -155,30 +191,51 @@ export default {
     color: #333;
     font-size: 16px;
 }
+.approval-info .approval-title {
+    width: auto;
+}
 .approval-details-list-cell .approval-date {
     color: #666;
     float: right;
     font-size: 15px;
 }
 .approval-btn-box {
-    padding: 30px 0;
+    padding: 20px 0;
     text-align: center;
     background-color: #fff;
 }
 .approval-btn-box .approval-btn {
     color: #fff;
-    height: 42px;
-    line-height: 42px;
+    height: 35px;
+    line-height: 35px;
     width: 2.2rem;
     margin: 0 0.6rem;
     border-radius: 5px;
-    font-size: 16px;
+    font-size: 14px;
     display: inline-block;
 }
+.approval-details-opinion {
+    color: #999;
+    padding: 10px;
+    background-color: #fff;
+}
+.opinion {
+    color: #333;
+    width: 100%;
+    height: 70px;
+    resize:none;
+    padding: 10px;
+    box-sizing: border-box;
+    margin-top: 10px;
+    border: 1px solid #dddddd;
+}
+
 .agree {
     background-color: #11bf84;
+    cursor: pointer;
 }
 .return {
     background-color: #aaaaaa;
+    cursor: pointer;
 }
 </style>

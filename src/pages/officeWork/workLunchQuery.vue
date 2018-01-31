@@ -11,71 +11,36 @@
                 <div class="application-type retreated" @click="changeLd_appr('2')">已退回</div>
             </div>
         </div>
-        <div class="mescroll-wrap" id="listBox" v-show="listBox">
-            <div class="application-list-box mescroll" id="mescroll">
-                <ul class="application-list">
-                    <!--<router-link v-for="item in listDataArr" :to="'workLunchApply?id=' + item.dinner_id ">-->
-                      <li class="application-list-cell" v-for="item in listDataArr" @click="toPage(item)">
-                          <div class="icon"></div>
-                          <div class="application-list-info bd-bottom-1">
-                              <div class="application-list-info-wrap">
-                                  <p class="application-title-date">
-                                      <span class="application-title-wrap"><span class="application-title">{{item.dir_title}}</span><!--<span class="submitted">（已提交）</span>--></span>
-                                      <span class="application-date">{{item.apply_time | formatDate}}</span>
-                                  </p>
-                                  <p class="eat-type">就餐类别：{{item.stand_name}}</p>
-                              </div>
-                          </div>
-                      </li>
-                    <!--</router-link>-->
-                    <!-- <router-link to="workLunchApply">
-                    <li class="application-list-cell">
-                        <div class="icon"></div>
-                        <div class="application-list-info bd-bottom-1">
-                            <p class="application-title-date">
-                                <span class="application-title">张三的工作餐申请<span class="approved">（已审批）</span></span>
-                                <span class="application-date">2017-08-08</span>
-                            </p>
-                            <p class="eat-type">就餐类别：自助餐</p>
-                        </div>
-                    </li>
-                    </router-link>
-                        <router-link to="workLunchApply">
-                    <li class="application-list-cell">
-                        <div class="icon"></div>
-                        <div class="application-list-info bd-bottom-1">
-                            <p class="application-title-date">
-                                <span class="application-title">张三的工作餐申请<span class="retreated">（已退回）</span></span>
-                                <span class="application-date">2017-08-08</span>
-                            </p>
-                            <p class="eat-type">就餐类别：自助餐</p>
-                        </div>
-                    </li>
-                    </router-link>
-                        <router-link to="workLunchApply">
-                    <li class="application-list-cell">
-                        <div class="icon"></div>
-                        <div class="application-list-info bd-bottom-1">
-                            <p class="application-title-date">
-                                <span class="application-title">张三的工作餐申请<span class="nnsubmitted">（未提交）</span></span>
-                                <span class="application-date">2017-08-08</span>
-                            </p>
-                            <p class="eat-type">就餐类别：自助餐</p>
-                        </div>
-                    </li>
-                    </router-link> -->
-                </ul>
+        <div class="application-list-box" >
+            <div class="loadmore-box scroll">
+                <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :autoFill="false" ref="loadmore">
+                 <ul class="application-list">
+                       <li class="application-list-cell" v-for="item in listDataArr" @click="toPage(item)">
+                           <div class="icon"></div>
+                           <div class="application-list-info bd-bottom-1">
+                               <div class="application-list-info-wrap">
+                                   <p class="application-title-date">
+                                       <span class="application-title-wrap"><span class="application-title">{{item.dir_title}}</span><!--<span class="submitted">（已提交）</span>--></span>
+                                       <span class="application-date">{{item.apply_time | formatDate}}</span>
+                                   </p>
+                                   <p class="eat-type">就餐类别：{{item.stand_name}}</p>
+                               </div>
+                           </div>
+                       </li>
+                 </ul>
+                </mt-loadmore>
             </div>
+
         </div>
     </div>
 </template>
 <script>
     import { WlHttp } from '@/api/workLunchHttp';
+    import { Indicator , Loadmore } from 'mint-ui';
     import TimeTool from "@/components/query/timetool";
-    //window.Mescroll = require('../../assets/js/mescroll.min.js');
     export default {
         name: 'workLunchQuery',
-        components:{TimeTool},
+        components:{TimeTool , Indicator , Loadmore},
         data(){
             return {
                 listBox:false,
@@ -86,18 +51,11 @@
                 dir_appr:'',  //管理员确认
                 currPage:1, //当前页面
                 pageLength:20, //页数
-                listDataArr:[]
+                listDataArr:[],
+                allLoaded:false
             }
         },
         mounted(){
-            //this.getWorkLunchList();//creatMescroll();
-            let _this = this;
-            setTimeout(function() {
-               let header = document.getElementById('header'),
-                   listBox = document.getElementById('listBox');
-                   listBox.style.top = header.offsetHeight + 'px';
-                   _this.listBox = true; //显示列表容器
-            },1)
         },
         activated(){
         },
@@ -108,6 +66,25 @@
           }
         },
         methods:{
+            postion(){
+              if(this.currPage===1){
+                this.$nextTick(function() {
+                  var dom = document.getElementsByClassName('mint-loadmore');
+                  if(!dom) return;
+                  dom[0].parentNode.scrollTop = 0;
+                })
+              }
+            },
+            loadTop() {
+                this.currPage = 1;
+                this.allLoaded = false;
+                this.$refs.loadmore.onTopLoaded();
+                this.getWorkLunchList();
+            },
+            loadBottom() {
+                this.currPage=this.currPage + 1;
+                this.getWorkLunchList();
+            },
             toPage(item){
                if(item.dir_title.indexOf('未提交')){
                   this.$router.push('workLunchApply?id=' + item.dinner_id);
@@ -128,26 +105,25 @@
                 WlHttp.getWorkLunchList(params).then((res)=>{
 
                     if (res.code=='1') {
-                        let pageData = res.data.pageData;
-                        let _this = this,hasNext = true;
 
-                        if( this.currPage == 1) { _this.listDataArr = []; }
-                        if (pageData.length < this.pageLength) { hasNext = false; }
+                        //console.log(res);
+                        if(this.currPage==1){
+                            this.listDataArr = [];
+                            this.listDataArr = res.data.pageData;
+                        }else{
+                            this.listDataArr = this.listDataArr.concat(res.data.pageData);
+                        }
 
-                        pageData.map(function(e) {
-                            _this.listDataArr.push(e);
-                        })
-                        console.log(_this.listDataArr);
-                        //this.mescroll.endSuccess(20,hasNext);
-                    }else{
-                        //this.mescroll.endErr();
+                        this.allLoaded = res.data.pageData.length < this.pageLength;
+                        this.$refs.loadmore.onBottomLoaded();
+
+                        this.postion();
                     }
                 });
             },
             changeLd_appr(index){
                 this.ld_appr = index;
                 this.getWorkLunchList();
-                //this.mescroll.resetUpScroll();
             },
             changeDir_appr(index){
                 this.dir_appr = index;
@@ -158,56 +134,13 @@
                 this.sdate = startTime.Format2String('yyyyMMdd');
                 this.edate = endTime.Format2String('yyyyMMdd');
                 this.getWorkLunchList();
-                //this.mescroll.resetUpScroll();
-            },
-            creatMescroll(){
-                 let _this = this;
-
-                 setTimeout(function() {
-                    let header = document.getElementById('header'),
-                        listBox = document.getElementById('listBox');
-                        listBox.style.top = header.clientHeight + 'px';
-                 },1)
-
-                 _this.mescroll = new Mescroll("mescroll", {
-    	       		down: {
-                        auto:false,
-                        offset:50,
-    					callback: _this.downCallback //下拉刷新的回调
-    				},
-    				up: {
-                        auto:false,
-                        htmlNodata:'<p class="upwarp-nodata">-- 暂无数据 --</p>',
-    					callback: _this.upCallback , //上拉加载的回调
-    					isBounce: true
-    				}
-    			});
-
-                this.listBox = true; //显示列表容器
-            },
-            downCallback(){
-                this.currPage = 1;
-                this.mescroll.setPageNum(this.currPage); //重置mescroll当前页数
-                this.getWorkLunchList();
-            },
-            upCallback(page){ //上拉加载的回调 page = {num:1, size:10}; num:当前页 默认从1开始, size:每页数据条数,默认10
-                //console.log(page.num);
-                this.currPage = page.num;
-                this.getWorkLunchList();
             }
         }
     }
 </script>
 <style lang="css" scoped>
 @import "../../assets/css/mescroll.min.css";
-.body-box {
-    position: relative;
-}
-.mescroll-wrap {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    overflow: hidden;
-}
+    .loadmore-box {
+        height: calc(100vh - 1.35rem - 65px);
+    }
 </style>
