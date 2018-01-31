@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-# vue pc 模板
-
-## 11月21日更新版本 vue=>2.5.2 / element-ui=>2.0.5 / echarts => 3.8.5
-
-
 
 ### 1.配置项
     > 修改端口：                   `config/index.js`
@@ -11,36 +5,9 @@
     > build之后背景图不显示问题：   `build/utils.js`  -- publicPath:'../../'
     > 配置文件别名：               `build/webpack.base.conf.js` 
 
-### 2.sass
-    > sass的宏(函数)，变量存放于 `assets/css` 下
-    > 每个组件需要单独引入 `@import "~assets/css/variable"; @import "~assets/css/mixin";`
-    > sass的基本用法请参考 sass简易使用 标签页
-    > 附CSS目录文件夹
-        ```
-        |-- css                       // css主文件加
-        |   |-- _button.scss          // 按钮的一些样式
-        |   |-- _frame.scss           //框架级的样式
-        |   |-- _mixin.scss           //sass宏
-        |   |-- _public.scss          // 公共样式文件
-        |   |-- _variable.scss        // sass变量
-        |   |-- index.sass            // 引入所有scss文件到main.js 
-        |   |-- reset.css             // 重置文件
-        ```
-
-### 3.换肤功能
-    > components/theme/theme.vue下是换肤组件 在任何地方都可以引入
-    > 通过vuex将选中的颜色class存储,在app.vue中通过改变根组件的class名实现换肤
-    > 已加入本地存储 刷新页面后仍保留上次选中的皮肤
-
-
-### 4.element ui
-    >模板中 element ui已经做了默认安装 版本2.0.5 使用参考 element ui标签页
-
-
 ### 附录：模板文档结构
 
 ```
-
 ## 目录结构
 ``` bash
 |-- build                            // 项目构建(webpack)相关代码
@@ -103,5 +70,3 @@ npm run build
 npm run build --report
 ```
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
->>>>>>> 94a5279940d875a55cf6f8b3032577553ab1c68d
