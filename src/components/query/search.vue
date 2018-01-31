@@ -80,6 +80,15 @@
       clickCell(item){
          this.$emit('selectCell',item);
       },
+      postion:function(){
+        if(this.currPage===1){
+          this.$nextTick(function() {
+            var dom = document.getElementsByClassName('mint-loadmore');
+            if(!dom) return;
+            dom[0].parentNode.scrollTop = 0;
+          })
+        }
+      },
       loadTop() {
         this.$refs.loadmore.onTopLoaded();
         this.currPage = 1;
@@ -104,6 +113,7 @@
               }
               this.allLoaded = (this.currPage == res.data.pageCount);
               this.$refs.loadmore.onBottomLoaded();
+              this.postion();
             })
         }else{ //部门查询
             KqHttp.queryDepartByParams({

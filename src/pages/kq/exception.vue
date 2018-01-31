@@ -75,6 +75,15 @@
             this.getAbnormalLeaveCount();
         },
         methods:{
+            postion:function(){
+              if(this.currPage===1){
+                this.$nextTick(function() {
+                  var dom = document.getElementsByClassName('mint-loadmore');
+                  if(!dom) return;
+                  dom[0].parentNode.scrollTop = 0;
+                })
+              }
+            },
             loadTop() {
                 this.allLoaded = false;
                 this.$refs.loadmore.onTopLoaded();
@@ -121,6 +130,7 @@
                         }
                         this.allLoaded = res.data.pageData.length<this.pageLength;
                         this.$refs.loadmore.onBottomLoaded();
+                        this.postion();
                 });
             },
             getAbnormalLeaveCount(){
