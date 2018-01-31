@@ -199,7 +199,7 @@
                         duration: 1500
                     });
                     if(res.code == '1'){
-                        this.$router.push('/kq/applyQuery');
+                        this.$router.goBack();
                     }
                 }).catch((error) => {
                     Indicator.close();

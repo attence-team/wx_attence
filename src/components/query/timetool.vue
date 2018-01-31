@@ -41,7 +41,7 @@
                 this.selectTime();
             }
         },
-        mounted(){
+        activated(){
             this.curMonth();
         },
         methods:{

@@ -62,7 +62,7 @@
                 pageLength:50
             }
         },
-        created(){
+        activated(){
             setTitle('异常处理');
         },
         mounted(){
