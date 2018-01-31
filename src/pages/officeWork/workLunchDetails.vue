@@ -40,17 +40,18 @@
       </ul>
     </div>
     <div class="approval-btn-box" v-if="state">
-      <div class="approval-btn agree">同意</div>
-      <div class="approval-btn return">退回</div>
+      <div class="approval-btn agree" @click="approveClk(1)">同意</div>
+      <div class="approval-btn return" @click=approveClk(2)>退回</div>
     </div>
   </div>
 </template>
 <script>
   import { WlHttp } from '@/api/workLunchHttp';
   import JEInput from "@/components/form/je-input";
+  import {Toast} from 'mint-ui';
   export default {
     name: 'workLunchDetails',
-    components:{JEInput},
+    components:{Toast,JEInput},
     data(){
       return {
         info:{},
@@ -64,6 +65,28 @@
         this.queryDetail();
     },
     methods:{
+       approveClk(type){
+         //	审批标识（1同意 2退回）
+          WlHttp.sendWorkLunchApprove({
+             vou_ids:this.$route.query.id,
+             opinion:type==1?'同意':'退回',
+             flag:type
+          }).then((res)=>{
+             if(res.code==1){
+               Toast({
+                 message: res.result,
+                 iconClass: 'icon icon-success',
+                 duration: 1500
+               });
+               this.$router.goBack();
+             }else{
+               Toast({
+                 message: res.result,
+                 duration: 1500
+               });
+             }
+          });
+       },
        queryDetail(){
          WlHttp.getWorkLunchDetails({
             dinner_id:this.$route.query.id

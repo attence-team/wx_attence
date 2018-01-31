@@ -20,4 +20,8 @@ export const WlHttp = {
     getWorkLunchDetails(params) {
       return post('lywebservice/dinner/getDinner',params);
     },
+    /* 工作餐审批 */
+    sendWorkLunchApprove(params) {
+      return post('lywebservice/workflow/sendAuditByList',params);
+    }
 };
