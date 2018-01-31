@@ -99,9 +99,7 @@ Date.prototype.Format2String = function (fmt) {
 Date.prototype.getMonthDay = function () {
     let curDate = this;
     let curMonth = curDate.getMonth();
-    curDate.setMonth(curMonth + 1);
-    curDate.setDate(0);
-    return curDate.getDate();
+    return new Date(curDate.getFullYear(), curMonth, 0).getDate();
 };
 /***
  * 格式化时间

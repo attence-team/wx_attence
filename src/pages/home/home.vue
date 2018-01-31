@@ -20,7 +20,7 @@
        </div>
        <div class="menu-box">
            <div class="menu-nav" v-for="menu in menuList">
-               <div class="title bd-bottom-1">
+               <div class="title bd-bottom-1" @click="goRouterPage(menu.moreurl+'?resid='+menu.resid)">
                  <span>
                     <i class="mywork-icon" :style="{backgroundImage: 'url('+menu.resicon+')'}"></i>{{menu.resname}}
                     <router-link v-if="menu.moreurl" class="more" :to="menu.moreurl+'?resid='+menu.resid">
@@ -146,6 +146,9 @@ export default {
         });
     },
     methods:{
+        goRouterPage(url){
+            this.$router.push(url);
+        },
         goRouter(url,resid){
             HomeHttp.saveLog({
                 staff_num:this.userInfo.staff_num,
