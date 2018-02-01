@@ -97,9 +97,27 @@ Date.prototype.Format2String = function (fmt) {
  * @returns {number}
  */
 Date.prototype.getMonthDay = function () {
-    let curDate = this;
-    let curMonth = curDate.getMonth();
-    return new Date(curDate.getFullYear(), curMonth, 0).getDate();
+  //构造当前日期对象
+  var date = this;
+  //获取年份
+  var year = date.getFullYear();
+  //获取当前月份
+  var mouth = date.getMonth() + 1;
+  //定义当月的天数；
+  var days ;
+  //当月份为二月时，根据闰年还是非闰年判断天数
+  if(mouth == 2){
+    days= year % 4 == 0 ? 29 : 28;
+  }
+  else if(mouth == 1 || mouth == 3 || mouth == 5 || mouth == 7 || mouth == 8 || mouth == 10 || mouth == 12){
+    //月份为：1,3,5,7,8,10,12 时，为大月.则天数为31；
+    days= 31;
+  }
+  else{
+    //其他月份，天数为：30.
+    days= 30;
+  }
+  return days;
 };
 /***
  * 格式化时间
