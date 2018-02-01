@@ -20,7 +20,7 @@
             <ul class="approval-details-list">
                 <li class="approval-details-list-cell" v-for="node in nodeArr">
                     <div class="approval-name unapproved">{{node.staff_name}}</div>
-                    <div class="approval-title-date">
+                    <div class="approval-title-date bd-top-1">
                         <span class="approval-title">{{node.state}}</span>
                         <span class="approval-date">{{node.audit_dt}}</span>
                     </div>
@@ -40,29 +40,35 @@
 <script>
 import { appHttp } from '@/api/approval';
 import { WlHttp } from '@/api/workLunchHttp';
-import { Toast} from 'mint-ui';
+import { Indicator,Toast} from 'mint-ui';
 export default {
     name: 'approval',
+    components:{Indicator},
     data(){
         return {
-            name:this.$route.query.name,
-            title:this.$route.query.title,
-            state:this.$route.query.state,
+            name:'',
+            title:'',
+            state:'',
             params:{
-                vouty:this.$route.query.voc_cd,
-                vou_id:this.$route.query.vou_id
+                vouty:'',
+                vou_id:''
             },
             data:[],
             nodeArr:[],
             opinion:''
         }
     },
-    created(){
-        this.getDetails();
-        this.getBillStatus();
-    },
     activated(){
         setTitle('待办详情');
+
+        this.name = this.$route.query.name;
+        this.title = this.$route.query.title;
+        this.state = this.$route.query.state;
+        this.params.vouty = this.$route.query.voc_cd;
+        this.params.vou_id = this.$route.query.vou_id;
+
+        this.getDetails();
+        this.getBillStatus();
     },
     methods:{
         getDetails() {
@@ -82,6 +88,7 @@ export default {
             });
         },
         approveClk(type){
+            Indicator.open();
           // 审批标识（1同意 2退回）
            WlHttp.sendWorkLunchApprove({
               vou_ids:this.$route.query.vou_id,
@@ -94,13 +101,16 @@ export default {
                   iconClass: 'icon icon-success',
                   duration: 1500
                 });
-                this.$router.goBack();
+                setTimeout(()=>{
+                    this.$router.goBack();
+                },1500);
               }else{
                 Toast({
                   message: res.result,
                   duration: 1500
                 });
               }
+              Indicator.close();
            });
         }
     }
@@ -127,8 +137,8 @@ export default {
 }
 .approval-details-box .approval-list-cell {
     padding: 0.25rem 0;
-    display: flex;
-    align-items: center;
+    /* display: flex; */
+    /* align-items: center; */
 }
 .approval-details-box .approval-info {
     margin: 0;
@@ -186,8 +196,9 @@ export default {
 .approval-details-list-cell .approval-title-date {
     flex: 1;
     font-size: 0;
+    padding-right: 0.25rem;
 }
-.approval-details-list-cell:last-child .approval-title-date {
+.approval-details-list-cell:first-child .bd-top-1:after  {
     border-bottom: 0;
 }
 .approval-details-list-cell .approval-title {
