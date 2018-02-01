@@ -61,6 +61,9 @@ export default {
         this.getDetails();
         this.getBillStatus();
     },
+    activated(){
+        setTitle('待办详情');
+    },
     methods:{
         getDetails() {
             appHttp.getApprovalDetails(this.params).then((res)=>{

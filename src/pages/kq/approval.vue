@@ -2,7 +2,7 @@
     <div class="body-box">
         <div class="tab-box">
             <div class="tap-wrap" :class="{selected:tabSelected==0}" @click="tabChange(0);">
-                <div class="tap-btn">待我审批的（{{approvedNum}}）</div>
+                <div class="tap-btn">待我审批的<span v-if="listData.length > 0">（{{approvedNum}}）</span></div>
             </div>
             <i></i>
             <div class="tap-wrap" :class="{selected:tabSelected==1}" @click="tabChange(1);">
@@ -16,6 +16,7 @@
             <div class="loadmore-box scroll">
                 <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :autoFill="false" ref="loadmore">
                  <ul class="approval-list">
+                     <div v-if="listData.length<=0" class="noneData">暂无数据</div>
                      <li class="approval-list-cell" v-for="item in listData">
                          <router-link :to="'approvalDetails?vou_id='+ item.vou_id +'&voc_cd='+ item.voc_cd +'&name='+ item.submit_staff_nm +'&title='+ item.wait_tip  +'&state='+ item.finish_mark_nm">
                          <div class="approval-name">{{item.submit_staff_nm}}</div>
@@ -54,6 +55,9 @@ export default {
             listData:[],
             allLoaded:false
         }
+    },
+    activated(){
+        setTitle('待办工作');
     },
     created(){
         this.params.system_id = this.$route.query.system_id;

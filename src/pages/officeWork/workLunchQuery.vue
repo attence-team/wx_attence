@@ -15,6 +15,7 @@
             <div class="loadmore-box scroll">
                 <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :autoFill="false" ref="loadmore">
                  <ul class="application-list">
+                        <div v-if="listDataArr.length<=0" class="noneData">暂无数据</div>
                        <li class="application-list-cell" v-for="item in listDataArr" @click="toPage(item)">
                            <div class="icon"></div>
                            <div class="application-list-info bd-bottom-1">
@@ -58,6 +59,7 @@
         mounted(){
         },
         activated(){
+            setTitle('工作餐单据查询');
         },
         filters: {
           formatDate: function (value) {

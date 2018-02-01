@@ -194,6 +194,8 @@
               this.getWorkLunchType();
               this.getTemporaryCard();
             }
+
+            setTitle('工作餐申请');
         },
         methods:{
             queryLunchDetail(callBackFn){

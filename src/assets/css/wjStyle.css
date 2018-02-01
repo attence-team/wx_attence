@@ -21,7 +21,7 @@
     height: 100%;
     font-size: 15px;
     box-sizing: border-box;
-    border-bottom: 2px solid #fff;
+    border-bottom: 2px solid transparent;
 }
 .selected {
     color: #3497f5 !important;
