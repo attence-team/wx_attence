@@ -1,6 +1,7 @@
 <template>
-  <div class="je-input">
-     <input :type="type" v-model="val" :placeholder="placeholder" />
+  <div :class="{'je-input':true,'no-title':title==''}">
+     <input v-if="disabled==='true'" disabled :type="type" v-model="val" :placeholder="placeholder" />
+    <input v-else :type="type" v-model="val"  :placeholder="placeholder" />
      <i></i>
      <span>{{title}}</span>
   </div>
@@ -28,12 +29,16 @@
         placeholder:{
            type: String,
            default: ''
+        },
+        disabled:{
+          type: String,
+          default: 'false'
         }
     },
     watch:{
         val(newVal){
             if(this.type=='number'){
-                newVal = newVal.replace(/[^0-9]/g,'');
+                newVal = newVal.toString().replace(/[^0-9]/g,'');
             }
             this.$emit('input', newVal);
         },
@@ -55,6 +60,9 @@
      color: #333333;
      font-size: 16px;
   }
+  .no-title.je-input{
+    min-height: 0.4rem;
+  }
   .je-input:before{
     content: "";
     position: absolute;
@@ -73,6 +81,9 @@
      border-radius: 0;
      color: #333;
      padding: 6px 8px 8px 0;
+  }
+  .no-title input{
+    margin-top: 0;
   }
   .je-input input + i{
     display: block;
@@ -99,7 +110,6 @@
           font-size: 14px;
       }
   }
-
   .je-input input:focus + i{
     transition: width 1s;
     width: 100%;
