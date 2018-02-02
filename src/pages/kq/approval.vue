@@ -10,24 +10,26 @@
             </div>
         </div>
         <div class="approval">
-            <div class="batch-approval bd-bottom-1">
-                <span class="allSelect" v-if="batchSwitch" @click="allSelect();"><span v-if="!checkAll">全选</span><span v-if="checkAll">取消</span></span><span class="batch-approval-text">批量审批</span><mt-switch v-model="batchSwitch"></mt-switch>
+            <div class="batch-approval " v-if="tabSelected==0">
+                <span class="allSelect" v-if="batchSwitch" @click="allSelect();"><span v-if="!checkAll">全选</span><span v-if="checkAll">取消</span></span><span class="batch-approval-text" >批量审批</span><mt-switch v-model="batchSwitch"></mt-switch>
             </div>
-            <div class="approval-btn-box">
-                <div class="approval-btn agree" @click='approveClk(1)' v-if="batchSwitch">同意</div>
+            <div class="approval-btn-box" v-if="batchSwitch">
+                <div class="approval-btn agree" @click='approveClk(1)' >同意</div>
             </div>
-            <div class="loadmore-box scroll">
+            <div class="loadmore-box scroll bd-top-1" :class="{'h-1rem':tabSelected==0}">
                 <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :autoFill="false" ref="loadmore">
                  <ul class="approval-list">
                      <div v-if="listData.length<=0" class="noneData">暂无数据</div>
                      <li class="approval-list-cell checkbox-box" :class="{select:batchSwitch}" v-for="item in listData">
                          <label :for="item.vou_id" v-if="batchSwitch"><input type="checkbox" v-model='item.checked' :id="item.vou_id"><i class="checkbox-btn"></i></label>
-                        <router-link :to="'approvalDetails?vou_id='+ item.vou_id +'&voc_cd='+ item.voc_cd +'&name='+ item.submit_staff_nm +'&title='+ item.wait_tip  +'&state='+ (item.finish_mark_nm || item.verify_mark)">
-                         <div class="approval-name">{{item.submit_staff_nm}}</div>
+                        <router-link :to="'approvalDetails?vou_id='+ item.vou_id +'&voc_cd='+ item.voc_cd +'&name='+ item.submit_staff_nm +'&title='+ item.wait_tip  +'&state='+ (item.finish_mark_nm || item.verify_mark) +'&state2='+ tabSelected">
+                         <div class="approval-name" :class="{appOver:tabSelected==1}">{{item.submit_staff_nm}}</div>
                          <div class="approval-info bd-bottom-1">
                              <p class="approval-title-date">
-                                 <span class="approval-title">{{item.submit_staff_nm + item.wait_tip}}</span><span class="approval-date">{{item.sumit_dt || item.verify_dtt}}</span>
+                                 <span class="approval-title">{{item.submit_staff_nm + item.wait_tip}}</span><span class="approval-date"  v-if="tabSelected==0">{{item.sumit_dt}}</span>
                              </p>
+                             <p class="approval-start-date" v-if="tabSelected==1">申请时间：{{item.submit_dt}}</p>
+                             <p class="approval-start-date" v-if="tabSelected==1">审批时间：{{item.verify_dtt}}</p>
                              <p class="approval-state">{{item.finish_mark_nm || item.verify_mark}}</p>
                          </div>
                          </router-link>
@@ -88,8 +90,11 @@ export default {
             this.getApprovalList();
         },
         tabChange(index){
+            if (index==1) {
+                this.batchSwitch = false;
+            }
             this.tabSelected = index;
-            this.getApprovalList();
+            this.getApprovalList(true);
         },
         allSelect(){
             this.checkAll = !this.checkAll;
@@ -97,8 +102,12 @@ export default {
                 item.checked = this.checkAll;
             })
         },
-        getApprovalList(){
-            //Indicator.open();
+        getApprovalList(tabChange){
+            if (tabChange) {
+                this.listData = [];
+                Indicator.open();
+            }
+
             appHttp.getApprovalList(this.apiArr[this.tabSelected],this.params).then((res)=>{
                 //console.log(res);
                 if (res.code==1) {
@@ -123,7 +132,7 @@ export default {
 
                     this.postion();
                 }
-                //Indicator.close();
+                Indicator.close();
             });
         },
         approveClk(type){
@@ -166,8 +175,11 @@ export default {
 </script>
 <style media="screen" scoped>
     .loadmore-box {
-        height: calc(100vh - 2.25rem - 2px);
+        height: calc(100vh - 1.25rem);
         position: relative;
+    }
+    .h-1rem {
+        height: calc(100vh - 2.25rem);
     }
     .approval {
         position: relative;
@@ -180,6 +192,10 @@ export default {
     }
     .approval-list-cell .approval-name {
         left: 0.25rem;
+    }
+    .appOver {
+        top: 0.5rem;
+        margin-top: 0;
     }
     .checkbox-box label {
         margin: 0;

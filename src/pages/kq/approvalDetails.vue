@@ -27,13 +27,15 @@
                 </li>
             </ul>
         </div>
-        <div class="approval-details-opinion">
-            <span>审批意见：</span>
-            <textarea class="opinion" name="name" rows="8" cols="80" v-model="opinion"></textarea>
-        </div>
-        <div class="approval-btn-box">
-            <div class="approval-btn agree" @click='approveClk(1)'>同意</div>
-            <div class="approval-btn return" @click='approveClk(2)'>退回</div>
+        <div v-if="state2=='0'">
+            <div class="approval-details-opinion">
+                <span>审批意见：</span>
+                <textarea class="opinion" name="name" rows="8" cols="80" v-model="opinion"></textarea>
+            </div>
+            <div class="approval-btn-box">
+                <div class="approval-btn agree" @click='approveClk(1)'>同意</div>
+                <div class="approval-btn return" @click='approveClk(2)'>退回</div>
+            </div>
         </div>
     </div>
 </template>
@@ -49,6 +51,7 @@ export default {
             name:'',
             title:'',
             state:'',
+            state2:'',
             params:{
                 vouty:'',
                 vou_id:''
@@ -64,6 +67,7 @@ export default {
         this.name = this.$route.query.name;
         this.title = this.$route.query.title;
         this.state = this.$route.query.state;
+        this.state2 = this.$route.query.state2;
         this.params.vouty = this.$route.query.voc_cd;
         this.params.vou_id = this.$route.query.vou_id;
 
@@ -81,7 +85,7 @@ export default {
         },
         getBillStatus(){
             appHttp.getBillStatus(this.params).then((res)=>{
-                console.log(res);
+                //console.log(res);
                 if (res.code=='1') {
                     this.nodeArr = res.data;
                 }
@@ -89,10 +93,14 @@ export default {
         },
         approveClk(type){
             Indicator.open();
+            let opinion = this.opinion;
+            if (opinion=='') {
+                opinion = type==1 ? '同意' : '退回';
+            }
           // 审批标识（1同意 2退回）
            WlHttp.sendWorkLunchApprove({
               vou_ids:this.$route.query.vou_id,
-              opinion:this.opinion,
+              opinion:opinion,
               flag:type
            }).then((res)=>{
               if(res.code==1){

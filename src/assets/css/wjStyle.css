@@ -12,6 +12,7 @@
     background-color: #fff;
     display: flex;
     vertical-align: middle;
+    margin-bottom: 0.25rem;
 }
 .tab-box .tap-wrap {
     flex: 1;
@@ -64,7 +65,6 @@
     height: 1rem;
     line-height: 1rem;
     text-align: right;
-    margin-top: 0.25rem;
     padding: 0 0.25rem;
 }
 .batch-approval .batch-approval-text {
@@ -141,7 +141,8 @@
 }
 .approval-info .approval-start-date,.approval-info .approval-end-date{
     color: #999;
-    font-size: 16px;
+    font-size: 14px;
+    margin-bottom: 0.25rem;
 }
 .approval-info .approval-state {
     color: #ff8922;
