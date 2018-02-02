@@ -36,7 +36,7 @@
         }
     },
     watch:{
-        val(newVal){
+        val(newVal,oldVal){
             if(this.type=='number'){
                 newVal = newVal.toString().replace(/[^0-9]/g,'');
             }

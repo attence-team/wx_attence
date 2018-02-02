@@ -118,7 +118,7 @@ export default {
            carouselImgs:[],
            menuList:[],
            list:[],
-           userID:'02236654',
+           userID:'02008464',
            userInfo:{},
            leftMenuShow:false,
            leftMenuTree:[]
@@ -139,10 +139,10 @@ export default {
                 message: '网络异常',
                 duration: 5000
             });
-            this.initUserData();
-            this.queryMenuTree(()=>{
-                this.queryLeftMenuTree();
-            });
+//            this.initUserData();
+//            this.queryMenuTree(()=>{
+//                this.queryLeftMenuTree();
+//            });
         });
     },
     methods:{

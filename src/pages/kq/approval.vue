@@ -233,5 +233,6 @@ export default {
     .agree {
         background-color: #11bf84;
         cursor: pointer;
+        opacity: 0.6;
     }
 </style>

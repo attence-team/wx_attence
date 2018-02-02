@@ -103,6 +103,8 @@
             },
             optfn(obj){
                 console.log(obj)
+               alert(obj.obj.sys_idkey)
+               this.$router.push('/kq/leave?id=B3620005'+obj.obj.sys_idkey);
             },
             getAbnormalLeave(){
                 let params = {
@@ -117,6 +119,7 @@
                         let tempArry = [];
                         data.forEach(function(value){
                             tempArry.push({
+                                obj:value,
                                 time:value.year_month + '<br>' + value.week,
                                 type:'<i class="color-red2">'+ value.bursh_name +'</i>', //+'<br>'+未刷卡+'</i>',
                                 status:'--'

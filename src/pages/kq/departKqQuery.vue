@@ -118,6 +118,8 @@
             },
             queryList(){
               KqHttp.queryDeptKqList({
+                   staff_num:this.searchInfo.staff_num,
+                   name:this.searchInfo.name,
                    dept_num: this.searchInfo.dept_num,
                    dept_name: this.searchInfo.dept_name,
                    year_month:this.year_month.Format2String('yyyyMM'),

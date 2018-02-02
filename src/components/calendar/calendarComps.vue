@@ -55,8 +55,11 @@
                this.setDateSelectList();
             }
         },
+        activated(){
+           //this.initCalendar();
+           this.setDateSelect(new Date().Format2String('yyyy-MM-dd'),'active');
+        },
         mounted(){
-            this.initCalendar();
 //            this.setDateSelect('2018-01-08','warn');
 //            this.setDateSelect('2018-01-05','warn');
 //            this.setDateSelect('2018-01-04','normal');

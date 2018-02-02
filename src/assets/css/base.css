@@ -144,6 +144,9 @@ html{
   padding: 1px 4px;
   border-radius: 10px;
 }
+.mint-toast-text {
+  line-height: 16px;
+}
 .text-over{
   text-overflow:ellipsis;
   overflow:hidden;

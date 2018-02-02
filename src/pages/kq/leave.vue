@@ -185,24 +185,15 @@
                     //sys_idkey:''
                 };
                 if(!params.leave_num){
-                    Toast({
-                        message: '请选择请假类型',
-                        duration: 1500
-                    });
+                    Toast('请选择请假类型');
                     return
                 }
                 if(!params.times){
-                    Toast({
-                        message: '请输入免打卡次数',
-                        duration: 1500
-                    });
+                    Toast( '请输入免打卡次数');
                     return
                 }
                 if(!params.reason){
-                    Toast({
-                        message: '请输入请假事由',
-                        duration: 1500
-                    });
+                    Toast('请输入请假事由');
                     return
                 }
                 Indicator.open({

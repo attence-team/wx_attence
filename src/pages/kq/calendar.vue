@@ -15,6 +15,7 @@
                 <div :class="{'day-item':true,warn:(cur.bursh_name.indexOf('正常')!=-1)}" v-for="(cur,idx) in curData">
                    <span :class="{'bd-bottom-1':(idx!=curData.length-1)}">{{cur.bursh_name}}（{{cur.bursh_time}}）</span>
                 </div>
+                <div v-if="curData.length<=0" class="noneData">暂无数据</div>
             </div>
         </div>
     </div>
@@ -22,13 +23,14 @@
 <script>
     import TimetoolComps from "@/components/calendar/timetool";
     import CalendarComps from "@/components/calendar/calendarComps";
+    import {Toast} from 'mint-ui';
     import {KqHttp} from '@/api/kqHttp';
     export default {
         name: 'calendar',
         components:{ CalendarComps,TimetoolComps },
         data(){
             return {
-               curTime: new Date().Format2String('yyyy-MM-dd'),
+               curTime: '',
                curData:[],
                currentDate:'',
                recordList:[]
@@ -36,6 +38,7 @@
         },
         activated(){
            setTitle('考勤日历');
+           this.curTime =  new Date().Format2String('yyyy-MM-dd');
            this.currentDate = new Date().Format2String('yyyy-MM-dd');
         },
         methods:{
@@ -43,13 +46,17 @@
                 console.log('点击了时间：'+selectTime);
                 this.currentDate = selectTime;
                 KqHttp.queryKqList({
-                  staff_num:'2333',
-                  sdate:'20160601',
-                  edata:'20160631',
+                  staff_num:getUserInfo().staff_num,
+                  sdate:this.currentDate.Format2String('yyyyMMdd'),
+                  edata:this.currentDate.Format2String('yyyyMMdd'),
                   currPage:1,
                   pageLength:1000
                 }).then((res)=>{
-                   this.curData = res.data.pageData;
+                   if(res.code==1){
+                      this.curData = res.data.pageData;
+                   }else{
+                      Toast(res.result);
+                  }
                 });
             },
             selectTime(startTime,endTime){

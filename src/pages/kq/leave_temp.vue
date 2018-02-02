@@ -86,12 +86,38 @@
             return {
                 leaveType:'',
                 typeList:[],
+                days:0,
                 startDate: new Date().Format2String('yyyy-MM-dd'),
                 endDate: new Date().Format2String('yyyy-MM-dd'),
                 reasonInfo:'',
                 countCards: '',
                 approveGroups:[]
             }
+        },
+        watch:{
+          leaveType(newVal){
+             this.days = 0;
+             for(let i=0;i<this.typeList.length;i++){
+                if(newVal == this.typeList[i].value){
+                   this.days = this.typeList[i].days?this.typeList[i].days:0;
+                   return;
+                }
+             }
+          },
+          startDate(newVal,oldVal){
+            if(!this.betweenTime()){
+              this.$nextTick(()=>{
+                this.startDate = oldVal;
+              });
+            }
+          },
+          endDate(newVal,oldVal){
+            if(!this.betweenTime()){
+              this.$nextTick(()=>{
+                this.endDate = oldVal;
+              });
+            }
+          }
         },
         activated(){
             setTitle('请假申请');
@@ -108,16 +134,44 @@
                 if(!e.target.value) return;
                 this.approveGroups[j].group_dt[k].selectedValue = this.approveGroups[j].group_dt[k].staffs[e.target.value];
             },
+            betweenTime(){
+              let num = (new Date(this.endDate).getTime() - new Date(this.startDate).getTime())/(1000*60*60*24);
+              if(num<0){
+                Toast({
+                  message: '开始时间不能大于结束时间',
+                  duration: 1500
+                });
+                return false;
+              }
+              if(this.days&&num>this.days){
+                Toast({
+                  message: '请假天数不能大于'+this.days+'天',
+                  duration: 1500
+                });
+                return false;
+              }
+              return true;
+            },
             getLeaveType(callBackFn){
                 KqHttp.queryLeaveType({
                     staff_num: getUserInfo().staff_num
                 }).then((res)=>{
                     if(res.code == 1){
                         for(let i=0;i<res.data.length;i++){
-                            this.typeList.push({
-                                name:res.data[i].leave_cause,
-                                value:res.data[i].leave_num
-                            });
+                            let dyts = res.data[i].valid_nxjdays?res.data[i].valid_nxjdays:0;
+                            if('年休假'== res.data[i].leave_cause){
+                               this.typeList.push({
+                                  name:res.data[i].leave_cause+'-'+dyts+'天',
+                                  value:res.data[i].leave_num,
+                                  days:dyts
+                               });
+                            }else{
+                                this.typeList.push({
+                                  name:res.data[i].leave_cause,
+                                  value:res.data[i].leave_num,
+                                  days:dyts
+                                });
+                            }
                         }
                         this.leaveType = res.data[0].leave_num;
                         if(callBackFn){

@@ -48,13 +48,13 @@
         <div class="form-row">
           <div class="row-left"><i class="icon info-icon"></i></div>
           <div class="row-wrapper ">
-            <span class="row-title">餐票明细</span>
+            <span class="row-title">餐票明细﹣申请餐票（{{director}}张）</span>
             <div class="lunch-info">
               <ul>
-                <li v-for="lunchInfo in lunchInfoList">
+                <li v-for="(lunchInfo,idx) in lunchInfoList">
                    <span class="time-date">{{lunchInfo.time}}</span>
                    <span class="lunch-count">
-                      <input type="number" v-model="lunchInfo.counts"/>
+                      <input type="number" @keyup="keyUpDirector(idx)" v-model="lunchInfo.counts"/>
                    </span>
                 </li>
               </ul>
@@ -94,7 +94,7 @@
   import { WlHttp } from '@/api/workLunchHttp';
   import JEInput from "@/components/form/je-input";
   import JESelect from "@/components/form/je-select";
-  import { Toast, Indicator } from 'mint-ui';
+  import { Toast, Indicator, MessageBox } from 'mint-ui';
   export default {
     name: 'workLunchApply',
     components:{JEInput,JESelect},
@@ -115,6 +115,7 @@
         startDate: new Date().Format2String('yyyy-MM-dd'),
         endDate: new Date().Format2String('yyyy-MM-dd'),
         lunchInfoList:[], //明细
+        director:0, //总餐票数
         approveGroups:[],
         leaderName:''
       }
@@ -149,17 +150,17 @@
          }
       },
       startDate(newVal,oldVal){
-         if(!this.betweenTime()){
-           setTimeout(()=>{
-             this.startDate = oldVal;
-           },50);
-         }
+        if(!this.betweenTime()){
+          this.$nextTick(()=>{
+            this.startDate = oldVal;
+          });
+        }
       },
       endDate(newVal,oldVal){
         if(!this.betweenTime()){
-          setTimeout(()=>{
+          this.$nextTick(()=>{
             this.endDate = oldVal;
-          },50);
+          });
         }
       }
     },
@@ -185,20 +186,28 @@
         if(num<0){
           Toast({
             message: '开始时间不能大于结束时间',
-            duration: 1500
+            duration: 2000
           });
           return false;
         }
         if(num>6){
           Toast({
             message: '时间间隔不能大于7天',
-            duration: 1500
+            duration: 2000
           });
           return false;
         }
         return true;
       },
       initLuncInfo(){
+         this.director = 0;
+         if(!this.staff_cnt){
+           Toast({
+             message:'请输入用餐人数',
+             duration: 2000
+           });
+           return;
+         }
          let s = new Date(this.startDate);
          let e = new Date(this.endDate);
          let num = (e.getTime() - s.getTime())/(1000*60*60*24);
@@ -271,7 +280,7 @@
         let tipsObj = {
           stand_id:'请选择就餐类型',dept_id:'部门id不存在',staff_num:'申请人id不存在',apply_time:'申请日期不存在',
           dinner_time:'请选择用餐开始时间',dinner_time_end:'请选择用餐结束时间',guest:'请输入来宾单位',staff_cnt:'请输入用餐人数',
-          director:'请填写用餐明细',rsbh:'请选择临时卡号',rs_name:'请选择临时卡号'
+          director:'请点击餐票初始化按钮生成餐票明细',rsbh:'请选择临时卡号',rs_name:'请选择临时卡号'
         };
         let pass = true;
         for (let i in obj) {
@@ -298,7 +307,6 @@
            this.endDate = res.data.dinner_time_end;
            this.staff_cnt = res.data.staff_cnt;
            this.leaderName = res.data.leader_nm;
-           this.leaderName = '刘雄辉';
         });
       },
       saveLunch() {
@@ -319,13 +327,21 @@
           tra_memo:''
         };
         if (!this.verification(params)) return;
-        Indicator.open();
-        WlHttp.submit(params).then((res)=>{
-            Toast(res.result);
-            Indicator.close();
-        }).catch(()=>{
-            Indicator.close();
+        MessageBox.confirm('确定申请2018-10-12至2018-10-20共6张餐票吗?').then(action => {
+            if(action == 'confirm') {
+                Indicator.open();
+                WlHttp.submit(params).then((res)=>{
+                  Indicator.close();
+                  Toast(res.result);
+                  this.$router.goBack();
+                }).catch(()=>{
+                    Indicator.close();
+                });
+            }
         });
+      },
+      keyUpDirector(idx){
+         this.director = this.getDirector();
       },
       getDirector(){
         let result = 0;
