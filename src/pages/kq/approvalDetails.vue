@@ -13,7 +13,7 @@
                 </li>
             </ul>
             <div class="approval-details bd-top-1">
-                <p v-for="(val, key, index) in data">{{key}}：<span>{{val}}</span></p>
+                <p v-for="(val,key) in data">{{key}}：<span>{{val}}</span></p>
             </div>
         </div>
         <div class="approval-details-list-box">
@@ -70,17 +70,21 @@ export default {
         this.state2 = this.$route.query.state2;
         this.params.vouty = this.$route.query.voc_cd;
         this.params.vou_id = this.$route.query.vou_id;
-
+        this.data = [];
+        this.nodeArr = [];
+        this.opinion = '';
         this.getDetails();
         this.getBillStatus();
     },
     methods:{
         getDetails() {
+            Indicator.open();
             appHttp.getApprovalDetails(this.params).then((res)=>{
                 //console.log(res);
                 if (res.code=='1') {
                     this.data = res.data;
                 }
+                Indicator.close();
             });
         },
         getBillStatus(){
@@ -169,6 +173,7 @@ export default {
 }
 .approval-details p span {
     color: #333;
+    line-height: 22px;
 }
 
 .approval-list-box .approval-title-date {
