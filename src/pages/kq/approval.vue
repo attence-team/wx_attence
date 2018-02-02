@@ -67,7 +67,7 @@ export default {
     activated(){
         setTitle('待办工作');
         this.params.system_id = this.$route.query.system_id;
-        this.getApprovalList();
+        this.getApprovalList(true);
     },
     methods:{
         postion(){
@@ -102,8 +102,8 @@ export default {
                 item.checked = this.checkAll;
             })
         },
-        getApprovalList(tabChange){
-            if (tabChange) {
+        getApprovalList(loding){
+            if (loding) {
                 this.listData = [];
                 Indicator.open();
             }
