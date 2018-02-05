@@ -45,7 +45,7 @@
         },
         activated(){
             if(this.columnNames.titles.length>5){
-                this.tableWidth = 100 + (this.columnNames.titles.length-5)*20
+                this.tableWidth = 100 + (this.columnNames.titles.length-5)*18
             }
         }
     }

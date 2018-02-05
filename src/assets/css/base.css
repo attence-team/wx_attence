@@ -147,6 +147,9 @@ html{
 .mint-toast-text {
   line-height: 16px;
 }
+.menu-box .mint-cell-allow-right:after{
+  right: 40px;
+}
 .text-over{
   text-overflow:ellipsis;
   overflow:hidden;

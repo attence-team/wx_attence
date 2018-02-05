@@ -121,13 +121,23 @@ export default {
            userID:'02008464',
            userInfo:{},
            leftMenuShow:false,
-           leftMenuTree:[]
+           leftMenuTree:[],
+           screenInfo:{
+             screenWidth:0,
+             screenHeight:0,
+             devicePixel:1
+           }
         }
     },
     activated(){
-        setTitle('移动门户');
+        setTitle('微龙烟');
     },
     mounted(){
+        this.screenInfo = {
+           screenWidth:window.screen.width,
+           screenHeight:window.screen.height,
+           devicePixel:window.devicePixelRatio
+        };
         HomeHttp.getUserId().then((headers)=>{
             this.userID = headers["iv-user"];
             this.initUserData();
@@ -184,7 +194,10 @@ export default {
                 text: '加载中...',
                 spinnerType: 'fading-circle'
             });
-            HomeHttp.queryMenuTree({"iv-user":this.userID}).then((res)=>{
+            HomeHttp.queryMenuTree({
+              "iv-user":this.userID,
+              screenInfo:this.screenInfo
+            }).then((res)=>{
                 if(callBackFn){
                     callBackFn();
                 }
@@ -210,7 +223,10 @@ export default {
 //            text: '加载中...',
 //            spinnerType: 'fading-circle'
 //          });
-          HomeHttp.queryLeftMenu({"iv-user":this.userID}).then((res)=>{
+          HomeHttp.queryLeftMenu({
+            "iv-user":this.userID,
+            screenInfo:this.screenInfo
+          }).then((res)=>{
               //Indicator.close();
               if(res.code==0){
                 Toast({

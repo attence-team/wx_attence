@@ -9,7 +9,7 @@
             </div>
             <div class="loadmore-box scroll">
                 <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :autoFill="false" ref="loadmore">
-                  <TableCellAuto autowidth="150%"  :dataList="tableList" :columnNames="columnValue"></TableCellAuto>
+                  <TableCellAuto autowidth="120%"  :dataList="tableList" :columnNames="columnValue"></TableCellAuto>
                 </mt-loadmore>
             </div>
         </div>
@@ -27,8 +27,8 @@
             return {
                 tableList:[],
                 columnValue:{
-                    titles:['','姓名','请假起日期','请假止日期','请假类型','审批状态','审批状态名称'],
-                    columnValues:['staff_name','start_date','intending_date','leave_cause','all_sign','all_sign_nm']
+                    titles:['','姓名','请假起日期','请假止日期','请假类型','审批状态名称'],
+                    columnValues:['staff_name','start_date','intending_date','leave_cause','all_sign_nm']
                 },
                 userInfo:{},
                 sdate:'',

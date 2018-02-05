@@ -220,6 +220,9 @@
              counts: this.staff_cnt
            });
          }
+         this.$nextTick(()=>{
+            this.director = this.getDirector();
+         });
       },
       getWorkLunchType(callBackFn) {
         WlHttp.getWorkLunchType().then((res)=>{
@@ -327,7 +330,7 @@
           tra_memo:''
         };
         if (!this.verification(params)) return;
-        MessageBox.confirm('确定申请2018-10-12至2018-10-20共6张餐票吗?').then(action => {
+        MessageBox.confirm('确定申请'+ this.startDate +'至'+ this.endDate +'共'+this.director+'张餐票吗?').then(action => {
             if(action == 'confirm') {
                 Indicator.open();
                 WlHttp.submit(params).then((res)=>{
