@@ -211,8 +211,13 @@ export default {
         top: 50%;
         margin-top: -0.125rem;
     }
-    .select .approval-info {
-        margin-left: 1.75rem;
+    .approval-list .approval-list-cell .approval-info {
+        padding: 0.3rem 0;
+        margin-left: 0;
+        padding-left: 1.2rem;
+    }
+    .approval-list .select  .approval-info {
+        padding-left: 1.75rem !important;
     }
     .select .approval-name {
         left: 0.75rem;
