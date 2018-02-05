@@ -22,7 +22,7 @@
                      <div v-if="listData.length<=0" class="noneData">暂无数据</div>
                      <li class="approval-list-cell checkbox-box" :class="{select:batchSwitch}" v-for="item in listData">
                          <label :for="item.vou_id" v-if="batchSwitch"><input type="checkbox" v-model='item.checked' :id="item.vou_id"><i class="checkbox-btn"></i></label>
-                        <router-link :to="'approvalDetails?vou_id='+ item.vou_id +'&voc_cd='+ item.voc_cd +'&name='+ item.submit_staff_nm +'&title='+ item.wait_tip  +'&state='+ (item.finish_mark_nm || item.verify_mark) +'&state2='+ tabSelected">
+                        <a href="javascript:;" @click="toPage(item)">
                          <div class="approval-name" :class="{appOver:tabSelected==1}">{{item.submit_staff_nm}}</div>
                          <div class="approval-info bd-bottom-1">
                              <p class="approval-title-date">
@@ -32,7 +32,7 @@
                              <p class="approval-start-date" v-if="tabSelected==1">审批时间：{{item.verify_dtt}}</p>
                              <p class="approval-state">{{item.finish_mark_nm || item.verify_mark}}</p>
                          </div>
-                         </router-link>
+                        </a>
                      </li>
                  </ul>
                 </mt-loadmore>
@@ -70,6 +70,13 @@ export default {
         this.getApprovalList(true);
     },
     methods:{
+        toPage(item){
+            let url = 'approvalDetails?vou_id='+ item.vou_id +'&voc_cd='+ item.voc_cd +'&name='+ item.submit_staff_nm +'&title='+ item.wait_tip  +'&state='+ (item.finish_mark_nm || item.verify_mark) + '&type='+ this.tabSelected;
+            if (item.memo) {
+                url += '&opinion='+ item.memo;
+            }
+            this.$router.push(url);
+        },
         postion(){
           if(this.params.currPage===1){
             this.$nextTick(function() {
@@ -205,8 +212,13 @@ export default {
         top: 50%;
         margin-top: -0.125rem;
     }
-    .select .approval-info {
-        margin-left: 1.75rem;
+    .approval-list .approval-list-cell .approval-info {
+        padding: 0.3rem 0;
+        margin-left: 0;
+        padding-left: 1.2rem;
+    }
+    .approval-list .select  .approval-info {
+        padding-left: 1.75rem !important;
     }
     .select .approval-name {
         left: 0.75rem;
