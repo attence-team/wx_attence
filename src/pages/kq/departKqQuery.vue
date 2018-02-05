@@ -44,7 +44,7 @@
     import {KqHttp} from '@/api/kqHttp';
     import TableCell from "@/components/query/tablecell";
     import SearchComps from "@/components/query/search";
-    import {Loadmore,Popup} from 'mint-ui';
+    import {Loadmore,Popup,Indicator} from 'mint-ui';
     export default {
         name: 'departKqQuery',
         components:{Loadmore,Popup,TableCell,SearchComps},
@@ -117,6 +117,7 @@
                }
             },
             queryList(){
+              Indicator.open();
               KqHttp.queryDeptKqList({
                    staff_num:this.searchInfo.staff_num,
                    name:this.searchInfo.name,
@@ -126,6 +127,7 @@
                    currPage: this.currPage,
                    pageLength: this.pageLength
                 }).then((res)=>{
+                  Indicator.close();
                   if(this.currPage==1){
                       this.tableList = [];
                       this.tableList = res.data.pageData;
@@ -135,6 +137,8 @@
                   this.allLoaded = res.data.pageData.length<this.pageLength;
                   this.$refs.loadmore.onBottomLoaded();
                   this.postion();
+                }).catch(()=>{
+                    Indicator.close();
                 });
             }
         }
@@ -156,6 +160,9 @@
     .exp-box{
         height: calc(100% - 3*48px - 2*0.3rem - 42px);
         background-color: #fff;
+    }
+    .exp-box .scroll-box{
+       min-height: calc(100vh - 3*48px - 2*0.3rem - 42px);
     }
     .table-box{
         padding: 0.25rem 0.25rem 0 0.25rem;

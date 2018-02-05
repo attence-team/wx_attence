@@ -40,9 +40,9 @@
     </mt-popup>
     <div class="exp-box scroll">
       <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :autoFill="false" ref="loadmore">
-      <div class="table-box scroll-box">
-        <TableCell width="120" :dataList="tableList" :pointShow="false" :columnNames="columnValue"></TableCell>
-      </div>
+        <div class="table-box scroll-box">
+          <TableCell width="120" :dataList="tableList" :pointShow="false" :columnNames="columnValue"></TableCell>
+        </div>
       </mt-loadmore>
     </div>
   </div>
@@ -52,7 +52,7 @@
   import TimeTool from "@/components/query/timetool";
   import TableCell from "@/components/query/tablecell";
   import SearchComps from "@/components/query/search";
-  import {Loadmore,Popup} from 'mint-ui';
+  import {Loadmore,Popup,Indicator} from 'mint-ui';
   export default {
     name: 'departKqQuery',
     components:{Loadmore,Popup,TimeTool,TableCell,SearchComps},
@@ -128,6 +128,7 @@
           this.queryList();
       },
       queryList(){
+        Indicator.open();
         KqHttp.queryKqList({
           bursh_name:this.bursh_name,
           staff_num: this.searchInfo.staff_num,
@@ -139,7 +140,7 @@
           currPage: this.currPage,
           pageLength: this.pageLength
         }).then((res)=>{
-            //this.tableList = res.data.pageData;
+            Indicator.close();
             if(this.currPage==1){
                 this.tableList = [];
                 this.tableList = res.data.pageData;
@@ -149,6 +150,8 @@
             this.allLoaded = res.data.pageData.length<this.pageLength;
             this.$refs.loadmore.onBottomLoaded();
             this.postion();
+        }).catch(()=>{
+          Indicator.close();
         });
       }
     }
@@ -170,6 +173,9 @@
   .exp-box{
     height: calc(100% - 1.1rem - 2*48px - 2*0.3rem - 51px - 1rem - 14px);
     background-color: #fff;
+  }
+  .exp-box .scroll-box{
+    min-height: calc(100vh - 1.1rem - 2*48px - 2*0.3rem - 51px - 1rem - 14px) ;
   }
   .table-box{
     padding: 0.25rem 0.25rem 0 0.25rem;

@@ -23,7 +23,7 @@
 <script>
     import TimetoolComps from "@/components/calendar/timetool";
     import CalendarComps from "@/components/calendar/calendarComps";
-    import {Toast} from 'mint-ui';
+    import {Toast,Indicator} from 'mint-ui';
     import {KqHttp} from '@/api/kqHttp';
     export default {
         name: 'calendar',
@@ -45,6 +45,7 @@
             clickDate(selectTime){
                 console.log('点击了时间：'+selectTime);
                 this.currentDate = selectTime;
+                Indicator.open();
                 KqHttp.queryKqList({
                   staff_num:getUserInfo().staff_num,
                   sdate:this.currentDate.Format2String('yyyyMMdd'),
@@ -52,11 +53,14 @@
                   currPage:1,
                   pageLength:1000
                 }).then((res)=>{
+                   Indicator.close();
                    if(res.code==1){
                       this.curData = res.data.pageData;
                    }else{
                       Toast(res.result);
                   }
+                }).catch(()=>{
+                  Indicator.close();
                 });
             },
             selectTime(startTime,endTime){

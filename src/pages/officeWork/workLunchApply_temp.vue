@@ -9,19 +9,19 @@
           </div>
         </div>
         <div class="form-row">
-          <div class="row-left"><i class="icon type-icon"></i></div>
+          <div class="row-left"><i class="icon card-icon"></i></div>
           <div class="row-wrapper">
             <JESelect v-model="cardName" title="临时卡号" :options="cardTypeList"  placeholder="请选择临时卡号（必填）"/>
           </div>
         </div>
         <div class="form-row">
-          <div class="row-left"><i class="icon type-icon"></i></div>
+          <div class="row-left"><i class="icon card-name-icon"></i></div>
           <div class="row-wrapper">
             <JEInput v-model="cardName" disabled="true" title="临时卡名称" />
           </div>
         </div>
         <div class="form-row">
-          <div class="row-left"><i class="icon type-icon"></i></div>
+          <div class="row-left"><i class="icon company-icon"></i></div>
           <div class="row-wrapper">
             <JEInput v-model="guest" title="来宾单位" placeholder="请输入来宾单位名称（必填）"/>
           </div>
@@ -39,7 +39,7 @@
           </div>
         </div>
         <div class="form-row">
-          <div class="row-left"><i class="icon type-icon"></i></div>
+          <div class="row-left"><i class="icon person-count-icon"></i></div>
           <div class="row-wrapper">
             <JEInput type="number" v-model="staff_cnt" title="用餐人数" placeholder="请输入用餐人数（必填）"/>
             <mt-button type="primary" class="workLunch-btn" @click="initLuncInfo">餐票初始化</mt-button>
@@ -546,8 +546,20 @@
   .end-date-icon{
     background-image: url("../../assets/img/icon/end-date-icon.png");
   }
-  .bi-icon{
-    background-image: url("../../assets/img/icon/bi-icon.png");
+  .card-icon{
+    background-image: url("../../assets/img/icon/card-icon.png");
+  }
+  .card-name-icon{
+    background-image: url("../../assets/img/icon/card-name.png");
+  }
+  .company-icon{
+    height: 0.46rem !important;
+    background-size: contain !important;
+    background-image: url("../../assets/img/icon/company-icon.png");
+    background-repeat: no-repeat;
+  }
+  .person-count-icon{
+    background-image: url("../../assets/img/icon/person-count.png");
   }
   .person-icon{
     background-image: url("../../assets/img/icon/person-icon.png");

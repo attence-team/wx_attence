@@ -9,7 +9,9 @@
             </div>
             <div class="loadmore-box scroll">
                 <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :autoFill="false" ref="loadmore">
-                  <TableCellAuto autowidth="120%"  :dataList="tableList" :columnNames="columnValue"></TableCellAuto>
+                  <div class="loadmore-scroll-box">
+                    <TableCellAuto autowidth="120%"  :dataList="tableList" :columnNames="columnValue"></TableCellAuto>
+                  </div>
                 </mt-loadmore>
             </div>
         </div>
@@ -19,7 +21,7 @@
     import {KqHttp} from '@/api/kqHttp';
     import TimeTool from "@/components/query/timetool";
     import TableCellAuto from "@/components/query/tablecellauto"
-    import {Loadmore} from 'mint-ui';
+    import { Indicator , Loadmore , Toast} from 'mint-ui';
     export default {
         name: 'applyQuery',
         components:{Loadmore,TimeTool,TableCellAuto},
@@ -67,6 +69,7 @@
                 this.queryList();
             },
             queryList(){
+                Indicator.open();
                 let params = {
                     staff_num: this.userInfo.staff_num,
                     sdate:this.sdate,
@@ -75,6 +78,7 @@
                     pageLength:this.pageLength
                 };
                 KqHttp.queryLeave(params).then((res)=>{
+                    Indicator.close();
                     //this.tableList = res.data.pageData;
                     if(this.currPage==1){
                         this.tableList = [];
@@ -85,7 +89,9 @@
                     this.allLoaded = res.data.pageData.length<this.pageLength;
                     this.$refs.loadmore.onBottomLoaded();
                     this.postion();
-                });
+                }).catch(()=>{
+                   Indicator.close();
+                }) ;
             }
         }
     }
@@ -118,6 +124,9 @@
         padding: 0 .25rem;
     }
     .loadmore-box{
-        height: calc(100% - 0.8rem);
+        height: calc(100vh - 2*0.8rem - 2*0.15rem - 0.25rem);
+    }
+    .loadmore-box .loadmore-scroll-box{
+       min-height: calc(100vh - 2*0.8rem - 2*0.15rem - 0.25rem) !important;
     }
 </style>

@@ -23,9 +23,8 @@
                <div class="title bd-bottom-1" @click="goRouterPage(menu.moreurl+'?resid='+menu.resid)">
                  <span>
                     <i class="mywork-icon" :style="{backgroundImage: 'url('+menu.resicon+')'}"></i>{{menu.resname}}
-                    <router-link v-if="menu.moreurl" class="more" :to="menu.moreurl+'?resid='+menu.resid">
-                    <i class="iconfont icon-arrow-right-copy"></i></router-link>
                  </span>
+                 <i class="iconfont icon-arrow-right-copy"></i>
               </div>
               <div class="menu-list clearfix">
                  <div class="item" v-for="subMenu in menu.submenus">
@@ -37,7 +36,13 @@
            </div>
            <!--<div style="height: 5px;background-color: #bd2c00;margin: 10px 0;"></div>-->
            <!--<div class="menu-nav">-->
-              <!--<div class="title bd-bottom-1"><span><i class="mywork-icon"></i>我的工作</span></div>-->
+             <!--<div class="title bd-bottom-1" >-->
+                 <!--<span>-->
+                    <!--<i class="mywork-icon"></i>我的工作-->
+
+                      <!--<i class="iconfont icon-arrow-right-copy"></i>-->
+                 <!--</span>-->
+             <!--</div>-->
               <!--<div class="menu-list clearfix">-->
                  <!--<div class="item">-->
                     <!--<router-link to="/work/pending">-->
@@ -45,7 +50,6 @@
                     <!--</router-link>-->
                  <!--</div>-->
                  <!--<div class="item">-->
-                    <!--&lt;!&ndash;<router-link to="/work/done">&ndash;&gt;-->
                     <!--<router-link to="/kq/approval">-->
                       <!--<img src="../../assets/img/2_icon.png"><span>已办工作</span>-->
                     <!--</router-link>-->
@@ -149,10 +153,10 @@ export default {
                 message: '网络异常',
                 duration: 5000
             });
-           this.initUserData();
-           this.queryMenuTree(()=>{
-               this.queryLeftMenuTree();
-           });
+            this.initUserData();
+            this.queryMenuTree(()=>{
+                this.queryLeftMenuTree();
+            });
         });
     },
     methods:{

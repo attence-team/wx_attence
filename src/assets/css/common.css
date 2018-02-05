@@ -77,8 +77,12 @@
     margin-left: 0.7rem;
     line-height: 0.7rem;
     color: #999999;
+    padding-top: 0.05rem;
 }
 .menu-nav .title span{
+  display: inline-block;
+  height: 0.7rem;
+  line-height: 0.7rem;
   position: relative;
   left: -0.5rem;
 }
@@ -96,9 +100,10 @@
     vertical-align: -0.1rem;
 }
 .menu-nav .title .icon-arrow-right-copy{
-  margin-right: 0;
-  vertical-align: 0;
-  color: #888;
+  position: absolute;
+  top: 0;
+  right: 0;
+  color: #aaa;
 }
 .menu-list{
     padding: 0 0.14rem 0 0;

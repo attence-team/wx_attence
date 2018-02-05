@@ -36,7 +36,7 @@
     import {KqHttp} from '@/api/kqHttp';
     import TimeTool from "@/components/query/timetool";
     import TableList from "@/components/query/tablelist";
-    import { Loadmore } from 'mint-ui';
+    import { Indicator , Loadmore , Toast} from 'mint-ui';
     export default {
         name: 'exception',
         components:{Loadmore,TimeTool,TableList},
@@ -105,6 +105,7 @@
                this.$router.push('/kq/leave?type=exception&time='+obj.obj.year_month);
             },
             getAbnormalLeave(){
+                Indicator.open();
                 let params = {
                     staff_num: getUserInfo().staff_num,
                     sdate: new Date(this.startTime).Format2String('yyyyMMdd'),
@@ -113,25 +114,28 @@
                     pageLength: this.pageLength
                 };
                 KqHttp.queryAbnormalLeave(params).then((res)=>{
-                        let data = res.data.pageData;
-                        let tempArry = [];
-                        data.forEach(function(value){
-                            tempArry.push({
-                                obj:value,
-                                time:value.year_month + '<br>' + value.week,
-                                type:'<i class="color-red2">'+ value.bursh_name +'</i>', //+'<br>'+未刷卡+'</i>',
-                                status:'--'
-                            })
-                        });
-                        if(this.currPage==1){
-                            this.tableList = [];
-                            this.tableList = tempArry;
-                        }else{
-                            this.tableList = this.tableList.concat(tempArry);
-                        }
-                        this.allLoaded = res.data.pageData.length<this.pageLength;
-                        this.$refs.loadmore.onBottomLoaded();
-                        this.postion();
+                    Indicator.close();
+                    let data = res.data.pageData;
+                    let tempArry = [];
+                    data.forEach(function(value){
+                        tempArry.push({
+                            obj:value,
+                            time:value.year_month + '<br>' + value.week,
+                            type:'<i class="color-red2">'+ value.bursh_name +'</i>', //+'<br>'+未刷卡+'</i>',
+                            status:'--'
+                        })
+                    });
+                    if(this.currPage==1){
+                        this.tableList = [];
+                        this.tableList = tempArry;
+                    }else{
+                        this.tableList = this.tableList.concat(tempArry);
+                    }
+                    this.allLoaded = res.data.pageData.length<this.pageLength;
+                    this.$refs.loadmore.onBottomLoaded();
+                    this.postion();
+                }).catch(()=>{
+                    Indicator.close();
                 });
             },
             getAbnormalLeaveCount(){
@@ -267,7 +271,10 @@
         color: #ff6054;
     }
     .table-scroll-box{
-        height: calc(100% - 3*0.8rem - 0.4rem - 0.9rem + 4px);
+        height: calc(100vh - 3*0.8rem - 0.4rem - 0.9rem + 4px);
+    }
+    .table-scroll-box .scroll-box{
+       min-height: calc(100vh - 3*0.8rem - 0.4rem - 0.9rem + 4px) !important;
     }
 </style>
 <style>

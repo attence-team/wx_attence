@@ -1,5 +1,5 @@
 <template>
-    <div class="body-box">
+    <div class="body-box approval-box">
         <div class="tab-box">
             <div class="tap-wrap" :class="{selected:tabSelected==0}" @click="tabChange(0);">
                 <div class="tap-btn">待我审批的<span v-if="listData.length > 0">（{{approvedNum}}）</span></div>
@@ -18,7 +18,8 @@
             </div>
             <div class="loadmore-box scroll bd-top-1" :class="{'h-1rem':tabSelected==0}">
                 <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :autoFill="false" ref="loadmore">
-                 <ul class="approval-list">
+                  <div class="loadmore-scroll-box">
+                  <ul class="approval-list">
                      <div v-if="listData.length<=0" class="noneData">暂无数据</div>
                      <li class="approval-list-cell checkbox-box" :class="{select:batchSwitch}" v-for="item in listData">
                          <label :for="item.vou_id" v-if="batchSwitch"><input type="checkbox" v-model='item.checked' :id="item.vou_id"><i class="checkbox-btn"></i></label>
@@ -34,7 +35,8 @@
                          </div>
                         </a>
                      </li>
-                 </ul>
+                  </ul>
+                  </div>
                 </mt-loadmore>
             </div>
         </div>
@@ -66,6 +68,7 @@ export default {
     },
     activated(){
         setTitle('待办工作');
+        this.batchSwitch = false;
         this.params.system_id = this.$route.query.system_id;
         this.getApprovalList(true);
     },
@@ -114,19 +117,15 @@ export default {
                 this.listData = [];
                 Indicator.open();
             }
-
             appHttp.getApprovalList(this.apiArr[this.tabSelected],this.params).then((res)=>{
                 //console.log(res);
                 if (res.code==1) {
-
                     if (this.tabSelected == 0) {
                         this.approvedNum = res.total;
                     }
-
                     res.data.map((item)=>{
                         item.checked = false;
                     })
-
                     if(this.params.currPage==1){
                         this.listData = [];
                         this.listData = res.data;
@@ -136,7 +135,6 @@ export default {
 
                     this.allLoaded = res.data.length < this.params.pageSize;
                     this.$refs.loadmore.onBottomLoaded();
-
                     this.postion();
                 }
                 Indicator.close();
@@ -181,10 +179,16 @@ export default {
 }
 </script>
 <style media="screen" scoped>
+    .approval-box{
+       height: 100vh;
+       overflow: hidden;
+    }
     .loadmore-box {
         height: calc(100vh - 1.25rem);
-        position: relative;
         background-color: #fff;
+    }
+    .loadmore-box .loadmore-scroll-box{
+       min-height: calc(100vh - 1.25rem) !important;
     }
     .h-1rem {
         height: calc(100vh - 2.25rem);

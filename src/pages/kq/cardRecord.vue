@@ -2,7 +2,7 @@
     <!--原始刷卡记录-->
     <div class="body-box cardRecord">
         <TimeTool @selectTime="selectTime"></TimeTool>
-        <div class="exp-box table-box scroll">
+        <div class="exp-box table-box">
             <div class="info">
                 <div class="fl text-over clearfix">部门：<span>{{userInfo.dept_name}}</span></div>
                 <div class="fr text-over">姓名：<span>{{userInfo.name}}</span></div>
@@ -21,7 +21,7 @@
     import {KqHttp} from '@/api/kqHttp';
     import TimeTool from "@/components/query/timetool";
     import TableCell from "@/components/query/tablecell";
-    import { Loadmore } from 'mint-ui';
+    import { Indicator , Loadmore , Toast} from 'mint-ui';
     export default {
         name: 'cardRecord',
         components:{Loadmore,TimeTool,TableCell},
@@ -71,6 +71,7 @@
                 this.queryList();
             },
             queryList(){
+                Indicator.open();
                 let params = {
                     staff_num: this.userInfo.staff_num,
                     sdate:this.sdate,
@@ -79,6 +80,7 @@
                     pageLength:this.pageLength
                 };
                 KqHttp.queryCardRecaordList(params).then((res)=>{
+                    Indicator.close();
                     if(this.currPage==1){
                         this.tableList = [];
                         this.tableList = res.data.pageData;
@@ -88,6 +90,8 @@
                     this.allLoaded = res.data.pageData.length<this.pageLength;
                     this.$refs.loadmore.onBottomLoaded();
                     this.postion();
+                }).catch(()=>{
+                    Indicator.close();
                 });
             }
         }
@@ -99,6 +103,8 @@
         overflow: hidden;
     }
     .info{
+        position: relative;
+        z-index: 99999999999;
         width: 80%;
         height: 0.8rem;
         line-height: 0.8rem;
@@ -123,5 +129,8 @@
     }
     .table-scroll-box{
         height: calc(100% - 1.25rem);
+    }
+    .table-scroll-box .scroll-box{
+       min-height: calc(100vh - 1.25rem) !important;
     }
 </style>

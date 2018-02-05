@@ -14,21 +14,23 @@
         <div class="application-list-box" >
             <div class="loadmore-box scroll">
                 <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :autoFill="false" ref="loadmore">
-                 <ul class="application-list">
-                        <div v-if="listDataArr.length<=0" class="noneData">暂无数据</div>
-                       <li class="application-list-cell" v-for="item in listDataArr" @click="toPage(item)">
-                           <div class="icon"></div>
-                           <div class="application-list-info bd-bottom-1">
-                               <div class="application-list-info-wrap">
-                                   <p class="application-title-date">
-                                       <span class="application-title-wrap"><span class="application-title">{{item.dir_title}}</span><!--<span class="submitted">（已提交）</span>--></span>
-                                       <span class="application-date">{{item.apply_time | formatDate}}</span>
-                                   </p>
-                                   <p class="eat-type">就餐类别：{{item.stand_name}}</p>
-                               </div>
-                           </div>
-                       </li>
-                 </ul>
+                  <div class="loadmore-scroll-box">
+                    <ul class="application-list">
+                          <div v-if="listDataArr.length<=0" class="noneData">暂无数据</div>
+                         <li class="application-list-cell" v-for="item in listDataArr" @click="toPage(item)">
+                             <div class="icon"></div>
+                             <div class="application-list-info bd-bottom-1">
+                                 <div class="application-list-info-wrap">
+                                     <p class="application-title-date">
+                                         <span class="application-title-wrap"><span class="application-title">{{item.dir_title}}</span><!--<span class="submitted">（已提交）</span>--></span>
+                                         <span class="application-date">{{item.apply_time | formatDate}}</span>
+                                     </p>
+                                     <p class="eat-type">就餐类别：{{item.stand_name}}</p>
+                                 </div>
+                             </div>
+                         </li>
+                    </ul>
+                  </div>
                 </mt-loadmore>
             </div>
 
@@ -95,6 +97,7 @@
                }
             },
             getWorkLunchList(){
+                Indicator.open();
                 let params = {
                     staff_num:this.staff_num,
                     sdate:this.sdate,
@@ -105,9 +108,8 @@
                     pageLength:this.pageLength
                 };
                 WlHttp.getWorkLunchList(params).then((res)=>{
-
+                    Indicator.close();
                     if (res.code=='1') {
-
                         //console.log(res);
                         if(this.currPage==1){
                             this.listDataArr = [];
@@ -121,6 +123,8 @@
 
                         this.postion();
                     }
+                }).catch(()=>{
+                   Indicator.close();
                 });
             },
             changeLd_appr(index){
@@ -145,4 +149,7 @@
     .loadmore-box {
         height: calc(100vh - 1.35rem - 65px);
     }
+   .loadmore-box .loadmore-scroll-box{
+      min-height: calc(100vh - 1.35rem - 65px) !important;
+   }
 </style>
