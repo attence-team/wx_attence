@@ -9,7 +9,7 @@
             </div>
             <div class="loadmore-box scroll">
                 <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :autoFill="false" ref="loadmore">
-                  <TableCellAuto autowidth="150%"  :dataList="tableList" :columnNames="columnValue"></TableCellAuto>
+                  <TableCellAuto autowidth="140%"  :dataList="tableList" :columnNames="columnValue"></TableCellAuto>
                 </mt-loadmore>
             </div>
         </div>

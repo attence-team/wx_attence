@@ -24,7 +24,7 @@
                  <mt-cell :title="subMenu.resname"
                  v-for="subMenu in menuList"
                  @click.native="goRouter(subMenu.resurl)" is-link>
-                    <img slot="icon" :src="subMenu.resicon" width="24" height="24">
+                    <img slot="icon" :src="subMenu.resicon" height="24">
                  </mt-cell>
               </div>
            </div>

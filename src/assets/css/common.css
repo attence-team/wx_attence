@@ -101,7 +101,9 @@
   color: #888;
 }
 .menu-list{
-    padding: 0 0.2rem 0 0;
+    padding: 0 0.14rem 0 0;
+    overflow: hidden;
+    width: 100%;
 }
 .menu-list .item{
     position: relative;
@@ -109,10 +111,32 @@
     float: left;
     padding: 0.2rem 0 0 0;
 }
+/*.menu-list .item:nth-child(1){*/
+  /*background-color: gold;*/
+/*}*/
+/*.menu-list .item:nth-child(2){*/
+  /*background-color: greenyellow;*/
+/*}*/
+/*.menu-list .item:nth-child(3){*/
+  /*background-color: green;*/
+/*}*/
+/*.menu-list .item:nth-child(4){*/
+  /*background-color: darkmagenta;*/
+/*}*/
+/*.menu-list .item:nth-child(3) span{*/
+  /*background-color: red;*/
+/*}*/
+/*.menu-list .item:nth-child(4) span{*/
+  /*background-color: green;*/
+/*}*/
+.menu-list .item a{
+  padding: 0;
+  margin: 0;
+}
 .menu-list .item img{
     display: block;
-    height: 6vh;
-    margin: 0.1rem auto;
+    height: 4.4vh;
+    margin: 0.1rem auto 0.3rem auto;
 }
 .menu-list .item span:last-child{
     display: block;

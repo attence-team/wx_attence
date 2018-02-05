@@ -19,7 +19,7 @@
                  <mt-cell :title="subMenu.resname"
                  v-for="subMenu in menu.submenus"
                  @click.native="goRouter(subMenu.resurl,subMenu.resid)" is-link>
-                    <img slot="icon" :src="subMenu.resicon" width="18" height="18">
+                    <img slot="icon" :src="subMenu.resicon" height="18">
                  </mt-cell>
               </div>
            </div>
@@ -72,11 +72,17 @@ export default {
         return {
             carouselImgs:[],
             menuList:[],
-            userInfo:{}
+            userInfo:{},
+            screenInfo:{}
         }
     },
     activated(){
         setTitle('考勤管理');
+        this.screenInfo = {
+          screenWidth:window.screen.width,
+          screenHeight:window.screen.height,
+          devicePixel:window.devicePixelRatio
+        };
         this.userInfo = getUserInfo();
         this.queryMenuTree();
     },
@@ -101,9 +107,9 @@ export default {
             });
             HomeHttp.queryMenuTowTree({
                 "iv-user":this.userInfo.oa_id,
-                "resid":this.$route.query.resid
+                "resid":this.$route.query.resid,
+                 screenInfo:this.screenInfo
             }).then((res)=>{
-                //console.log(JSON.stringify(res))
                 this.menuList = res.data.submenus;
                 this.carouselImgs = res.data.pics.split(';');
                 this.$nextTick(()=>{
