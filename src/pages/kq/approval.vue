@@ -22,17 +22,17 @@
                      <div v-if="listData.length<=0" class="noneData">暂无数据</div>
                      <li class="approval-list-cell checkbox-box" :class="{select:batchSwitch}" v-for="item in listData">
                          <label :for="item.vou_id" v-if="batchSwitch"><input type="checkbox" v-model='item.checked' :id="item.vou_id"><i class="checkbox-btn"></i></label>
-                        <router-link :to="'approvalDetails?vou_id='+ item.vou_id +'&voc_cd='+ item.voc_cd +'&name='+ item.submit_staff_nm +'&title='+ item.wait_tip  +'&state='+ (item.finish_mark_nm || item.verify_mark) +'&state2='+ tabSelected">
+                        <a href="javascript:;" @click="toPage(item)">
                          <div class="approval-name" :class="{appOver:tabSelected==1}">{{item.submit_staff_nm}}</div>
                          <div class="approval-info bd-bottom-1">
                              <p class="approval-title-date">
-                                 <span class="approval-title">{{item.submit_staff_nm + item.wait_tip}}</span><span class="approval-date"  v-if="tabSelected==0">{{item.sumit_dt}}</span>
+                                 <span class="approval-title">江南江南江南江南江南江南江南江南江南江南江南江南江南江南江南江南江南江南江南江南江南江南江南江南江南江南江南江南江南江南江南江南</span><span class="approval-date"  v-if="tabSelected==0">{{item.sumit_dt}}</span>
                              </p>
                              <p class="approval-start-date" v-if="tabSelected==1">申请时间：{{item.submit_dt}}</p>
                              <p class="approval-start-date" v-if="tabSelected==1">审批时间：{{item.verify_dtt}}</p>
                              <p class="approval-state">{{item.finish_mark_nm || item.verify_mark}}</p>
                          </div>
-                         </router-link>
+                        </a>
                      </li>
                  </ul>
                 </mt-loadmore>
@@ -70,6 +70,13 @@ export default {
         this.getApprovalList(true);
     },
     methods:{
+        toPage(item){
+            let url = 'approvalDetails?vou_id='+ item.vou_id +'&voc_cd='+ item.voc_cd +'&name='+ item.submit_staff_nm +'&title='+ item.wait_tip  +'&state='+ (item.finish_mark_nm || item.verify_mark) + '&type='+ this.tabSelected;
+            if (item.memo) {
+                url += '&opinion='+ item.memo;
+            }
+            this.$router.push(url);
+        },
         postion(){
           if(this.params.currPage===1){
             this.$nextTick(function() {

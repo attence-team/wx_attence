@@ -27,15 +27,14 @@
                 </li>
             </ul>
         </div>
-        <div v-if="state2=='0'">
-            <div class="approval-details-opinion">
-                <span>审批意见：</span>
-                <textarea class="opinion" name="name" rows="8" cols="80" v-model="opinion"></textarea>
-            </div>
-            <div class="approval-btn-box">
-                <div class="approval-btn agree" @click='approveClk(1)'>同意</div>
-                <div class="approval-btn return" @click='approveClk(2)'>退回</div>
-            </div>
+        <div class="approval-details-opinion">
+            <span>审批意见：</span>
+            <textarea class="opinion" v-if="type==0" name="name" rows="8" cols="80" v-model="opinion"></textarea>
+            <div class="opinion-2" v-if="type!=0">{{opinion}}</div>
+        </div>
+        <div class="approval-btn-box"  v-if="type==0">
+            <div class="approval-btn agree" @click='approveClk(1)'>同意</div>
+            <div class="approval-btn return" @click='approveClk(2)'>退回</div>
         </div>
     </div>
 </template>
@@ -48,10 +47,10 @@ export default {
     components:{Indicator},
     data(){
         return {
+            type:'',
             name:'',
             title:'',
             state:'',
-            state2:'',
             params:{
                 vouty:'',
                 vou_id:''
@@ -67,12 +66,12 @@ export default {
         this.name = this.$route.query.name;
         this.title = this.$route.query.title;
         this.state = this.$route.query.state;
-        this.state2 = this.$route.query.state2;
+        this.opinion = this.$route.query.opinion;
         this.params.vouty = this.$route.query.voc_cd;
         this.params.vou_id = this.$route.query.vou_id;
+        this.type = this.$route.query.type;
         this.data = [];
         this.nodeArr = [];
-        this.opinion = '';
         this.getDetails();
         this.getBillStatus();
     },
@@ -255,8 +254,14 @@ export default {
     box-sizing: border-box;
     margin-top: 10px;
     border: 1px solid #dddddd;
+    background: #fff;
 }
-
+.opinion-2 {
+    color: #333;
+    margin-top: 10px;
+    padding: 10px;
+    background: #fff;
+}
 .agree {
     background-color: #11bf84;
     cursor: pointer;
