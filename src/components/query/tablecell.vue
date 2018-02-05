@@ -22,6 +22,10 @@
             }
         },
         props: {
+            width: {
+              type: String,
+              default: '100'
+            },
             dataList: {
                 type: Array,
                 default: []
@@ -44,9 +48,14 @@
             }
         },
         activated(){
-            if(this.columnNames.titles.length>5){
-                this.tableWidth = 100 + (this.columnNames.titles.length-5)*18
+            if(this.width==100){
+              if(this.columnNames.titles.length>5){
+                this.tableWidth = 100 + (this.columnNames.titles.length-5)*16
+              }
+            }else{
+              this.tableWidth = this.width;
             }
+
         }
     }
 </script>

@@ -125,11 +125,28 @@
             this.getLeaveType(()=>{
                 this.$nextTick(()=>{
                     this.getLeaveInfo();
+                    this.dealWithType();
                 })
             });
             this.querySubmitInfo();
         },
         methods:{
+            dealWithType(){/* 从异常处理跳转过来  */
+
+
+               if(this.$route.query.type=='exception'){
+                  // 请假类型处理
+                  for(let i=0;i<this.typeList.length;i++){
+                     if(this.typeList[i].name=="因公办事"){
+                       this.leaveType = this.typeList[i].value;
+                       break;
+                     }
+                  }
+                  // 时间的处理
+                  this.startDate = this.$route.query.time.Format2String('yyyy-MM-dd');
+                  this.endDate = this.$route.query.time.Format2String('yyyy-MM-dd');
+               }
+            },
             changeSelect(j,k,e){
                 if(!e.target.value) return;
                 this.approveGroups[j].group_dt[k].selectedValue = this.approveGroups[j].group_dt[k].staffs[e.target.value];

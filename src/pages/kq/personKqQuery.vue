@@ -41,7 +41,7 @@
     <div class="exp-box scroll">
       <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :autoFill="false" ref="loadmore">
       <div class="table-box scroll-box">
-        <TableCell :dataList="tableList" :pointShow="false" :columnNames="columnValue"></TableCell>
+        <TableCell width="120" :dataList="tableList" :pointShow="false" :columnNames="columnValue"></TableCell>
       </div>
       </mt-loadmore>
     </div>
@@ -93,7 +93,7 @@
           this.$nextTick(function() {
             var dom = document.getElementsByClassName('mint-loadmore');
             if(!dom) return;
-            dom[0].parentNode.scrollTop = 0;
+            dom[dom.length-1].parentNode.scrollTop = 0;
           })
         }
       },
@@ -186,5 +186,9 @@
   }
   .at{
     background-color: #5AC0DE;
+  }
+  .kqQuery >>> .table-row span:last-child{
+     width: 100px !important;
+     flex: inherit;
   }
 </style>

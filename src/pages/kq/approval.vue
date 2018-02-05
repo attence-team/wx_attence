@@ -177,6 +177,7 @@ export default {
     .loadmore-box {
         height: calc(100vh - 1.25rem);
         position: relative;
+        background-color: #fff;
     }
     .h-1rem {
         height: calc(100vh - 2.25rem);

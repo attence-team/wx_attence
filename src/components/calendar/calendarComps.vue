@@ -143,7 +143,8 @@
     }
 </script>
 <style lang="css" scoped>
-    .calendar ul{
+    .calendar{
+       background-color: #fff;
     }
    .calendar li{
        width: 14.28%;

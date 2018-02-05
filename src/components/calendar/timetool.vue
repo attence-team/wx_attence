@@ -67,6 +67,7 @@
         height: 1.1rem;
     }
     .tool .time-box{
+        background-color: #fff;
         width: 86%;
         margin: 0 auto;
         font-size: 0;

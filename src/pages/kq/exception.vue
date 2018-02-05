@@ -102,9 +102,7 @@
                 this.getAbnormalLeaveCount();
             },
             optfn(obj){
-                console.log(obj)
-               alert(obj.obj.sys_idkey)
-               this.$router.push('/kq/leave?id=B3620005'+obj.obj.sys_idkey);
+               this.$router.push('/kq/leave?type=exception&time='+obj.obj.year_month);
             },
             getAbnormalLeave(){
                 let params = {

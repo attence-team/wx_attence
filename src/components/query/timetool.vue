@@ -80,6 +80,7 @@
         padding: 0.15rem 0;
     }
     .tool .time-box{
+        background-color: #fff;
         width: 86%;
         margin: 0 auto;
         font-size: 0;

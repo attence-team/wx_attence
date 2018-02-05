@@ -84,9 +84,9 @@
             postion:function(){
               if(this.currPage===1){
                 this.$nextTick(function() {
-                  var dom = document.getElementsByClassName('mint-loadmore');
-                  if(!dom) return;
-                  dom[0].parentNode.scrollTop = 0;
+                    var dom = document.getElementsByClassName('mint-loadmore');
+                    if(!dom) return;
+                    dom[dom.length-1].parentNode.scrollTop = 0;
                 })
               }
             },
@@ -122,7 +122,7 @@
                    name:this.searchInfo.name,
                    dept_num: this.searchInfo.dept_num,
                    dept_name: this.searchInfo.dept_name,
-                   year_month:this.year_month.Format2String('yyyyMM'),
+                   year_month:this.year_month.replace(/-/g,""),
                    currPage: this.currPage,
                    pageLength: this.pageLength
                 }).then((res)=>{
