@@ -76,9 +76,7 @@
       }
     },
     activated(){
-        setTitle('个人考勤查询');
-    },
-    mounted(){
+      setTitle('个人考勤查询');
       this.userInfo = getUserInfo();
       this.searchInfo = {
         name:this.userInfo.name,

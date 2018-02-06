@@ -91,7 +91,10 @@
                 endDate: new Date().Format2String('yyyy-MM-dd'),
                 reasonInfo:'',
                 countCards: '',
-                approveGroups:[]
+                approveGroups:[],
+                electedOrderGroups:[], /* 选中的审批人 */
+                approveGroupsCount:0,
+                userInfo:{}
             }
         },
         watch:{
@@ -122,6 +125,7 @@
         activated(){
             setTitle('请假申请');
             Object.assign(this.$data, this.$options.data());
+            this.userInfo = getUserInfo();
             this.getLeaveType(()=>{
                 this.$nextTick(()=>{
                     this.getLeaveInfo();
@@ -132,8 +136,6 @@
         },
         methods:{
             dealWithType(){/* 从异常处理跳转过来  */
-
-
                if(this.$route.query.type=='exception'){
                   // 请假类型处理
                   for(let i=0;i<this.typeList.length;i++){
@@ -234,6 +236,50 @@
                    }
                });
             },
+            dealWithOrderGroups(){
+               let tempArry = [];
+               let tempCount = 0 ;
+               for(let i=0;i<this.approveGroups.length;i++){
+                   let approveGroup = this.approveGroups[i];
+                   for(let j=0;j<approveGroup.group_dt.length;j++){
+                      tempCount++;
+                      let approve = approveGroup.group_dt[j];
+                      if(approve.selectedValue.name){
+                        tempArry.push({
+                          "post_alias":approve.post_alias,
+                          "is_use":"1",
+                          "post_id":approve.post_id,
+                          "staff":approve.selectedValue.staff_num,
+                          "staff_nm":approve.selectedValue.name,
+                          "prior":approve.aud_prior,
+                          "vou_id":""
+                        });
+                      }
+                   }
+               }
+               this.approveGroupsCount = tempCount;
+               this.selectedOrderGroups = tempArry;
+            },
+            saveOrder(sysKey){ /* 保存审批 */
+               for(let i=0;i<this.selectedOrderGroups.length;i++){
+                 this.selectedOrderGroups[i].vou_id = sysKey;
+               }
+               SpHttp.saveSubmitInfo({
+                  info:this.selectedOrderGroups,
+                  groupId:this.approveGroups[0].group_id,
+                  vouid:sysKey,
+                  vou_ty:'kqt_deptleave_manage',
+                  tjren: this.userInfo.staff_num
+               }).then((res)=>{
+                   Toast({
+                       message: res.result,
+                       duration: 2000
+                   });
+                   if(res.code==1){
+                      this.$router.goBack();
+                   }
+               });
+            },
             saveLeave(){
                 let sysIdkey = this.$route.query.id?this.$route.query.id:'';
                 let params = {
@@ -248,16 +294,24 @@
                 if(!params.times){
                     Toast({
                         message: '请输入免打卡次数',
-                        duration: 1500
+                        duration: 3000
                     });
                     return
                 }
                 if(!params.reason){
                     Toast({
                         message: '请输入请假事由',
-                        duration: 1500
+                        duration: 3000
                     });
                     return
+                }
+                this.dealWithOrderGroups();
+                if(this.approveGroupsCount!==this.selectedOrderGroups.length){
+                  Toast({
+                    message: '请选择审批人',
+                    duration: 3000
+                  });
+                  return
                 }
                 Indicator.open({
                     text: '提交中...',
@@ -267,10 +321,10 @@
                     Indicator.close();
                     Toast({
                         message: res.result,
-                        duration: 1500
+                        duration: 2000
                     });
-                    if(res.code == '1'){
-                        this.$router.goBack();
+                    if(res.code == 1){
+                        this.saveOrder(res.data.sys_idkey);
                     }
                 }).catch((error) => {
                     Indicator.close();

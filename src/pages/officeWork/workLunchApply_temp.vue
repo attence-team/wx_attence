@@ -117,7 +117,10 @@
         lunchInfoList:[], //明细
         director:0, //总餐票数
         approveGroups:[],
-        leaderName:''
+        leaderName:'',
+        electedOrderGroups:[], /* 选中的审批人 */
+        approveGroupsCount:0,
+        userInfo:{}
       }
     },
     watch:{
@@ -167,6 +170,7 @@
     activated(){
       setTitle('工作餐申请');
       Object.assign(this.$data, this.$options.data());
+      this.userInfo = getUserInfo();
       this.getWorkLunchType();
       this.getTempCard(()=>{
          this.$nextTick(()=>{
@@ -260,7 +264,7 @@
       querySubmitInfo(){
         let vou_id = this.$route.query.id?this.$route.query.id:1;
         SpHttp.getSubmitInfo({
-          vouty: 'kqt_deptleave_manage',
+          vouty: 'workDinnerSp',
           vou_id: vou_id,
           dept: getUserInfo().dept_num
         }).then((res)=>{
@@ -312,6 +316,50 @@
            this.leaderName = res.data.leader_nm;
         });
       },
+      dealWithOrderGroups(){
+        let tempArry = [];
+        let tempCount = 0 ;
+        for(let i=0;i<this.approveGroups.length;i++){
+          let approveGroup = this.approveGroups[i];
+          for(let j=0;j<approveGroup.group_dt.length;j++){
+            tempCount++;
+            let approve = approveGroup.group_dt[j];
+            if(approve.selectedValue.name){
+              tempArry.push({
+                "post_alias":approve.post_alias,
+                "is_use":"1",
+                "post_id":approve.post_id,
+                "staff":approve.selectedValue.staff_num,
+                "staff_nm":approve.selectedValue.name,
+                "prior":approve.aud_prior,
+                "vou_id":""
+              });
+            }
+          }
+        }
+        this.approveGroupsCount = tempCount;
+        this.selectedOrderGroups = tempArry;
+      },
+      saveOrder(sysKey){ /* 保存审批 */
+          for(let i=0;i<this.selectedOrderGroups.length;i++){
+            this.selectedOrderGroups[i].vou_id = sysKey;
+          }
+          SpHttp.saveSubmitInfo({
+              info:this.selectedOrderGroups,
+              groupId:this.approveGroups[0].group_id,
+              vouid:sysKey,
+              vou_ty:'workDinnerSp',
+              tjren: this.userInfo.staff_num
+          }).then((res)=>{
+              Toast({
+                message: res.result,
+                duration: 2000
+              });
+              if(res.code==1){
+                this.$router.goBack();
+              }
+          });
+      },
       saveLunch() {
         let params = {
           dinner_id:this.$route.query.id?this.$route.query.id:'',
@@ -330,13 +378,29 @@
           tra_memo:''
         };
         if (!this.verification(params)) return;
+        this.dealWithOrderGroups();
+        if(this.approveGroupsCount!==this.selectedOrderGroups.length){
+          Toast({
+            message: '请选择审批人',
+            duration: 3000
+          });
+          return
+        }
         MessageBox.confirm('确定申请'+ this.startDate +'至'+ this.endDate +'共'+this.director+'张餐票吗?').then(action => {
             if(action == 'confirm') {
-                Indicator.open();
+                Indicator.open({
+                  text: '提交中...',
+                  spinnerType: 'fading-circle'
+                });
                 WlHttp.submit(params).then((res)=>{
-                  Indicator.close();
-                  Toast(res.result);
-                  this.$router.goBack();
+                    Indicator.close();
+                    Toast({
+                      message: res.result,
+                      duration: 2000
+                    });
+                    if(res.code == 1){
+                      this.saveOrder(res.data.dinner_id);
+                    }
                 }).catch(()=>{
                     Indicator.close();
                 });

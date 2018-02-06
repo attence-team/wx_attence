@@ -77,7 +77,7 @@ export default {
         }
     },
     activated(){
-        setTitle('考勤管理');
+        setTitle(this.$route.query.title);
         this.screenInfo = {
           screenWidth:window.screen.width,
           screenHeight:window.screen.height,

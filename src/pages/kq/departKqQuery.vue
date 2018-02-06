@@ -68,17 +68,17 @@
             }
         },
         activated(){
-            setTitle('部门考勤查询');
-        },
-        mounted(){
-            this.currPage = 1;
-            this.userInfo = getUserInfo();
-            this.searchInfo = {
-              name:'',
-              staff_num:'',
-              dept_name:this.userInfo.dept_name,
-              dept_num:this.userInfo.dept_num
-            };
+          setTitle('部门考勤查询');
+          this.year_month = new Date().Format2String('yyyy-MM');
+          this.currPage = 1;
+          this.userInfo = getUserInfo();
+          this.searchInfo = {
+            name:'',
+            staff_num:'',
+            dept_name:this.userInfo.dept_name,
+            dept_num:this.userInfo.dept_num
+          };
+          this.queryList();
         },
         methods:{
             postion:function(){

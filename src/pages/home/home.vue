@@ -20,11 +20,11 @@
        </div>
        <div class="menu-box">
            <div class="menu-nav" v-for="menu in menuList">
-               <div class="title bd-bottom-1" @click="goRouterPage(menu.moreurl+'?resid='+menu.resid)">
+              <div class="title bd-bottom-1" @click="goRouterPage(menu.moreurl,menu.moreurl+'?resid='+menu.resid+'&title='+menu.resname)">
                  <span>
                     <i class="mywork-icon" :style="{backgroundImage: 'url('+menu.resicon+')'}"></i>{{menu.resname}}
                  </span>
-                 <i class="iconfont icon-arrow-right-copy"></i>
+                 <i v-if="menu.moreurl" class="iconfont icon-arrow-right-copy"></i>
               </div>
               <div class="menu-list clearfix">
                  <div class="item" v-for="subMenu in menu.submenus">
@@ -160,7 +160,8 @@ export default {
         });
     },
     methods:{
-        goRouterPage(url){
+        goRouterPage(isURL,url){
+            if(!isURL) return;
             this.$router.push(url);
         },
         goRouter(url,resid){
