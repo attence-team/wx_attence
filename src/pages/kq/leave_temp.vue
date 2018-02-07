@@ -251,7 +251,7 @@
                           "post_id":approve.post_id,
                           "staff":approve.selectedValue.staff_num,
                           "staff_nm":approve.selectedValue.name,
-                          "prior":approve.aud_prior,
+                          "prior":approve.aud_prior.toString(),
                           "vou_id":""
                         });
                       }
@@ -264,6 +264,13 @@
                for(let i=0;i<this.selectedOrderGroups.length;i++){
                  this.selectedOrderGroups[i].vou_id = sysKey;
                }
+               console.log(JSON.stringify({
+                 info:this.selectedOrderGroups,
+                 groupId:this.approveGroups[0].group_id,
+                 vouid:sysKey,
+                 vou_ty:'kqt_deptleave_manage',
+                 tjren: this.userInfo.staff_num
+               }))
                SpHttp.saveSubmitInfo({
                   info:this.selectedOrderGroups,
                   groupId:this.approveGroups[0].group_id,

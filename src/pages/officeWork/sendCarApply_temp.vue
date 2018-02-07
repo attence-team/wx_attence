@@ -11,13 +11,13 @@
         <div class="form-row">
           <div class="row-left"><i class="icon info-icon"></i></div>
           <div class="row-wrapper">
-            <JEInput title="派车人数" placeholder="请输入派车人数（必填）"/>
+            <JEInput v-model="carNum" type="number" title="派车人数" placeholder="请输入派车人数（必填）"/>
           </div>
         </div>
         <div class="form-row">
           <div class="row-left"><i class="icon bi-icon"></i></div>
           <div class="row-wrapper">
-            <JEInput title="用车事由" placeholder="请输入用车事由（必填）"/>
+            <JEInput v-model="carReson" title="用车事由" placeholder="请输入用车事由（必填）"/>
           </div>
         </div>
         <div class="form-row">
@@ -28,7 +28,7 @@
         </div>
         <div class="form-row">
           <div class="row-left"><i class="icon type-icon"></i></div>
-          <div class="row-wrapper">
+          <div class="row-wrapper" @click="searchShow=true">
             <JEInput v-model="contactName" title="联系人" placeholder="请选择联系人（必填）"/>
           </div>
         </div>
@@ -53,7 +53,7 @@
         <div class="form-row">
           <div class="row-left"><i class="icon type-icon"></i></div>
           <div class="row-wrapper">
-            <JEInput title="上车地点-市区" placeholder="请选择上车地点"/>
+            <JESelect v-model="upCarCode" :options="upCarList" title="上车地点-市区" placeholder="请选择上车地点"/>
           </div>
         </div>
         <div class="form-row">
@@ -71,7 +71,7 @@
         <div class="form-row">
           <div class="row-left"><i class="icon type-icon"></i></div>
           <div class="row-wrapper">
-            <JEInput title="推荐驾驶员" placeholder="请选择意向驾驶员"/>
+            <JESelect v-model="drive" :options="driveList" title="推荐驾驶员" placeholder="请选择意向驾驶员"/>
           </div>
         </div>
         <div class="form-row">
@@ -99,6 +99,11 @@
             </div>
           </div>
         </div>
+        <mt-popup
+          v-model="searchShow"
+          position="left">
+          <SearchComps :defaultSelectType="dept_num" :searchShow="searchShow" @selectCell="selectCell"/>
+        </mt-popup>
       </div>
       <div class="form-btns">
         <mt-button type="default" class="cancel">取消</mt-button>
@@ -109,22 +114,32 @@
 </template>
 <script>
   import {SpHttp} from '@/api/spHttp';
+  import {CarHttp} from '@/api/carHttp';
   import JEInput from "@/components/form/je-input";
   import JESelect from "@/components/form/je-select";
+  import SearchComps from "@/components/query/searchTwo";
   import {Toast, Indicator, MessageBox} from 'mint-ui';
   export default {
     name: 'sendCarApply_temp',
-    components:{JEInput,JESelect},
+    components:{JEInput,JESelect,SearchComps},
     data(){
       return {
+        dept_num:'', /* 部门编号 */
+        searchShow:false,
+        carType:'',/* 派车类型 */
+        typeList:[],
+        carNum:'',/* 派车人数 */
+        carReson:'',/* 用车事由 */
         startDate:new Date().Format2String('yyyy-MM-dd'),
         endDate:new Date().Format2String('yyyy-MM-dd'),
         sendDate:new Date().Format2String('yyyy-MM-dd'),
         vouty:'shiquneipaiche',
         contactName:'',/* 联系人名称 */
         contactNum:'',/* 联系人职工号 */
-        carType:'',
-        typeList:[],
+        upCarCode:'',/* 上车地点 */
+        upCarList:[],
+        drive:'',/* 驾驶员 */
+        driveList:[],
         approveGroups:[],
         leaderName:'',
         electedOrderGroups:[], /* 选中的审批人 */
@@ -174,9 +189,10 @@
       this.userInfo = getUserInfo();
       this.contactName = this.userInfo.name;
       this.contactNum = this.userInfo.staff_num;
-      this.queryTypeList(()=>{
-
-      });
+      this.dept_num = this.userInfo.dept_num;
+      this.queryTypeList(()=>{});
+      this.queryUpCarList();
+      this.queryDriveList();
       /* 获取审批节点 */
       this.querySubmitInfo();
     },
@@ -203,9 +219,12 @@
         }
         return true;
       },
+      selectCell(cell){
+         this.searchShow = !this.searchShow;
+      },
       queryTypeList(callBackFn){
         /* 查询派车类型 */
-        SpHttp.queryCarTypeList().then((res)=>{
+        CarHttp.queryCarTypeList({}).then((res)=>{
             this.typeList = [];
             if(res.code==1){
                for(let i=0;i<res.data.length;i++){
@@ -221,6 +240,36 @@
                  callBackFn();
                }
             }
+        });
+      },
+      queryUpCarList(){
+        /* 上车地点 */
+        CarHttp.queryUpCityList({}).then((res)=>{
+          this.upCarList = [];
+          if(res.code==1){
+            for(let i=0;i<res.data.length;i++){
+              this.upCarList.push({
+                value:res.data[i].id,
+                name:res.data[i].key_name
+              });
+            }
+            this.upCarCode = this.upCarList[0].value;
+          }
+        });
+      },
+      queryDriveList(){
+        /* 上车地点 */
+        CarHttp.queryDriveList({}).then((res)=>{
+          this.upCarList = [];
+          if(res.code==1){
+            for(let i=0;i<res.data.length;i++){
+              this.upCarList.push({
+                value:res.data[i].id,
+                name:res.data[i].key_name
+              });
+            }
+            this.upCarCode = this.upCarList[0].value;
+          }
         });
       },
       querySubmitInfo(){

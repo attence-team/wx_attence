@@ -29,8 +29,8 @@
             return {
                 tableList:[],
                 columnValue:{
-                    titles:['','姓名','请假起日期','请假止日期','请假类型','审批状态名称'],
-                    columnValues:['staff_name','start_date','intending_date','leave_cause','all_sign_nm']
+                    titles:['','请假起日期','请假止日期','请假类型','审批状态名称'],
+                    columnValues:['start_date','intending_date','leave_cause','all_sign_nm']
                 },
                 userInfo:{},
                 sdate:'',
