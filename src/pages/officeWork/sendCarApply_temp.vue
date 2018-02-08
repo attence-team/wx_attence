@@ -281,8 +281,8 @@
                 this.driveLineNames += cell[i].title;
                 this.driveLineNum +=  cell[i].value;
               }else{
-                this.driveLineNames += cell[i].title+',';
-                this.driveLineNum +=  cell[i].value+',';
+                this.driveLineNames += cell[i].title+'---';
+                this.driveLineNum +=  cell[i].value+'---';
               }
             }
         }

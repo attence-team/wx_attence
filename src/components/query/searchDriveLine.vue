@@ -14,9 +14,6 @@
       </div>
     </div>
     <div class="person-list scroll">
-      <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom"
-                   :bottom-all-loaded="allLoaded"
-                   ref="loadmoreSearchTwo">
         <div class="search-scroll-box" v-if="cellList&&cellList.length>0">
           <a class="mint-cell" v-for="cell in cellList" @click="clickCell(cell)">
             <div class="mint-cell-wrapper">
@@ -34,7 +31,6 @@
             </div>
           </a>
         </div>
-      </mt-loadmore>
     </div>
     <div v-if="checkedType" class="form-btns search-btns">
       <mt-button type="default" class="cancel" @click="cancelSearch">取消</mt-button>
@@ -48,7 +44,6 @@
   import {CarHttp} from '@/api/carHttp';
   export default {
     name: 'search',
-    components:{Loadmore},
     data(){
       return {
         selectType:'',
@@ -58,10 +53,7 @@
         selectList:[],
         cellList:[],
         dataList:[],
-        checkedList:[],
-        allLoaded:false,
-        currPage:1,
-        pageLength:50
+        checkedList:[]
       }
     },
     props: {
@@ -114,7 +106,7 @@
       pushCheckedList(obj){
          this.$nextTick(()=> {
            let tempItem = {
-             title:this.selectName+'-'+obj.title,
+             title:obj.title,
              value:obj.value,
            };
            this.checkedList.remove(tempItem);
@@ -136,24 +128,6 @@
       saveSearch(){
          this.$emit('selectCell',this.checkedList);
       },
-      postion:function(){
-        if(this.currPage===1){
-          this.$nextTick(function() {
-            var dom = this.$refs.loadmoreSearchTwo.$el;
-            if(!dom) return;
-            dom.parentNode.scrollTop = 0;
-          })
-        }
-      },
-      loadTop() {
-        this.$refs.loadmoreSearchTwo.onTopLoaded();
-        this.currPage = 1;
-        this.queryList();
-      },
-      loadBottom() {
-         this.currPage=this.currPage+1;
-         this.queryList();
-      },
       queryPersonList(){
         CarHttp.queryCityList({
           province_num:this.selectType
@@ -167,14 +141,7 @@
               selected:false
             });
           }
-          if(this.currPage==1){
-            this.cellList = tempArry;
-          }else{
-            this.cellList = this.cellList.concat(tempArry);
-          }
-          this.allLoaded = (this.currPage == res.data.pageCount);
-          this.$refs.loadmoreSearchTwo.onBottomLoaded();
-          this.postion();
+          this.cellList = tempArry;
         });
       },
       queryList(){
