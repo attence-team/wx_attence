@@ -74,6 +74,10 @@ export default {
     },
     methods:{
         toPage(item){
+            if(this.batchSwitch) {
+              item.checked = !item.checked;
+              return;
+            }
             let url = 'approvalDetails?vou_id='+ item.vou_id +'&voc_cd='+ item.voc_cd +'&name='+ item.submit_staff_nm +'&title='+ item.wait_tip  +'&state='+ (item.finish_mark_nm || item.verify_mark) + '&type='+ this.tabSelected;
             if (item.memo) {
                 url += '&opinion='+ item.memo;
@@ -210,11 +214,12 @@ export default {
         margin-top: 0;
     }
     .checkbox-box label {
-        margin: 0;
         position: absolute;
-        font-size: 0;
         top: 50%;
+        margin: 0;
         margin-top: -0.125rem;
+        font-size: 0;
+        z-index: 100;
     }
     .approval-list .approval-list-cell .approval-info {
         padding: 0.3rem 0;

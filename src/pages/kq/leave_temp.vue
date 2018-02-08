@@ -264,13 +264,6 @@
                for(let i=0;i<this.selectedOrderGroups.length;i++){
                  this.selectedOrderGroups[i].vou_id = sysKey;
                }
-               console.log(JSON.stringify({
-                 info:this.selectedOrderGroups,
-                 groupId:this.approveGroups[0].group_id,
-                 vouid:sysKey,
-                 vou_ty:'kqt_deptleave_manage',
-                 tjren: this.userInfo.staff_num
-               }))
                SpHttp.saveSubmitInfo({
                   info:this.selectedOrderGroups,
                   groupId:this.approveGroups[0].group_id,
@@ -335,7 +328,7 @@
                     }
                 }).catch((error) => {
                     Indicator.close();
-                })
+                });
             }
         }
     }

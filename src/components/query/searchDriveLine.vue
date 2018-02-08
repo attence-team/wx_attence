@@ -9,7 +9,7 @@
           <i class="arrow-icon"></i>
         </div>
         <div class="search-input">
-          <input readonly="readonly" v-model="searchInput"/>
+          <input v-model="searchInput"/>
         </div>
       </div>
     </div>
@@ -45,12 +45,14 @@
 <script>
   import { Loadmore } from 'mint-ui';
   import {KqHttp} from '@/api/kqHttp';
+  import {CarHttp} from '@/api/carHttp';
   export default {
     name: 'search',
     components:{Loadmore},
     data(){
       return {
         selectType:'',
+        selectName:'',
         searchInput:'',
         timeOut:0,
         selectList:[],
@@ -88,16 +90,22 @@
            this.queryList();
          }
       },
-      selectType(){
+      selectType(val){
         this.queryPersonList();
+        for(let i=0;i<this.selectList.length;i++){
+          if(val==this.selectList[i].value){
+            this.selectName = this.selectList[i].name;
+            return;
+          }
+        }
       }
     },
     methods:{
       clickCell(item){
          if(this.checkedType==0){
            this.$emit('selectCell',[{
-             title:item.title,
-             value:item.value
+             title:this.selectName+'-'+item.title,
+             value:item.value,
            }]);
          }else{
            this.pushCheckedList(item);
@@ -105,9 +113,13 @@
       },
       pushCheckedList(obj){
          this.$nextTick(()=> {
-           this.checkedList.remove(obj);
+           let tempItem = {
+             title:this.selectName+'-'+obj.title,
+             value:obj.value,
+           };
+           this.checkedList.remove(tempItem);
            if(obj.selected){ /* 添加 */
-             this.checkedList.push(obj);
+             this.checkedList.push(tempItem);
            }
            this.dealWithInput();
          });
@@ -115,7 +127,7 @@
       dealWithInput(){
          this.searchInput = '';
          for(let i=0;i<this.checkedList.length;i++){
-           this.searchInput += this.checkedList[i].title +  ';';
+           this.searchInput += this.checkedList[i].title +  ',';
          }
       },
       cancelSearch(){
@@ -143,18 +155,15 @@
          this.queryList();
       },
       queryPersonList(){
-        KqHttp.queryPersonByParams({
-          currPage:this.currPage,
-          pageLength:this.pageLength,
-          dept_num:this.selectType,
-          staff_obj:''
+        CarHttp.queryCityList({
+          province_num:this.selectType
         }).then((res)=>{
           if(res.code!=1) return;
           let tempArry = [];
-          for(let i=0;i<res.data.pageData.length;i++){
+          for(let i=0;i<res.data.length;i++){
             tempArry.push({
-              title:res.data.pageData[i].name,
-              value:res.data.pageData[i].staff_num,
+              title:res.data[i].city_name,
+              value:res.data[i].city_num,
               selected:false
             });
           }
@@ -169,19 +178,16 @@
         });
       },
       queryList(){
-         KqHttp.queryDepartByParams({
-            currPage:this.currPage,
-            pageLength:this.pageLength,
-            dept_obj:''
-         }).then((res)=>{
+         CarHttp.queryProvinceList({}).then((res)=>{
             if(res.code!=1) return;
             this.selectList = [];
-            for(let i=0;i<res.data.pageData.length;i++){
+            for(let i=0;i<res.data.length;i++){
               this.selectList.push({
-                name:res.data.pageData[i].dept_name,
-                value:res.data.pageData[i].dept_num
+                name:res.data[i].city_name,
+                value:res.data[i].city_num
               });
             }
+            this.selectType = this.selectList[0].value;
          });
       }
     }

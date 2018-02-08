@@ -149,6 +149,13 @@ String.prototype.getMonthDay = function () {
     curDate.setDate(0);
     return curDate.getDate();
 };
-
+Array.prototype.remove = function(val) {
+  for(let i=0;i<this.length;i++){
+     if(this[i].value===val.value){
+       this.splice(i, 1);
+       break;
+     }
+  }
+};
 
 

@@ -15,7 +15,7 @@
              <!--</mt-swipe-item>-->
           </mt-swipe>
           <div class="menu-btn" @click="leftMenuShow=!leftMenuShow"><i class="iconfont icon-3401caidan"></i></div>
-          <div class="title">企业文化 . 核心理念</div>
+          <!--<div class="title">企业文化 . 核心理念</div>-->
           <div class="welcome">{{userInfo.name}}，欢迎您！</div>
        </div>
        <div class="menu-box">

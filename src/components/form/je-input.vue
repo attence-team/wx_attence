@@ -1,7 +1,7 @@
 <template>
   <div :class="{'je-input':true,'no-title':title==''}">
      <input v-if="disabled==='true'" disabled :type="type" v-model="val" :placeholder="placeholder" />
-    <input v-else :type="type" v-model="val"  :placeholder="placeholder" />
+     <input v-else :type="type" v-model="val"  :placeholder="placeholder" />
      <i></i>
      <span>{{title}}</span>
   </div>

@@ -11,7 +11,7 @@
         <div class="form-row">
           <div class="row-left"><i class="icon info-icon"></i></div>
           <div class="row-wrapper">
-            <JEInput v-model="carNum" type="number" title="派车人数" placeholder="请输入派车人数（必填）"/>
+            <JEInput v-model="carNum" type="number" title="乘车人数" placeholder="请输入乘车人数（必填）"/>
           </div>
         </div>
         <div class="form-row">
@@ -22,14 +22,20 @@
         </div>
         <div class="form-row">
           <div class="row-left"><i class="icon type-icon"></i></div>
-          <div class="row-wrapper">
-            <JEInput title="行车路线" placeholder="请选择行车路线（必填）"/>
+          <div class="row-wrapper" @click="searchDriveLineShow=true;checkedDriveLineType=1">
+            <JEInput disabled="true" v-model="driveLineNames" title="行车路线" placeholder="请选择行车路线（必填）"/>
           </div>
         </div>
         <div class="form-row">
           <div class="row-left"><i class="icon type-icon"></i></div>
-          <div class="row-wrapper" @click="searchShow=true">
+          <div class="row-wrapper" @click="searchPersonShow=true;checkedType=0">
             <JEInput v-model="contactName" title="联系人" placeholder="请选择联系人（必填）"/>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="row-left"><i class="icon bi-icon"></i></div>
+          <div class="row-wrapper">
+            <JEInput v-model="contactPhoneNo" title="联系人电话" placeholder="请输入联系电话（必填）"/>
           </div>
         </div>
         <div class="form-row">
@@ -59,19 +65,25 @@
         <div class="form-row">
           <div class="row-left"><i class="icon type-icon"></i></div>
           <div class="row-wrapper">
-            <JEInput title="乘车人-公司职工" placeholder="请选择乘车人"/>
+            <JEInput v-model="upOutCarCode" title="上车地点-市区外" placeholder="请输入市区外上车地点"/>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="row-left"><i class="icon type-icon"></i></div>
+          <div class="row-wrapper" @click="searchPersonShow=true;checkedType=1">
+            <JEInput disabled="true" v-model="companyPersonNames" title="乘车人-公司职工" placeholder="请选择乘车人"/>
           </div>
         </div>
         <div class="form-row">
           <div class="row-left"><i class="icon bi-icon"></i></div>
           <div class="row-wrapper">
-            <JEInput title="乘车人-来宾" placeholder="请输入乘车人"/>
+            <JEInput v-model="driverPersonNames" title="乘车人-来宾" placeholder="请输入乘车人"/>
           </div>
         </div>
         <div class="form-row">
           <div class="row-left"><i class="icon type-icon"></i></div>
-          <div class="row-wrapper">
-            <JESelect v-model="drive" :options="driveList" title="推荐驾驶员" placeholder="请选择意向驾驶员"/>
+          <div class="row-wrapper" @click="searchDriverShow=true;checkedDriverType=1">
+            <JEInput disabled="true" v-model="driverNames" title="推荐驾驶员" placeholder="请选择意向驾驶员"/>
           </div>
         </div>
         <div class="form-row">
@@ -100,9 +112,22 @@
           </div>
         </div>
         <mt-popup
-          v-model="searchShow"
+          v-model="searchPersonShow"
           position="left">
-          <SearchComps :defaultSelectType="dept_num" :searchShow="searchShow" @selectCell="selectCell"/>
+          <SearchComps :checkedType="checkedType" :defaultSelectType="dept_num"
+                       :searchShow="searchPersonShow" @selectCell="selectCell"/>
+        </mt-popup>
+        <mt-popup
+          v-model="searchDriveLineShow"
+          position="left">
+          <SearchDriveLineComps :checkedType="checkedDriveLineType"
+                                :searchShow="searchDriveLineShow" @selectCell="selectDriveCell"/>
+        </mt-popup>
+        <mt-popup
+          v-model="searchDriverShow"
+          position="left">
+          <SearchDriver :checkedType="checkedDriverType"
+                                :searchShow="searchDriverShow" @selectCell="selectDrivePersonCell"/>
         </mt-popup>
       </div>
       <div class="form-btns">
@@ -118,14 +143,21 @@
   import JEInput from "@/components/form/je-input";
   import JESelect from "@/components/form/je-select";
   import SearchComps from "@/components/query/searchTwo";
+  import SearchDriver from "@/components/query/searchDriver";
+  import SearchDriveLineComps from "@/components/query/searchDriveLine";
   import {Toast, Indicator, MessageBox} from 'mint-ui';
   export default {
     name: 'sendCarApply_temp',
-    components:{JEInput,JESelect,SearchComps},
+    components:{JEInput,JESelect,SearchComps,SearchDriver,SearchDriveLineComps},
     data(){
       return {
+        checkedType:0, /* 0单选，1多选 */
+        checkedDriverType:1,/* 0单选，1多选 */
+        checkedDriveLineType:1,/* 0单选，1多选 */
         dept_num:'', /* 部门编号 */
-        searchShow:false,
+        searchPersonShow:false,
+        searchDriverShow:false,
+        searchDriveLineShow:false,
         carType:'',/* 派车类型 */
         typeList:[],
         carNum:'',/* 派车人数 */
@@ -133,25 +165,33 @@
         startDate:new Date().Format2String('yyyy-MM-dd'),
         endDate:new Date().Format2String('yyyy-MM-dd'),
         sendDate:new Date().Format2String('yyyy-MM-dd'),
-        vouty:'shiquneipaiche',
+        vouty:'',
         contactName:'',/* 联系人名称 */
         contactNum:'',/* 联系人职工号 */
-        upCarCode:'',/* 上车地点 */
+        contactPhoneNo:'',/* 联系人电话 */
+        companyPersonNames:'',/* 乘车人公司职员名称 */
+        companyPersonNum:'',/* 乘车人公司职员编号 */
+        driverPersonNames:'',/* 乘车人-来宾 */
+        driveLineNames:'',/* 行车路线名称 */
+        driveLineNum:'',/* 行车路线地区 */
+        driverNames:'',/* 驾驶员名称 */
+        upCarCode:'',/* 上车地点-市区内 */
+        upOutCarCode:'',/* 上车地点-市区外 */
         upCarList:[],
-        drive:'',/* 驾驶员 */
-        driveList:[],
         approveGroups:[],
         leaderName:'',
-        electedOrderGroups:[], /* 选中的审批人 */
+        selectedOrderGroups:[], /* 选中的审批人 */
         approveGroupsCount:0,
         userInfo:{}
       }
     },
     watch:{
       carType(val){
-         for(let i=0;i<this.typeList;i++){
+         for(let i=0;i<this.typeList.length;i++){
             if(this.typeList[i].value==val){
                this.vouty = this.typeList[i].vouty;
+               /* 获取审批节点 */
+               this.querySubmitInfo();
                return;
             }
          }
@@ -192,9 +232,6 @@
       this.dept_num = this.userInfo.dept_num;
       this.queryTypeList(()=>{});
       this.queryUpCarList();
-      this.queryDriveList();
-      /* 获取审批节点 */
-      this.querySubmitInfo();
     },
     methods:{
       changeSelect(j,k,e){
@@ -219,8 +256,65 @@
         }
         return true;
       },
+      selectDrivePersonCell(cell){
+        this.searchDriverShow = false;
+        if(!cell) return;
+        if(this.checkedDriveLineType==1){ /* 推荐驾驶员 */
+          this.driverNames = '';
+          for(let i=0;i<cell.length;i++){
+            if(i==cell.length-1){
+              this.driverNames += cell[i].title;
+            }else{
+              this.driverNames += cell[i].title+',';
+            }
+          }
+        }
+      },
+      selectDriveCell(cell){
+        this.searchDriveLineShow = false;
+        if(!cell) return;
+        if(this.checkedDriveLineType==1){ /* 行车路线 */
+            this.driveLineNames = '';
+            this.driveLineNum = '';
+            for(let i=0;i<cell.length;i++){
+              if(i==cell.length-1){
+                this.driveLineNames += cell[i].title;
+                this.driveLineNum +=  cell[i].value;
+              }else{
+                this.driveLineNames += cell[i].title+',';
+                this.driveLineNum +=  cell[i].value+',';
+              }
+            }
+        }
+      },
       selectCell(cell){
-         this.searchShow = !this.searchShow;
+         this.searchPersonShow = false;
+         if(!cell) return;
+         if(this.checkedType==0){ /* 联系人 */
+           this.contactName = '';
+           this.contactNum = '';
+           for(let i=0;i<cell.length;i++){
+             if(i==cell.length-1){
+               this.contactName += cell[i].title;
+               this.contactNum +=  cell[i].value;
+             }else{
+               this.contactName += cell[i].title+',';
+               this.contactNum +=  cell[i].value+',';
+             }
+           }
+         }else{
+           this.companyPersonNames = '';
+           this.companyPersonNum = '';
+           for(let i=0;i<cell.length;i++){
+             if(i==cell.length-1){
+               this.companyPersonNames += cell[i].title;
+               this.companyPersonNum +=  cell[i].value;
+             }else{
+               this.companyPersonNames += cell[i].title+',';
+               this.companyPersonNum +=  cell[i].value+',';
+             }
+           }
+         }
       },
       queryTypeList(callBackFn){
         /* 查询派车类型 */
@@ -245,21 +339,6 @@
       queryUpCarList(){
         /* 上车地点 */
         CarHttp.queryUpCityList({}).then((res)=>{
-          this.upCarList = [];
-          if(res.code==1){
-            for(let i=0;i<res.data.length;i++){
-              this.upCarList.push({
-                value:res.data[i].id,
-                name:res.data[i].key_name
-              });
-            }
-            this.upCarCode = this.upCarList[0].value;
-          }
-        });
-      },
-      queryDriveList(){
-        /* 上车地点 */
-        CarHttp.queryDriveList({}).then((res)=>{
           this.upCarList = [];
           if(res.code==1){
             for(let i=0;i<res.data.length;i++){
@@ -328,7 +407,7 @@
             info:this.selectedOrderGroups,
             groupId:this.approveGroups[0].group_id,
             vouid:sysKey,
-            vou_ty:'workDinnerSp',
+            vou_ty:this.vouty,
             tjren: this.userInfo.staff_num
           }).then((res)=>{
             Toast({
@@ -341,7 +420,61 @@
           });
       },
       saveCar(){
-
+        if(!this.carType){Toast('请选择派车类型');return;}
+        if(!this.carNum){Toast('请输入乘车人数');return;}
+        if(!this.carReson){Toast('用车事由');return;}
+        if(!this.driveLineNames){Toast('请选择行车路线');return;}
+        if(!this.contactName){Toast('请选择联系人');return;}
+        if(!this.contactPhoneNo){Toast('请输入联系人电话');return;}
+        this.dealWithOrderGroups();
+        if(this.approveGroupsCount!==this.selectedOrderGroups.length){
+          Toast({
+            message: '请选择审批人',
+            duration: 3000
+          });
+          return
+        }
+        Indicator.open({
+          text: '提交中...',
+          spinnerType: 'fading-circle'
+        });
+        CarHttp.saveCarApply({
+          vehicle_user_id:this.userInfo.staff_num,
+          vehicle_user_name:this.userInfo.name,
+          send_out_time:this.sendDate.Format2String('yyyyMMdd'),
+          reason:this.carReson,
+          leave_postiton_in:this.upCarCode,
+          leave_postiton_out:this.upOutCarCode,
+          destination:'',
+          use_dept:this.userInfo.dept_name,
+          use_dept_id:this.userInfo.dept_num,
+          people_count:this.carNum,
+          linkman_name:this.contactName,
+          linkman_id:this.contactNum,
+          linkman_tel:this.contactPhoneNo,
+          period_of_time_start:this.startDate.Format2String('yyyyMMdd'),
+          period_of_time_end:this.endDate.Format2String('yyyyMMdd'),
+          handing_people_id:this.userInfo.staff_num,
+          handing_people_name:this.userInfo.name,
+          hitchhiking_people_in:this.companyPersonNum,
+          hitchhiking_people_out:this.driverPersonNames,
+          op_stuff:this.userInfo.staff_num,
+          dway_id:'',
+          d_way:this.driveLineNames,
+          other_position:'',
+          position_in_name:''
+        }).then((res)=>{
+          Indicator.close();
+          Toast({
+            message: res.result,
+            duration: 2000
+          });
+          if(res.code == 1){
+            this.saveOrder(res.data.id);
+          }
+        }).catch((e) => {
+          Indicator.close();
+        });
       }
     }
   }

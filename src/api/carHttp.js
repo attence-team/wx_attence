@@ -14,10 +14,18 @@ export const CarHttp = {
     },
     /* 获取司机 */
     queryDriveList(params) {
-      return post('lywebservice/vehicle/getDrive', params);
+      return post('lywebservice/vehicle/getDriver', params);
+    },
+    /* 获取省 */
+    queryProvinceList(params) {
+      return post('lywebservice/vehicle/getProvince', params);
     },
     /* 获取市 */
     queryCityList(params) {
       return post('lywebservice/vehicle/getCity', params);
     },
+    /* 保存用车申请 */
+    saveCarApply(params) {
+      return post('lywebservice/vehicle/saveVehicle', params);
+    }
 };
