@@ -86,6 +86,7 @@
             return {
                 leaveType:'',
                 typeList:[],
+                vouty:'',
                 days:0,
                 startDate: new Date().Format2String('yyyy-MM-dd'),
                 endDate: new Date().Format2String('yyyy-MM-dd'),
@@ -103,6 +104,9 @@
              for(let i=0;i<this.typeList.length;i++){
                 if(newVal == this.typeList[i].value){
                    this.days = this.typeList[i].days?this.typeList[i].days:0;
+                   this.vouty = this.typeList[i].vouty;
+                   /* 获取审批节点 */
+                   this.querySubmitInfo();
                    return;
                 }
              }
@@ -132,7 +136,7 @@
                     this.dealWithType();
                 })
             });
-            this.querySubmitInfo();
+            //this.querySubmitInfo();
         },
         methods:{
             dealWithType(){/* 从异常处理跳转过来  */
@@ -182,12 +186,14 @@
                                this.typeList.push({
                                   name:res.data[i].leave_cause+'-'+dyts+'天',
                                   value:res.data[i].leave_num,
+                                  vouty: res.data[i].vou_cd,
                                   days:dyts
                                });
                             }else{
                                 this.typeList.push({
                                   name:res.data[i].leave_cause,
                                   value:res.data[i].leave_num,
+                                  vouty: res.data[i].vou_cd,
                                   days:dyts
                                 });
                             }
@@ -202,7 +208,7 @@
             querySubmitInfo(){
                 let vou_id = this.$route.query.id?this.$route.query.id:1;
                 SpHttp.getSubmitInfo({
-                    vouty: 'kqt_deptleave_manage',
+                    vouty: this.vouty,
                     vou_id: vou_id,
                     dept: getUserInfo().dept_num
                 }).then((res)=>{
@@ -268,7 +274,7 @@
                   info:this.selectedOrderGroups,
                   groupId:this.approveGroups[0].group_id,
                   vouid:sysKey,
-                  vou_ty:'kqt_deptleave_manage',
+                  vou_ty:this.vouty,
                   tjren: this.userInfo.staff_num
                }).then((res)=>{
                    Toast({

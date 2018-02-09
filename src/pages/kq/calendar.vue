@@ -12,8 +12,8 @@
                 <!--<div class="day-item"><span class="bd-bottom-1">正常（12:34）</span></div>-->
                 <!--<div class="day-item warn"><span class="bd-bottom-1">未刷卡（13:00）</span></div>-->
                 <!--<div class="day-item"><span>正常（18:04）</span></div>-->
-                <div :class="{'day-item':true,warn:(cur.bursh_name.indexOf('正常')!=-1)}" v-for="(cur,idx) in curData">
-                   <span :class="{'bd-bottom-1':(idx!=curData.length-1)}">{{cur.bursh_name}}（{{cur.bursh_time}}）</span>
+                <div :class="{'day-item':true,warn:(cur.bursh_name.indexOf('正常')==-1)}" v-for="(cur,idx) in curData">
+                  <span :class="{'bd-bottom-1':(idx!=curData.length-1)}">{{cur.bursh_name}}<i v-if="cur.bursh_time">（{{cur.bursh_time}})</i></span>
                 </div>
                 <div v-if="curData.length<=0" class="noneData">暂无数据</div>
             </div>
@@ -49,7 +49,7 @@
                 KqHttp.queryKqList({
                   staff_num:getUserInfo().staff_num,
                   sdate:this.currentDate.Format2String('yyyyMMdd'),
-                  edata:this.currentDate.Format2String('yyyyMMdd'),
+                  edate:this.currentDate.Format2String('yyyyMMdd'),
                   currPage:1,
                   pageLength:1000
                 }).then((res)=>{
