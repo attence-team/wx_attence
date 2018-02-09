@@ -28,6 +28,7 @@
               </div>
               <div class="menu-list clearfix">
                  <div class="item" v-for="subMenu in menu.submenus">
+                    <mt-badge v-if="subMenu.corner>0" size="small" type="error">{{subMenu.corner}}</mt-badge>
                     <a @click="goRouter(subMenu.resurl,subMenu.resid)">
                       <img :src="subMenu.resicon"><span>{{subMenu.resname}}</span>
                     </a>

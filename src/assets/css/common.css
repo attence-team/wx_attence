@@ -154,14 +154,14 @@
 }
 .menu-list .item .mint-badge{
     position: absolute;
-    top: 0.16rem;
-    right: 0.28rem;
+    top: 0.12rem;
+    right: 0.44rem;
 }
 @media only screen and (min-device-width :400px) and (-webkit-min-device-pixel-ratio : 3){
     .menu-list .item .mint-badge{
         position: absolute;
-        top: 0.18rem;
-        right: 0.36rem;
+        top: 0.16rem;
+        right: 0.54rem;
     }
 }
 @media screen and (max-width: 320px) {
