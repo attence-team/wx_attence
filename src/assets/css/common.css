@@ -156,6 +156,9 @@
     position: absolute;
     top: 0.12rem;
     right: 0.44rem;
+    color: red;
+    border: 1px solid red;
+    box-shadow: 0 0 1px red;
 }
 @media only screen and (min-device-width :400px) and (-webkit-min-device-pixel-ratio : 3){
     .menu-list .item .mint-badge{

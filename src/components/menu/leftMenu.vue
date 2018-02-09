@@ -45,7 +45,7 @@
     },
     methods:{
       clkItem(item){
-         this.$emit('selectLink',item.resurl+'?resid='+item.resid);
+         this.$emit('selectLink',item.resurl+'?resid='+item.resid+'&title='+item.resname);
       }
     }
   }
