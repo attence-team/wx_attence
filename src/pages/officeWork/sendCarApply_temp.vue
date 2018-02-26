@@ -56,11 +56,12 @@
             <JEInput v-model="sendDate"  type="date" title="出发时间"/>
           </div>
         </div>
-        <div class="form-row">
+        <div :class="{'form-row':true, 'up-car':!upCarCode}">
           <div class="row-left"><i class="icon type-icon"></i></div>
           <div class="row-wrapper">
-            <JESelect v-model="upCarCode" :options="upCarList" title="上车地点-市区" placeholder="请选择上车地点"/>
+            <JESelect @change="changeUpCar" v-model="upCarCode" :options="upCarList" title="上车地点-市区" placeholder="请选择上车地点"/>
           </div>
+          <div class="up-car-name" v-if="!upCarCode">{{upCarName}}</div>
         </div>
         <div class="form-row">
           <div class="row-left"><i class="icon type-icon"></i></div>
@@ -175,7 +176,9 @@
         driveLineNames:'',/* 行车路线名称 */
         driveLineNum:'',/* 行车路线地区 */
         driverNames:'',/* 驾驶员名称 */
-        upCarCode:'',/* 上车地点-市区内 */
+        upCarCode:'',/* 上车地点-市区内-code */
+        upCarName:'',/* 上车地点-市区内-名称 */
+        upCarOtherName:'',/* 上车地点-市区内-名称-其他 */
         upOutCarCode:'',/* 上车地点-市区外 */
         upCarList:[],
         approveGroups:[],
@@ -234,6 +237,30 @@
       this.queryUpCarList();
     },
     methods:{
+      changeUpCar(e){
+          for(let i=0;i<this.upCarList.length;i++){
+            if(e.target.value==this.upCarList[i].value){
+              this.upCarName = this.upCarList[i].name;
+              break;
+            }
+          }
+          if(!e.target.value){ //其他
+              this.upCarCode = '';
+              this.upCarName = this.upCarOtherName;
+              MessageBox.prompt(' ', '其他', {
+                inputValue:this.upCarName,
+                inputPlaceholder: '请输入上车地点-市区'
+              }).then(({ value, action }) => {
+                if(action!=='confirm') return;
+                this.upCarOtherName = value;
+                this.upCarName = value;
+                this.upCarCode = 0;
+              });
+          }else{
+            this.upCarOtherName = '';
+          }
+
+      },
       changeSelect(j,k,e){
         if(!e.target.value) return;
         this.approveGroups[j].group_dt[k].selectedValue = this.approveGroups[j].group_dt[k].staffs[e.target.value];
@@ -347,7 +374,12 @@
                 name:res.data[i].key_name
               });
             }
+            this.upCarList.push({
+              value:'',
+              name:'其他'
+            });
             this.upCarCode = this.upCarList[0].value;
+            this.upCarName = this.upCarList[0].name;
           }
         });
       },
@@ -479,7 +511,9 @@
     }
   }
 </script>
+<style lang="css">
 
+</style>
 <style lang="css" scoped>
   .leave{
     min-height: 100%;
@@ -495,6 +529,7 @@
   }
   .form-row .row-left,
   .form-row .row-wrapper{
+    position: relative;
     float: left;
     height: 100%;
   }
@@ -637,6 +672,19 @@
   .approve-list .approve-item.active span:before{
     display: none;
   }
+  .up-car{
+     position: relative;
+  }
+  .up-car .up-car-name{
+    position: absolute;
+    top: 0.9rem;
+    left: 10%;
+    font-size: 16px;
+    color: #333;
+  }
+  .up-car .je-select >>> select{
+    opacity: 0;
+  }
   .workLunch-btn{
     position: absolute;
     bottom:0.08rem;
@@ -663,4 +711,5 @@
   .person-icon{
     background-image: url("../../assets/img/icon/person-icon.png");
   }
+
 </style>

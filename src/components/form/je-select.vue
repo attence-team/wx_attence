@@ -1,6 +1,6 @@
 <template>
     <div class="je-select">
-        <select v-model="selected">
+        <select v-model="selected" @change="changeItem($event)" @click="clkSelect">
             <option v-for="(option,idx) in options" :value="option.value">
                 {{option.name}}
             </option>
@@ -37,6 +37,14 @@
             selected(newVal){
                 this.$emit('input', newVal);
             }
+        },
+        methods:{
+          changeItem(e){
+             this.$emit('change',e);
+          },
+          clkSelect(){
+             console.log();
+          }
         }
     }
 </script>
