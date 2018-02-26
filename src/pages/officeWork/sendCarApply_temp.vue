@@ -59,7 +59,7 @@
         <div :class="{'form-row':true, 'up-car':!upCarCode}">
           <div class="row-left"><i class="icon type-icon"></i></div>
           <div class="row-wrapper">
-            <JESelect @change="changeUpCar" v-model="upCarCode" :options="upCarList" title="上车地点-市区" placeholder="请选择上车地点"/>
+            <JESelect @change="changeUpCar" v-model="upCarCode" :options="upCarList" title="上车地点-市区" placeholder="请选择市区上车地点"/>
           </div>
           <div class="up-car-name" v-if="!upCarCode">{{upCarName}}</div>
         </div>
@@ -244,8 +244,7 @@
               break;
             }
           }
-          if(!e.target.value){ //其他
-              this.upCarCode = '';
+          if(e.target.value==0){ //其他
               this.upCarName = this.upCarOtherName;
               MessageBox.prompt(' ', '其他', {
                 inputValue:this.upCarName,
@@ -254,12 +253,12 @@
                 if(action!=='confirm') return;
                 this.upCarOtherName = value;
                 this.upCarName = value;
-                this.upCarCode = 0;
+                /* 通过 0==false 为true特性，触发多次点击‘其他’进入修改 */
+                this.upCarCode = false;
               });
           }else{
             this.upCarOtherName = '';
           }
-
       },
       changeSelect(j,k,e){
         if(!e.target.value) return;
@@ -375,11 +374,9 @@
               });
             }
             this.upCarList.push({
-              value:'',
+              value:0,
               name:'其他'
             });
-            this.upCarCode = this.upCarList[0].value;
-            this.upCarName = this.upCarList[0].name;
           }
         });
       },
@@ -511,9 +508,6 @@
     }
   }
 </script>
-<style lang="css">
-
-</style>
 <style lang="css" scoped>
   .leave{
     min-height: 100%;

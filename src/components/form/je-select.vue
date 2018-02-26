@@ -1,7 +1,8 @@
 <template>
     <div class="je-select">
+        <div class="select-placeholder" v-if="selected===''">{{placeholder}}</div>
         <select v-model="selected" @change="changeItem($event)" @click="clkSelect">
-            <option v-for="(option,idx) in options" :value="option.value">
+          <option v-for="(option,idx) in options" :value="option.value">
                 {{option.name}}
             </option>
         </select>
@@ -28,6 +29,10 @@
             },
             value: {
                 default: ''
+            },
+            placeholder:{
+              type: String,
+              default: ''
             },
         },
         watch:{
@@ -56,6 +61,12 @@
      min-height: 0.9rem;
      color: #333333;
      font-size: 16px;
+  }
+  .select-placeholder{
+     position: absolute;
+     top: 0.68rem;
+     left: 0;
+     color: #888;
   }
   .je-select:before{
     content: "";

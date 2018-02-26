@@ -95,6 +95,12 @@
     methods:{
       clickCell(item){
          if(this.checkedType==0){
+           for(let i=0;i<this.cellList.length;i++){
+             this.cellList[i].selected = false;
+             if(item.value==this.cellList[i].value){
+               this.cellList[i].selected = true;
+             }
+           }
            this.$emit('selectCell',[{
              title:item.title,
              value:item.value

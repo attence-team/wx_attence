@@ -123,7 +123,7 @@ export default {
            carouselImgs:[],
            menuList:[],
            list:[],
-           userID:'02008464',
+           userID:'',
            userInfo:{},
            leftMenuShow:false,
            leftMenuTree:[],
@@ -136,6 +136,11 @@ export default {
     },
     activated(){
         setTitle('微龙烟');
+        if(this.userID){
+          this.queryMenuTree(()=>{
+            this.queryLeftMenuTree();
+          });
+        }
     },
     mounted(){
         this.screenInfo = {
@@ -154,6 +159,7 @@ export default {
                 message: '网络异常',
                 duration: 5000
             });
+            this.userID = '02008464';
             this.initUserData();
             this.queryMenuTree(()=>{
                 this.queryLeftMenuTree();
