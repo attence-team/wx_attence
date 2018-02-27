@@ -22,8 +22,8 @@
         </div>
         <div class="form-row">
           <div class="row-left"><i class="icon type-icon"></i></div>
-          <div class="row-wrapper" @click="searchDriveLineShow=true;checkedDriveLineType=1">
-            <JEInput disabled="true" v-model="driveLineNames" title="行车路线" placeholder="请选择行车路线（必填）"/>
+          <div class="row-wrapper">
+            <JEInputMore v-model="driveLineNames" title="行车路线" placeholder="请选择行车路线（必填）"/>
           </div>
         </div>
         <div class="form-row">
@@ -119,12 +119,6 @@
                        :searchShow="searchPersonShow" @selectCell="selectCell"/>
         </mt-popup>
         <mt-popup
-          v-model="searchDriveLineShow"
-          position="left">
-          <SearchDriveLineComps :checkedType="checkedDriveLineType"
-                                :searchShow="searchDriveLineShow" @selectCell="selectDriveCell"/>
-        </mt-popup>
-        <mt-popup
           v-model="searchDriverShow"
           position="left">
           <SearchDriver :checkedType="checkedDriverType"
@@ -142,23 +136,21 @@
   import {SpHttp} from '@/api/spHttp';
   import {CarHttp} from '@/api/carHttp';
   import JEInput from "@/components/form/je-input";
+  import JEInputMore from "@/components/form/je-input-more";
   import JESelect from "@/components/form/je-select";
   import SearchComps from "@/components/query/searchTwo";
   import SearchDriver from "@/components/query/searchDriver";
-  import SearchDriveLineComps from "@/components/query/searchDriveLine";
   import {Toast, Indicator, MessageBox} from 'mint-ui';
   export default {
     name: 'sendCarApply_temp',
-    components:{JEInput,JESelect,SearchComps,SearchDriver,SearchDriveLineComps},
+    components:{JEInput,JEInputMore,JESelect,SearchComps,SearchDriver},
     data(){
       return {
         checkedType:0, /* 0单选，1多选 */
         checkedDriverType:1,/* 0单选，1多选 */
-        checkedDriveLineType:1,/* 0单选，1多选 */
         dept_num:'', /* 部门编号 */
         searchPersonShow:false,
         searchDriverShow:false,
-        searchDriveLineShow:false,
         carType:'',/* 派车类型 */
         typeList:[],
         carNum:'',/* 派车人数 */
@@ -285,7 +277,7 @@
       selectDrivePersonCell(cell){
         this.searchDriverShow = false;
         if(!cell) return;
-        if(this.checkedDriveLineType==1){ /* 推荐驾驶员 */
+        if(this.checkedDriverType==1){ /* 推荐驾驶员 */
           this.driverNames = '';
           for(let i=0;i<cell.length;i++){
             if(i==cell.length-1){
@@ -294,23 +286,6 @@
               this.driverNames += cell[i].title+',';
             }
           }
-        }
-      },
-      selectDriveCell(cell){
-        this.searchDriveLineShow = false;
-        if(!cell) return;
-        if(this.checkedDriveLineType==1){ /* 行车路线 */
-            this.driveLineNames = '';
-            this.driveLineNum = '';
-            for(let i=0;i<cell.length;i++){
-              if(i==cell.length-1){
-                this.driveLineNames += cell[i].title;
-                this.driveLineNum +=  cell[i].value;
-              }else{
-                this.driveLineNames += cell[i].title+'---';
-                this.driveLineNum +=  cell[i].value+'---';
-              }
-            }
         }
       },
       selectCell(cell){

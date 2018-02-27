@@ -68,7 +68,11 @@
       defaultSelectType:{
         type: String,
         default: ''
-      }
+      },
+      selectValue: {
+        type: String,
+        default: ''
+      },
     },
     watch:{
       checkedType(){
@@ -79,7 +83,9 @@
       },
       searchShow(newVal){
          if(newVal){
-           this.queryList();
+           this.queryList(()=>{
+             this.queryPersonList();
+           });
          }
       },
       selectType(val){
@@ -135,16 +141,20 @@
           if(res.code!=1) return;
           let tempArry = [];
           for(let i=0;i<res.data.length;i++){
+            let isChecked  = false;
+            if(this.selectValue.indexOf(res.data[i].city_name)!=-1){
+              isChecked = true;
+            }
             tempArry.push({
               title:res.data[i].city_name,
               value:res.data[i].city_num,
-              selected:false
+              selected:isChecked
             });
           }
           this.cellList = tempArry;
         });
       },
-      queryList(){
+      queryList(fn){
          CarHttp.queryProvinceList({}).then((res)=>{
             if(res.code!=1) return;
             this.selectList = [];
@@ -155,6 +165,7 @@
               });
             }
             this.selectType = this.selectList[0].value;
+            if(fn) fn();
          });
       }
     }
