@@ -57,16 +57,15 @@ export default {
             },
             data:[],
             nodeArr:[],
-            opinion:''
+            opinion:'同意'
         }
     },
     activated(){
         setTitle('待办详情');
-
         this.name = this.$route.query.name;
         this.title = this.$route.query.title;
         this.state = this.$route.query.state;
-        this.opinion = this.$route.query.opinion;
+        this.opinion = this.$route.query.opinion?this.$route.query.opinion:this.opinion;
         this.params.vouty = this.$route.query.voc_cd;
         this.params.vou_id = this.$route.query.vou_id;
         this.type = this.$route.query.type;

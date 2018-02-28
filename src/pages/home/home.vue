@@ -19,6 +19,23 @@
           <div class="welcome">{{userInfo.name}}，欢迎您！</div>
        </div>
        <div class="menu-box">
+           <!--<div class="menu-nav">-->
+             <!--<div class="title bd-bottom-1" >-->
+                 <!--<span>-->
+                    <!--<i class="mywork-icon"></i>我的工作-->
+                      <!--<i class="iconfont icon-arrow-right-copy"></i>-->
+                 <!--</span>-->
+             <!--</div>-->
+              <!--<div class="menu-list clearfix">-->
+                 <!--<div class="item">-->
+                    <!--<router-link to="/officework/driverRegister">-->
+                      <!--<img src="../../assets/img/1_icon.png"><span>驾驶员登记</span>-->
+                    <!--</router-link>-->
+                 <!--</div>-->
+              <!--</div>-->
+           <!--</div>-->
+           <!--<div style="height: 5px;background-color: #bd2c00;margin: 10px 0;"></div>-->
+
            <div class="menu-nav" v-for="menu in menuList">
               <div class="title bd-bottom-1" @click="goRouterPage(menu.moreurl,menu.moreurl+'?resid='+menu.resid+'&title='+menu.resname)">
                  <span>
@@ -159,11 +176,11 @@ export default {
                 message: '网络异常',
                 duration: 5000
             });
-            this.userID = '02008464';
-            this.initUserData();
-            this.queryMenuTree(()=>{
-                this.queryLeftMenuTree();
-            });
+//            this.userID = '02008464';
+//            this.initUserData();
+//            this.queryMenuTree(()=>{
+//                this.queryLeftMenuTree();
+//            });
         });
     },
     methods:{

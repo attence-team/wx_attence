@@ -56,6 +56,10 @@
       defaultSelectType:{
         type: String,
         default: ''
+      },
+      checkedStrList:{
+        type: String,
+        default: ''
       }
     },
     watch:{
@@ -111,10 +115,14 @@
           if(res.code!=1) return;
           let tempArry = [];
           for(let i=0;i<res.data.length;i++){
+            let isSelected = false;
+            if(this.checkedStrList.indexOf(res.data[i].name)!=-1){
+              isSelected = true;
+            }
             tempArry.push({
               title:res.data[i].name,
               value:i,
-              selected:false
+              selected:isSelected
             });
           }
           this.cellList = tempArry;
@@ -191,7 +199,8 @@
   }
   .search-btns{
     position: absolute;
-    bottom: 3%;
-    opacity: 0.8;
+    width: 3rem;
+    bottom: 0;
+    right: 0 !important;
   }
 </style>

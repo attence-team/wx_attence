@@ -32,6 +32,7 @@ import WorkLunchQuery from 'pages/officeWork/workLunchQuery';
 
 import SendCarDetails from 'pages/officeWork/sendCarDetails';
 import WorkLunchDetails from 'pages/officeWork/workLunchDetails';
+import DriverRegister from 'pages/sendCar/driverRegisterQuery';
 
 import DayCount from 'pages/prodSalesStock/dayCount';
 
@@ -210,6 +211,12 @@ export default new Router({
                   components: {
                       body: WorkLunchDetails
                   }
+              },
+              {
+                path: 'driverRegister',
+                components: {
+                  body: DriverRegister
+                }
               }
           ]
       }

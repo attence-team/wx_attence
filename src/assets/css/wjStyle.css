@@ -277,19 +277,21 @@ input,select {
     background-color: #fff;
 }
 .application-type-box {
-    height: 65px;
     display: flex;
-    padding: 0.3rem;
+    padding: 0.2rem;
+    height: 65px;
 }
 .application-type-box .application-type {
     flex:1;
     color: #fff;
     font-size: 14px;
-    padding: 0.2rem 0;
     border-radius: 5px;
     text-align: center;
     margin-left: 0.3rem;
     background-color: #aaa;
+    height: 0.5rem;
+    line-height: 0.5rem;
+    padding: 0.1rem 0;
 }
 .application-type-box .nnsubmitted {
     background-color: #ff8922;

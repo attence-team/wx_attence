@@ -28,7 +28,7 @@
         </div>
         <div class="form-row">
           <div class="row-left"><i class="icon type-icon"></i></div>
-          <div class="row-wrapper" @click="searchPersonShow=true;checkedType=0">
+          <div class="row-wrapper" @click="checkedList=contactName;searchPersonShow=true;checkedType=0;">
             <JEInput v-model="contactName" title="联系人" placeholder="请选择联系人（必填）"/>
           </div>
         </div>
@@ -71,7 +71,7 @@
         </div>
         <div class="form-row">
           <div class="row-left"><i class="icon type-icon"></i></div>
-          <div class="row-wrapper" @click="searchPersonShow=true;checkedType=1">
+          <div class="row-wrapper" @click="checkedList=companyPersonNames;searchPersonShow=true;checkedType=1">
             <JEInput disabled="true" v-model="companyPersonNames" title="乘车人-公司职工" placeholder="请选择乘车人"/>
           </div>
         </div>
@@ -83,7 +83,7 @@
         </div>
         <div class="form-row">
           <div class="row-left"><i class="icon type-icon"></i></div>
-          <div class="row-wrapper" @click="searchDriverShow=true;checkedDriverType=1">
+          <div class="row-wrapper" @click="checkedList=driverNames;searchDriverShow=true;checkedDriverType=1">
             <JEInput disabled="true" v-model="driverNames" title="推荐驾驶员" placeholder="请选择意向驾驶员"/>
           </div>
         </div>
@@ -115,13 +115,13 @@
         <mt-popup
           v-model="searchPersonShow"
           position="left">
-          <SearchComps :checkedType="checkedType" :defaultSelectType="dept_num"
+          <SearchComps :checkedType="checkedType" :defaultSelectType="dept_num" :checkedStrList="checkedList"
                        :searchShow="searchPersonShow" @selectCell="selectCell"/>
         </mt-popup>
         <mt-popup
           v-model="searchDriverShow"
           position="left">
-          <SearchDriver :checkedType="checkedDriverType"
+          <SearchDriver :checkedType="checkedDriverType" :checkedStrList="checkedList"
                                 :searchShow="searchDriverShow" @selectCell="selectDrivePersonCell"/>
         </mt-popup>
       </div>
@@ -151,6 +151,7 @@
         dept_num:'', /* 部门编号 */
         searchPersonShow:false,
         searchDriverShow:false,
+        checkedList:'',
         carType:'',/* 派车类型 */
         typeList:[],
         carNum:'',/* 派车人数 */

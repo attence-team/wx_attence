@@ -74,6 +74,10 @@
       defaultSelectType:{
         type: String,
         default: ''
+      },
+      checkedStrList:{
+        type: String,
+        default: ''
       }
     },
     watch:{
@@ -89,6 +93,10 @@
          }
       },
       selectType(){
+        this.queryPersonList();
+      },
+      checkedStrList(newVal){
+        this.searchInput = newVal;
         this.queryPersonList();
       }
     },
@@ -158,10 +166,14 @@
           if(res.code!=1) return;
           let tempArry = [];
           for(let i=0;i<res.data.pageData.length;i++){
+            let isSelected = false;
+            if(this.searchInput.indexOf(res.data.pageData[i].name)!=-1){
+              isSelected = true;
+            }
             tempArry.push({
               title:res.data.pageData[i].name,
               value:res.data.pageData[i].staff_num,
-              selected:false
+              selected:isSelected
             });
           }
           if(this.currPage==1){
@@ -197,6 +209,13 @@
 <style lang="css">
   .search-page .mint-cell-value.is-link {
     margin-right: 30px;
+  }
+  .search-page .search-btns button{
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 1.2rem !important;
+    height: 1.2rem !important;
+    border-radius: 50% !important;
   }
 </style>
 <style lang="css" scoped>
@@ -278,7 +297,8 @@
   }
   .search-btns{
      position: absolute;
-     bottom: 3%;
-     opacity: 0.8;
+     width: 3rem;
+     bottom: 0;
+     right: 0 !important;
   }
 </style>
