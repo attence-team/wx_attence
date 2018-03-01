@@ -127,7 +127,8 @@
         leaderName:'',
         electedOrderGroups:[], /* 选中的审批人 */
         approveGroupsCount:0,
-        userInfo:{}
+        userInfo:{},
+        dinner_id:''
       }
     },
     watch:{
@@ -177,6 +178,7 @@
     activated(){
       setTitle('工作餐申请');
       Object.assign(this.$data, this.$options.data());
+      this.dinner_id = this.$route.query.id?this.$route.query.id:'';
       this.userInfo = getUserInfo();
       this.getWorkLunchType();
       this.getTempCard(()=>{
@@ -369,7 +371,7 @@
       },
       saveLunch() {
         let params = {
-          dinner_id:this.$route.query.id?this.$route.query.id:'',
+          dinner_id:this.dinner_id,
           dept_id:this.dept_num,
           staff_num:this.staff_num,
           apply_time:new Date().Format2String('yyyy-MM-dd hh:mm:ss'),
@@ -406,6 +408,7 @@
                       duration: 2000
                     });
                     if(res.code == 1){
+                      this.dinner_id = res.data.dinner_id;
                       this.saveOrder(res.data.dinner_id);
                     }
                 }).catch(()=>{

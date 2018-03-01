@@ -94,11 +94,18 @@ export default {
             });
         },
         approveClk(type){
-            Indicator.open();
             let opinion = this.opinion;
             if (opinion=='') {
                 opinion = type==1 ? '同意' : '退回';
             }
+            if(type==2&&opinion=='同意'){
+              Toast({
+                message: '请填写审批意见',
+                duration: 1500
+              });
+              return;
+            }
+           Indicator.open();
           // 审批标识（1同意 2退回）
            WlHttp.sendWorkLunchApprove({
               vou_ids:this.$route.query.vou_id,

@@ -179,7 +179,8 @@
         leaderName:'',
         selectedOrderGroups:[], /* 选中的审批人 */
         approveGroupsCount:0,
-        userInfo:{}
+        userInfo:{},
+        sendCarId:''
       }
     },
     watch:{
@@ -225,6 +226,7 @@
     activated(){
       setTitle('派车申请');
       Object.assign(this.$data, this.$options.data());
+      this.sendCarId = this.$route.query.id?this.$route.query.id:'';
       this.userInfo = getUserInfo();
       this.contactName = this.userInfo.name;
       this.contactNum = this.userInfo.staff_num;
@@ -448,6 +450,7 @@
           spinnerType: 'fading-circle'
         });
         CarHttp.saveCarApply({
+          id:this.sendCarId,
           send_out_type:this.carType,
           send_out_type_name:this.carTypeName,
           vehicle_user_id:this.userInfo.staff_num,
@@ -481,6 +484,7 @@
             duration: 2000
           });
           if(res.code == 1){
+            this.sendCarId = res.data.id;
             this.saveOrder(res.data.id);
           }
         }).catch((e) => {
