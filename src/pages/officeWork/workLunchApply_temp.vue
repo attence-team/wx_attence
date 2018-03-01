@@ -62,6 +62,12 @@
           </div>
         </div>
         <div class="form-row">
+          <div class="row-left"><i class="icon bi-icon"></i></div>
+          <div class="row-wrapper">
+            <JEInput v-model="remark" title="备注" placeholder="请输入备注信息"/>
+          </div>
+        </div>
+        <div class="form-row">
           <div class="row-left"><i class="icon person-icon"></i></div>
           <div class="row-wrapper ">
             <span class="row-title">审批人</span>
@@ -116,6 +122,7 @@
         endDate: new Date().Format2String('yyyy-MM-dd'),
         lunchInfoList:[], //明细
         director:0, //总餐票数
+        remark:'',
         approveGroups:[],
         leaderName:'',
         electedOrderGroups:[], /* 选中的审批人 */
@@ -375,7 +382,7 @@
           staff_cnt:this.staff_cnt,
           director:this.getDirector(),
           print_memo:this.getPrintmemo(),
-          tra_memo:''
+          tra_memo:this.remark
         };
         if (!this.verification(params)) return;
         this.dealWithOrderGroups();
@@ -627,5 +634,8 @@
   }
   .person-icon{
     background-image: url("../../assets/img/icon/person-icon.png");
+  }
+  .bi-icon{
+    background-image: url("../../assets/img/icon/bi-icon.png");
   }
 </style>

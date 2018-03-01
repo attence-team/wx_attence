@@ -153,6 +153,7 @@
         searchDriverShow:false,
         checkedList:'',
         carType:'',/* 派车类型 */
+        carTypeName:'',/* 派车类型名称 */
         typeList:[],
         carNum:'',/* 派车人数 */
         carReson:'',/* 用车事由 */
@@ -185,12 +186,14 @@
       carType(val){
          for(let i=0;i<this.typeList.length;i++){
             if(this.typeList[i].value==val){
+               this.carTypeName = this.typeList[i].name;
                this.vouty = this.typeList[i].vouty;
                /* 获取审批节点 */
                this.querySubmitInfo();
                return;
             }
          }
+
       },
       leaderName(val){
         for(let i=0;i<this.approveGroups.length;i++){
@@ -331,6 +334,7 @@
                  });
                }
                this.carType = this.typeList[0].value;
+               this.carTypeName = this.typeList[0].name;
                this.vouty = this.typeList[0].vouty;
                if(callBackFn){
                  callBackFn();
@@ -444,6 +448,8 @@
           spinnerType: 'fading-circle'
         });
         CarHttp.saveCarApply({
+          send_out_type:this.carType,
+          send_out_type_name:this.carTypeName,
           vehicle_user_id:this.userInfo.staff_num,
           vehicle_user_name:this.userInfo.name,
           send_out_time:this.sendDate.Format2String('yyyyMMdd'),

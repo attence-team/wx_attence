@@ -128,6 +128,7 @@
                 });
             },
             changeLd_appr(index){
+                this.dir_appr = '';
                 this.ld_appr = index;
                 this.getWorkLunchList();
             },

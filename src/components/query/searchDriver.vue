@@ -26,7 +26,8 @@
     </div>
     <div v-if="checkedType" class="form-btns search-btns">
       <mt-button type="default" class="cancel" @click="cancelSearch">取消</mt-button>
-      <mt-button type="primary" class="submit" @click="saveSearch">保存</mt-button>
+      <mt-button v-if="!searchInput" disabled="disabled" type="primary" class="submit" @click="saveSearch">保存</mt-button>
+      <mt-button v-else type="primary" class="submit" @click="saveSearch">保存</mt-button>
     </div>
   </div>
 </template>
@@ -77,6 +78,10 @@
       selectType(){
         this.queryPersonList();
       }
+    },
+    activated() {
+      this.searchInput = '';
+      this.checkedList = [];
     },
     methods:{
       clickCell(item){

@@ -176,11 +176,11 @@ export default {
                 message: '网络异常',
                 duration: 5000
             });
-//            this.userID = '02008464';
-//            this.initUserData();
-//            this.queryMenuTree(()=>{
-//                this.queryLeftMenuTree();
-//            });
+            this.userID = '02008464';
+            this.initUserData();
+            this.queryMenuTree(()=>{
+                this.queryLeftMenuTree();
+            });
         });
     },
     methods:{
