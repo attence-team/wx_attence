@@ -112,22 +112,22 @@ export default {
               opinion:opinion,
               flag:type
            }).then((res)=>{
+              Indicator.close();
               if(res.code==1){
                 Toast({
                   message: res.result,
                   iconClass: 'icon icon-success',
-                  duration: 1500
+                  duration: 3000
                 });
                 setTimeout(()=>{
                     this.$router.goBack();
-                },1500);
+                },3000);
               }else{
                 Toast({
                   message: res.result,
-                  duration: 1500
+                  duration: 3000
                 });
               }
-              Indicator.close();
            });
         }
     }

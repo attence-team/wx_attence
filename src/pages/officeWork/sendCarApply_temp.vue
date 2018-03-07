@@ -90,7 +90,7 @@
         <div class="form-row">
           <div class="row-left"><i class="icon bi-icon"></i></div>
           <div class="row-wrapper">
-            <JEInput title="备注" placeholder="请填写备注事项"/>
+            <JEInput v-model="remark" title="备注" placeholder="请填写备注事项"/>
           </div>
         </div>
         <div class="form-row">
@@ -176,6 +176,7 @@
         upOutCarCode:'',/* 上车地点-市区外 */
         upCarList:[],
         approveGroups:[],
+        remark:'',
         leaderName:'',
         selectedOrderGroups:[], /* 选中的审批人 */
         approveGroupsCount:0,
@@ -476,7 +477,8 @@
           dway_id:'',
           d_way:this.driveLineNames,
           other_position:'',
-          position_in_name:''
+          position_in_name:'',
+          memo:this.remark
         }).then((res)=>{
           Indicator.close();
           Toast({
